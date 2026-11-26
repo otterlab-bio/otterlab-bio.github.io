@@ -377,17 +377,28 @@ html.dark .ot-brand img {
   text-wrap: balance;
 }
 
+/* Both lines share the hero's display size; only the colour separates the
+   statement from the tagline. */
 .ot-hero-title .ot-hero-line,
 .ot-hero-title .ot-hero-stop {
   display: block;
 }
 
 .ot-hero-title .ot-hero-stop {
-  margin-top: 0.35em;
-  font-size: 0.52em;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  margin-top: 0.22em;
   color: var(--ot-accent-2);
+}
+
+/* On a narrow screen the tagline runs to three lines at display size, so the
+   leading tightens to keep the block compact. */
+@media (max-width: 620px) {
+  .ot-hero-title {
+    line-height: 1.02;
+  }
+
+  .ot-hero-title .ot-hero-stop {
+    margin-top: 0.16em;
+  }
 }
 
 /* Scope strip above the headline. Plain words separated by hairline dividers,
