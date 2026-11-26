@@ -370,7 +370,7 @@ html.dark .ot-term .ok { color: #7ac295; }
 
 .ot-section-lead {
   margin: 0.9rem 0 0;
-  max-width: 44rem;
+  max-width: 39rem;
   font-size: var(--ot-fs-body);
   line-height: 1.75;
   color: var(--ot-ink-2);
@@ -423,7 +423,7 @@ html.dark .ot-term .ok { color: #7ac295; }
 
 .ot-ops {
   margin: 0.85rem 0 0;
-  max-width: 44rem;
+  max-width: 39rem;
   font-family: var(--ot-mono);
   font-size: var(--ot-fs-small);
   line-height: 2;
@@ -755,6 +755,21 @@ html.dark .ot-term .ok { color: #7ac295; }
   .ot-btn:hover {
     transform: none;
   }
+}
+
+/* The theme renders a fixed scroll-to-top control at 50% opacity, so while
+   scrolling it reads as a glyph colliding with the body text underneath. Give
+   it an opaque surface and a hairline so it sits as a control above content. */
+#scroll-to-top a {
+  background: var(--ot-raised);
+  border: 1px solid var(--ot-line);
+  box-shadow: 0 1px 2px rgba(26, 24, 21, 0.05), 0 10px 24px -18px rgba(26, 24, 21, 0.4);
+  color: var(--ot-ink);
+}
+
+#scroll-to-top a:hover {
+  border-color: var(--ot-accent);
+  color: var(--ot-accent);
 }
 
 /* --- footer -------------------------------------------------------------- */

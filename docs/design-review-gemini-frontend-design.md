@@ -23,6 +23,8 @@ DOM with Playwright at 1440×900 and 390×844, before and after the changes.
 | 10 | No decorative numbering | `.ot-order` 01/02/03 | Removed (the phase sequence is real, but the numbers added noise, not meaning) |
 | 11 | Generic three-column card rows below the hero | 3-up card grid with rounded bordered boxes | Replaced with hairline-separated rows in two columns |
 | 12 | `transition: all` and idle bobbing | none | unchanged, already compliant |
+| 13 | Body prose ≤ 65 characters per line | section leads measured 72 | 64 |
+| 14 | No text collisions in the rendered page | the theme's 50%-opacity scroll-to-top glyph collided with body text on mobile | opaque surface and hairline border |
 
 ## Structural change worth naming
 
