@@ -77,7 +77,7 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | :--- | :--- |
 | Production build | `hugo --minify --gc --panicOnWarning` exits 0 |
 | Lighthouse, mobile, simulated throttling | performance 100, accessibility 100, best practices 100, SEO 100 |
-| Largest contentful paint | 1.5 s |
+| Largest contentful paint | 1.4 s |
 | Cumulative layout shift | 0 |
 | Body type sizes | two (16 px, 14 px), down from nineteen |
 | Text under 13 px above the fold | none |
