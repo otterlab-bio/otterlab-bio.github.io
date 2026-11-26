@@ -434,14 +434,14 @@ html.dark .ot-term .ok { color: #7ac295; }
 /* --- invariants: two columns of hairline-separated rows ------------------ */
 
 .ot-invariants {
-  columns: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 3rem;
   margin-top: 0.35rem;
   border-top: 1px solid var(--ot-line);
 }
 
 .ot-invariant {
-  break-inside: avoid;
   padding: 1.15rem 0;
   border-bottom: 1px solid var(--ot-line-soft);
 }
@@ -630,7 +630,8 @@ html.dark .ot-term .ok { color: #7ac295; }
 /* --- components ---------------------------------------------------------- */
 
 .ot-repos {
-  columns: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 3rem;
   margin-top: 2rem;
   border-top: 1px solid var(--ot-line);
@@ -638,10 +639,9 @@ html.dark .ot-term .ok { color: #7ac295; }
 
 .ot-repo {
   display: grid;
-  grid-template-columns: 9.5rem 1fr;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
   gap: 0.35rem 1rem;
   align-items: baseline;
-  break-inside: avoid;
   padding: 0.85rem 0;
   border-bottom: 1px solid var(--ot-line-soft);
   text-decoration: none;
@@ -677,14 +677,14 @@ html.dark .ot-term .ok { color: #7ac295; }
 /* --- documentation and citation ----------------------------------------- */
 
 .ot-links {
-  columns: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 3rem;
   margin-top: 2rem;
   border-top: 1px solid var(--ot-line);
 }
 
 .ot-link {
-  break-inside: avoid;
   padding: 1.1rem 0 1.2rem;
   border-bottom: 1px solid var(--ot-line-soft);
 }
@@ -704,10 +704,11 @@ html.dark .ot-term .ok { color: #7ac295; }
 }
 
 .ot-link a {
+  display: inline-block;
   color: var(--ot-accent);
+  white-space: nowrap;
   text-decoration: underline;
   text-underline-offset: 2px;
-  word-break: break-word;
 }
 
 /* --- motion -------------------------------------------------------------- */
@@ -832,7 +833,8 @@ footer#site-footer a:hover {
   .ot-invariants,
   .ot-repos,
   .ot-links {
-    columns: 1;
+    grid-template-columns: 1fr;
+    column-gap: 0;
   }
 }
 
