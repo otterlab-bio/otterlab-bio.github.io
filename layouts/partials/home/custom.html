@@ -52,7 +52,7 @@
           {{ end }}
         </div>
         <div class="ot-panel">
-          <h3>{{ $c.console.phasesTitle }}</h3>
+          <p class="ot-panel-title">{{ $c.console.phasesTitle }}</p>
           {{ range $c.console.phases }}
             <div class="ot-phase">
               <code>{{ .name }}</code>
@@ -83,7 +83,7 @@
     </div>
   </section>
 
-  <section class="ot-section">
+  <section class="ot-section" aria-label="{{ $c.cards.ariaLabel }}">
     <div class="ot-grid ot-reveal">
       <article class="ot-card ot-card--wide">
         <span class="ot-icon">{{ partial "ot/icon.html" "cpu" }}</span>
@@ -174,7 +174,7 @@
     </div>
   </section>
 
-  <section class="ot-section ot-end">
+  <section class="ot-section ot-end" aria-label="{{ $c.footer.ariaLabel }}">
     <p class="ot-footer-line">{{ $c.footer.line }}</p>
   </section>
 

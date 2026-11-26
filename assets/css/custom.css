@@ -285,13 +285,26 @@ html.dark .ot-term .ok { color: #7ac295; }
   }
 }
 
-.ot-panel h3 {
+.ot-panel-title {
   margin: 0 0 0.75rem;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ot-ink-3);
+}
+
+/* The theme renders its footer in a mid-grey that fails AA against the paper
+   background used here, so site-wide small print gets an explicit colour. */
+footer#site-footer,
+footer#site-footer p,
+footer#site-footer a,
+footer#site-footer span {
+  color: var(--ot-ink-2);
+}
+
+footer#site-footer a:hover {
+  color: var(--ot-accent);
 }
 
 .ot-phase {

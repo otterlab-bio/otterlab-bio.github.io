@@ -61,6 +61,7 @@ stack:
       role: "共享 BAM 原语之上的七个编译算子"
 
 cards:
+  ariaLabel: "能力"
   wide:
     title: "七个编译算子取代旧脚本"
     body: "质控、宿主–移植判定、配对修复、定量、剪接编排、质控汇总与甲基化矩阵均以二进制交付。每个算子都在相同输入上对照其基准实现校验。"
@@ -185,4 +186,5 @@ cite:
   walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
 
 footer:
+  ariaLabel: "页脚"
   line: "OTTER 以 MIT 许可发布，用 Go 与 Rust 写成。"

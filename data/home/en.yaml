@@ -62,6 +62,7 @@ stack:
       role: "Seven compiled domain operators over shared BAM primitives"
 
 cards:
+  ariaLabel: "Capabilities"
   wide:
     title: "Seven compiled operators replace legacy scripts"
     body: "Quality control, host–graft classification, mate repair, quantification, splicing orchestration, QC aggregation, and methylation matrices now run as binaries. Each operator is checked against its reference implementation on identical inputs."
@@ -186,4 +187,5 @@ cite:
   walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb"
 
 footer:
+  ariaLabel: "Colophon"
   line: "OTTER is MIT licensed and written in Go and Rust."
