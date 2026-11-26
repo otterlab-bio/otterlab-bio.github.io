@@ -76,6 +76,9 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Check | Result |
 | :--- | :--- |
 | Production build | `hugo --minify --gc --panicOnWarning` exits 0 |
+| Lighthouse, mobile, simulated throttling | performance 100, accessibility 100, best practices 100, SEO 100 |
+| Largest contentful paint | 1.5 s |
+| Cumulative layout shift | 0 |
 | Body type sizes | two (16 px, 14 px), down from nineteen |
 | Text under 13 px above the fold | none |
 | Kicker labels, decorative pills, badges | none |
@@ -83,6 +86,7 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Hero primary buttons | one |
 | Horizontal overflow | none at 320, 390, 768, 1024, 1440, 1920 px |
 | Text contrast (WCAG AA) | every inspected pair passes, light and dark |
+| Prose line length | 64 characters, against a 65 limit |
 | Tabs | keyboard-focusable, `aria-selected` toggles, panels hide correctly |
 | Reduced motion | `prefers-reduced-motion: reduce` disables rise, reveal, hover lift |
 | Em dashes and spaced en dashes in copy | 0 |
