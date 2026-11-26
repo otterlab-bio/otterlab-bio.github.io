@@ -40,6 +40,7 @@ console:
   footnote: "执行器、backend、阶段顺序与 CPU 和内存边界都在解析阶段固定。"
 
 stack:
+  kicker: "架构"
   title: "四层编译，一条命令。"
   lead: "每一层各自消除原型中的一类失效模式：求解器死锁、锁竞争、宿主库漂移，以及记录级正确性。"
   layers:
@@ -53,6 +54,7 @@ stack:
       role: "共享 BAM 原语之上的七个编译算子"
 
 cards:
+  kicker: "算子"
   title: "脚本被什么取代了。"
   lead: "七个算子二进制覆盖了全部计算步骤，另有五条执行不变量在本地与集群上同时成立。"
   wide:
@@ -73,32 +75,40 @@ cards:
       span: full
 
 metrics:
-  title: "对照基准实现的实测结果。"
-  lead: "数字来自相同输入、相同集群资源配额下的配对运行，不是合成微基准。"
+  kicker: "评测"
+  title: "每个编译算子，对照其基准实现实测。"
+  lead: "数字来自相同输入、相同集群资源配额下的配对运行，并在每张卡片上标注所属组件。"
   items:
     - value: "2.41×"
+      operator: "methx"
       label: "甲基化矩阵构建"
       note: "全基因组 eRRBS 上，91.6 s 对比 Methrix 规范流程的 221.0 s。"
     - value: "65.51%"
+      operator: "methx"
       label: "峰值 RSS 降幅"
       note: "在同样的 4 核、128 GiB 配额下，从 18.62 GiB 降至 6.42 GiB。"
+    - value: "100%"
+      operator: "xenofilx"
+      label: "与 XenofilteR 的判定一致"
+      note: "RNA-PDX SRR30880970 的 32,097,614 个片段：零新增、零缺失判定。"
     - value: "4.213 s"
+      operator: "craftmake"
       label: "控制器对账"
       note: "Slurm 上 BS-PDX 的中位数，Snakemake 路径为 19.819 s；n = 3 配对重复。"
-    - value: "51.61%–54.03%"
-      label: "RRBS 可用召回"
-      note: "跨人类输入梯度，比 Xengsort pass@Bismark 高 0.575–1.200 个百分点。"
-  footnote: "标注处均为 n = 3 配对重复。完整梯度见补充表 S11 与 S12。"
+  footnote: "标注处均为 n = 3 配对重复。组件审计见补充说明 S4.2 至 S4.5。"
 
 modes:
+  kicker: "分析类型"
   title: "RRBS、WGBS、RNA-seq，以及对应的异种移植模型。"
   lead: "三类组学都是一等模式。异种移植变体在同一工作流上启用宿主读段分离，PDX 或 CDX 文库无需手写步骤顺序。"
 
 bench:
+  kicker: "基准"
   title: "OTTER 与 Xengsort 的梯度对比。"
   lead: "从 0.1% 到 99% 共 14 档人类输入，每档 3 个重复，按片段级统计。可用召回只计入同时通过人类比对的配对，也就是真正进入下游分析的读数。"
 
 quick:
+  kicker: "快速开始"
   title: "两分钟拿到一份解析完成的 run。"
   tabs:
     installer: "安装脚本"
@@ -115,6 +125,7 @@ quick:
     - "离线演练驱动真实二进制跑通 99 个阶段，0 失败。"
 
 repos:
+  kicker: "组件"
   title: "十二个仓库，一套工具链。"
   lead: "每个组件独立发布、独立版本化。工作流通过 release 清单锁定它们，而不是依赖一个松散的环境。"
   items:
@@ -168,6 +179,7 @@ repos:
       url: "https://github.com/otterlab-bio/holt"
 
 cite:
+  kicker: "文档"
   title: "阅读、运行、引用。"
   lead: "手册按任务组织：安装、数据准备、首次运行，以及五类分析模式。"
   docsCardTitle: "文档"
@@ -176,7 +188,18 @@ cite:
   docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
   paperCardTitle: "预印本"
   paperCardBody: "Zheng 等，bioRxiv 2026。DOI 10.64898/2026.10.24.761506。"
-  paperCardLabel: "在 bioRxiv 阅读"
+  paperCardCopiedLabel: "已复制"
+  paperCardCopyLabel: "复制 BibTeX"
+  paperCardLinkLabel: "在 bioRxiv 阅读"
+  bibtex: |
+    @article{zheng2026otter,
+      author  = {Zheng, Yanhua and Liu, Xin and Yi, Yingyu and Sun, Xiaojun and Liu, Fang and Yan, Xiaojing and Man, Cheuk-Him and Gu, Hongcang and Wang, Xiaoxue and Zhang, Fan},
+      title   = {{OTTER}: Orchestrated Transcriptomic, Tumor-xenograft ({PDX/CDX}), and Epigenomic Reporting Workflow},
+      journal = {bioRxiv},
+      year    = {2026},
+      doi     = {10.64898/2026.10.24.761506},
+      url     = {https://doi.org/10.64898/2026.10.24.761506}
+    }
   paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
   dataCardTitle: "数据"
   dataCardBody: "Hugging Face 上带版本的 fixture 与溯源记录。"

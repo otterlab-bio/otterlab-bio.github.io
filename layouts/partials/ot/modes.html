@@ -1,6 +1,6 @@
 {{/* Assay coverage. Six cards: three assays, each paired with its xenograft
      model, so the PDX/CDX story is stated rather than implied. */}}
-{{- $isZh := eq site.Language.Lang "zh-cn" -}}
+{{- $isZh := hasPrefix site.Language.Lang "zh" -}}
 {{- $modes := slice
   (dict "key" "rrbs" "name" "RRBS" "model" (cond $isZh "PDX / CDX" "PDX / CDX")
         "body" (cond $isZh "亚硫酸氢盐简化代表测序：去除宿主后构建 CpG 甲基化矩阵。" "Reduced-representation bisulfite sequencing: host reads removed, then CpG matrices.")

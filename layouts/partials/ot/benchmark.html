@@ -1,57 +1,61 @@
-{{/* Xengsort comparison. The numbers come from data/benchmark.yaml, which is
-     generated from the manuscript's benchmark archive; nothing is typed here. */}}
+{{/* Xengsort comparison. Numbers come from data/benchmark.yaml, generated from the
+     manuscript's benchmark archive.
+
+     Two metric groups per row: raw classification recall (before any alignment
+     check) and usable recall (after a qualifying human alignment), plus the
+     PPV among pairs that align. */}}
 {{- $lang := site.Language.Lang -}}
-{{- $isZh := eq $lang "zh-cn" -}}
+{{- $isTw := eq $lang "zh-tw" -}}
+{{- $isZh := hasPrefix $lang "zh" -}}
 {{- $b := hugo.Data.benchmark.assay -}}
 {{- $t := dict
-  "rna" (cond $isZh "RNA-seq" "RNA-seq")
-  "bs" (cond $isZh "RRBS" "RRBS")
-  "frac" (cond $isZh "人类输入占比" "Human fraction")
-  "otter" "OTTER"
-  "xengsort" "Xengsort"
-  "delta" (cond $isZh "差值（百分点）" "Δ (pp)")
-  "otterPpv" (cond $isZh "OTTER 映射 PPV" "OTTER mapped PPV")
-  "xengsortPpv" (cond $isZh "Xengsort 映射 PPV" "Xengsort mapped PPV")
-  "n" (cond $isZh "每档 3 个重复" "3 replicates per fraction")
+  "frac" (cond $isTw "人類輸入佔比" (cond $isZh "人类输入占比" "Human fraction"))
+  "delta" (cond $isTw "可用召回差值（百分點）" (cond $isZh "可用召回差值（百分点）" "Δ usable recall (pp)"))
+  "otterAlignPpv" (cond $isTw "OTTER 比對 PPV" (cond $isZh "OTTER 比对 PPV" "OTTER alignment PPV"))
+  "xengsortAlignPpv" (cond $isTw "Xengsort 比對 PPV" (cond $isZh "Xengsort 比对 PPV" "Xengsort alignment PPV"))
+  "raw" (cond $isTw "原始分類召回" (cond $isZh "原始分类召回" "Raw classification recall"))
+  "usable" (cond $isTw "可用召回（通過比對）" (cond $isZh "可用召回（通过比对）" "Usable recall (aligned)"))
+  "n" (cond $isTw "每檔 3 個重複" (cond $isZh "每档 3 个重复" "3 replicates per fraction"))
 -}}
 
 <div class="ot-tabs" data-ot-tabs>
-  <div class="ot-tabbar" role="tablist" aria-label="{{ cond $isZh "基准对比" "Benchmark comparison" }}">
-    <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="rna" aria-selected="true">{{ $t.rna }}</button>
-    <button class="ot-tab" role="tab" type="button" data-ot-tab="bs" aria-selected="false">{{ $t.bs }}</button>
+  <div class="ot-tabbar" role="tablist" aria-label="{{ cond $isZh "基準對比" "Benchmark comparison" }}">
+    <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="rna" aria-selected="true">RNA-seq</button>
+    <button class="ot-tab" role="tab" type="button" data-ot-tab="bs" aria-selected="false">RRBS</button>
   </div>
 
   {{ range $key := slice "rna" "bs" }}
     {{- $rows := (index $b $key).points -}}
     <div class="ot-tabpanel{{ if eq $key "rna" }} is-active{{ end }}" role="tabpanel" data-ot-panel="{{ $key }}"{{ if ne $key "rna" }} hidden{{ end }}>
       <div class="ot-tablewrap">
-        <table class="ot-table">
-          <caption class="ot-table-caption">
-            {{ if eq $key "rna" }}
-              {{ cond $isZh "可用召回以通过 STAR 人类比对为准" "Usable recall counted only for pairs with a qualifying STAR human alignment" }}
-            {{ else }}
-              {{ cond $isZh "可用召回以通过 Bismark 人类比对为准" "Usable recall counted only for pairs with a qualifying Bismark human alignment" }}
-            {{ end }}
-          </caption>
+        <table class="ot-table ot-table--bench">
           <thead>
             <tr>
-              <th scope="col">{{ $t.frac }}</th>
-              <th scope="col" class="num">{{ $t.otter }}</th>
-              <th scope="col" class="num">{{ $t.xengsort }}</th>
-              <th scope="col" class="num">{{ $t.delta }}</th>
-              <th scope="col" class="num">{{ $t.otterPpv }}</th>
-              <th scope="col" class="num">{{ $t.xengsortPpv }}</th>
+              <th scope="col" rowspan="2" class="frac">{{ $t.frac }}</th>
+              <th scope="colgroup" colspan="2" class="group">{{ $t.raw }}</th>
+              <th scope="colgroup" colspan="2" class="group">{{ $t.usable }}</th>
+              <th scope="col" rowspan="2" class="num">{{ $t.delta }}</th>
+              <th scope="col" rowspan="2" class="num">{{ $t.otterAlignPpv }}</th>
+              <th scope="col" rowspan="2" class="num">{{ $t.xengsortAlignPpv }}</th>
+            </tr>
+            <tr>
+              <th scope="col" class="num">OTTER</th>
+              <th scope="col" class="num">Xengsort</th>
+              <th scope="col" class="num">OTTER</th>
+              <th scope="col" class="num">Xengsort</th>
             </tr>
           </thead>
           <tbody>
             {{ range $rows }}
               <tr>
                 <th scope="row">{{ .fraction }}</th>
-                <td class="num">{{ printf "%.2f" .otter }}</td>
-                <td class="num">{{ printf "%.2f" .xengsort }}</td>
+                <td class="num">{{ printf "%.2f" .otterRaw }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortRaw }}</td>
+                <td class="num">{{ printf "%.2f" .otterUsable }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortUsable }}</td>
                 <td class="num{{ if gt .delta 0.0 }} is-pos{{ else }} is-neg{{ end }}">{{ printf "%+.2f" .delta }}</td>
-                <td class="num">{{ printf "%.2f" .otterPpv }}</td>
-                <td class="num">{{ printf "%.2f" .xengsortPpv }}</td>
+                <td class="num">{{ printf "%.2f" .otterAlignPpv }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortAlignPpv }}</td>
               </tr>
             {{ end }}
           </tbody>

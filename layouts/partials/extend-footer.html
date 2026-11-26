@@ -83,6 +83,39 @@
       });
     });
 
+    // Copy-to-clipboard for the BibTeX block. The payload is in a data
+    // attribute, so the visible <pre> stays selectable text.
+    document.querySelectorAll('[data-ot-copy]').forEach(function (btn) {
+      var label = btn.querySelector('[data-ot-copy-label]');
+      var original = label ? label.textContent : '';
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-ot-copy') || '';
+        var done = function () {
+          btn.classList.add('is-copied');
+          if (label) {
+            label.textContent = label.getAttribute('data-copied') || original;
+            setTimeout(function () {
+              label.textContent = original;
+              btn.classList.remove('is-copied');
+            }, 1600);
+          }
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            var ta = document.createElement('textarea');
+            ta.value = text; document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta); done();
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta); done();
+        }
+      });
+    });
+
     // Scroll reveal.
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.ot-reveal').forEach(function (el) {

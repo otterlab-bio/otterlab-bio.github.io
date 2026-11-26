@@ -1,0 +1,214 @@
+# 繁體中文首頁文案，由 zh-cn.yaml 轉寫（OpenCC s2twp，另做術語校正）。
+# 鍵與 en.yaml 一一對應；數值、命令、儲存庫名不翻譯。
+
+hero:
+  titleLead: "編譯型管線。"
+  titleTail: "可復現執行。"
+  lead: "OTTER 將 FASTQ 與樣本資訊轉換為經過驗證的專案，並在本地或 Slurm 上依據不可變快照執行。"
+  primaryCta:
+    label: "安裝 OTTER"
+    url: "#quickstart"
+  secondaryCta:
+    label: "檢視原始碼"
+    url: "https://github.com/otterlab-bio/otter"
+
+console:
+  title: "demo_rrbs · otter build"
+  command: "otter build --project-root demo --fastq ./fastq --mode RRBS --pdata ./samples.csv"
+  flags: "--reference-primary hg19@GRCh37.p13-gencode-v19 --backend slurm"
+  lines:
+    - text: "Identified 2 samples"
+      state: ok
+    - text: "Successfully paired 2/2 samples"
+      state: ok
+    - text: "Verifying declared references against the registry..."
+      state: ok
+    - text: "Reference primary verified: hg19@GRCh37.p13-gencode-v19 (Homo sapiens, manifest sha256:33dfd7d4…)"
+      state: ok
+    - text: "Build complete"
+      state: ok
+    - text: "Snapshot: /shared/otter/demo/runs/run-20261124T091204Z-7f3a1c/run.yaml"
+      state: dim
+  phasesTitle: "快照中的階段"
+  phases:
+    - name: "step1"
+      backend: "slurm"
+    - name: "step2-check"
+      backend: "slurm"
+    - name: "step3-report"
+      backend: "local"
+  footnote: "執行器、backend、階段順序與 CPU 和記憶體邊界都在解析階段固定。"
+
+stack:
+  kicker: "架構"
+  title: "四層編譯，一條命令。"
+  lead: "每一層各自消除原型中的一類失效模式：求解器死鎖、鎖競爭、宿主庫漂移，以及記錄級正確性。"
+  layers:
+    - name: "otter"
+      role: "專案、配置、工作流與任務控制"
+    - name: "craftmake"
+      role: "原生 Local 與 Slurm 執行器，單寫者狀態庫"
+    - name: "enva"
+      role: "rattler 優先的執行時環境，每套工具鏈只構建一次"
+    - name: "operators"
+      role: "共享 BAM 原語之上的七個編譯運算元"
+
+cards:
+  kicker: "算子"
+  title: "指令碼被什麼取代了。"
+  lead: "七個運算元二進位制覆蓋了全部計算步驟，另有五條執行不變數在本地與叢集上同時成立。"
+  wide:
+    title: "七個編譯運算元"
+    body: "質控、宿主–移植判定、配對修復、定量、剪接編排、質控彙總與甲基化矩陣均以二進位制交付。每個運算元都在相同輸入上對照其基準實現驗證。"
+    ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
+  items:
+    - title: "單寫者，無鎖競爭"
+      body: "craftmake 透過一個 SQLite 連線與回滾日誌序列化控制面寫入。在 Lustre 上，256 個重疊事務完成，零記錄丟失。"
+    - title: "參考基因組封存，不再重解析"
+      body: "每次基因組選擇寫作 id@release，經 SHA-256 清單驗證後繫結進執行快照。重跑不會靜默換用另一份索引。"
+    - title: "每套工具鏈只建一次環境"
+      body: "enva 用 rattler 解析上游工具鏈並複用單一最小環境，避免每個步驟都重新求解依賴。"
+    - title: "Linux 上的靜態二進位制"
+      body: "Linux release 資產為靜態連結，工具鏈不再依賴曾讓 CentOS 7 上動態構建失敗的那一版 glibc。"
+    - title: "本地與 Slurm 共用一份快照"
+      body: "backend 與資源邊界在快照解析時寫入，因此同一份 run.yaml 無需修改即可驅動筆記本與叢集。"
+      span: full
+
+metrics:
+  kicker: "評測"
+  title: "每個編譯算子，對照其基準實作實測。"
+  lead: "數字來自相同輸入、相同叢集資源配額下的配對執行，並在每張卡片上標註所屬元件。"
+  items:
+    - value: "2.41×"
+      operator: "methx"
+      label: "甲基化矩陣建構"
+      note: "全基因組 eRRBS 上，91.6 s 對比 Methrix 規範流程的 221.0 s。"
+    - value: "65.51%"
+      operator: "methx"
+      label: "峰值 RSS 降幅"
+      note: "在同樣的 4 核、128 GiB 配額下，從 18.62 GiB 降至 6.42 GiB。"
+    - value: "100%"
+      operator: "xenofilx"
+      label: "與 XenofilteR 的判定一致"
+      note: "RNA-PDX SRR30880970 的 32,097,614 個片段：零新增、零缺失判定。"
+    - value: "4.213 s"
+      operator: "craftmake"
+      label: "控制器對帳"
+      note: "Slurm 上 BS-PDX 的中位數，Snakemake 路徑為 19.819 s；n = 3 配對重複。"
+  footnote: "標註處均為 n = 3 配對重複。元件稽核見補充說明 S4.2 至 S4.5。"
+
+modes:
+  kicker: "分析類型"
+  title: "RRBS、WGBS、RNA-seq，以及對應的異種移植模型。"
+  lead: "三類組學都是一等模式。異種移植變體在同一工作流上啟用宿主讀段分離，PDX 或 CDX 文庫無需手寫步驟順序。"
+
+bench:
+  kicker: "基準"
+  title: "OTTER 與 Xengsort 的梯度對比。"
+  lead: "從 0.1% 到 99% 共 14 檔人類輸入，每檔 3 個重複，按片段級統計。可用召回只計入同時透過人類比對的配對，也就是真正進入下游分析的讀數。"
+
+quick:
+  kicker: "快速開始"
+  title: "兩分鐘拿到一份解析完成的 run。"
+  tabs:
+    installer: "安裝指令碼"
+    container: "容器"
+    colab: "Colab"
+  installerNote: "識別平臺，下載匹配的 release 資產，並用已釋出的 checksums 驗證。"
+  containerNote: "holt-run 映象跟隨最新穩定版，並按 release checksums 安裝全部工具。"
+  colabNote: "寫入一份模擬參考登錄檔，按場景建立專案，再用 --dry-run 解析每個階段。它不執行任何工具。"
+  colabUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
+  points:
+    - "RRBS、WGBS、RNA-seq、BS-PDX 與 RNA-PDX 都是一等分析模式。"
+    - "二進位制原生支援 Linux 與 macOS 的 amd64 與 arm64，其中 Linux 為靜態連結。"
+    - "一份參考釋出可達數十 GB，僅 GRCh38 STAR 索引就約 30 GB。"
+    - "離線演練驅動真實二進位制跑通 99 個階段，0 失敗。"
+
+repos:
+  kicker: "元件"
+  title: "十二個儲存庫，一套工具鏈。"
+  lead: "每個元件獨立釋出、獨立版本化。工作流透過 release 清單鎖定它們，而不是依賴一個鬆散的環境。"
+  items:
+    - name: "otter"
+      lang: "Go"
+      role: "專案、配置、工作流與任務控制面"
+      url: "https://github.com/otterlab-bio/otter"
+    - name: "craftmake"
+      lang: "Go"
+      role: "原生工作流編譯器與 Local/Slurm 執行器"
+      url: "https://github.com/otterlab-bio/craftmake"
+    - name: "enva"
+      lang: "Rust"
+      role: "rattler 優先的環境生命週期管理器"
+      url: "https://github.com/otterlab-bio/enva"
+    - name: "fastqcx"
+      lang: "Go"
+      role: "與 FastQC 彙總口徑一致的 FASTQ 質控"
+      url: "https://github.com/otterlab-bio/fastqcx"
+    - name: "xenofilx"
+      lang: "Go"
+      role: "鏈感知的宿主–移植讀段判定"
+      url: "https://github.com/otterlab-bio/xenofilx"
+    - name: "pairbam"
+      lang: "Go"
+      role: "保留讀段名分組的雙端 BAM 過濾"
+      url: "https://github.com/otterlab-bio/pairbam"
+    - name: "seq2mat"
+      lang: "Go"
+      role: "HTSeq 計數到可追溯表達矩陣"
+      url: "https://github.com/otterlab-bio/seq2mat"
+    - name: "matsrun"
+      lang: "Go"
+      role: "rMATS 兩兩剪接編排"
+      url: "https://github.com/otterlab-bio/matsrun"
+    - name: "qctb"
+      lang: "Go"
+      role: "帶版本的 QC 彙總報告"
+      url: "https://github.com/otterlab-bio/qctb"
+    - name: "methx"
+      lang: "Rust"
+      role: "Bismark coverage 到帶版本的 HDF5 甲基化矩陣"
+      url: "https://github.com/otterlab-bio/methx"
+    - name: "bamdriver"
+      lang: "Go"
+      role: "共享 BAM 與 BGZF 原語"
+      url: "https://github.com/otterlab-bio/bamdriver"
+    - name: "holt"
+      lang: "Shell"
+      role: "帶 SSH 與 JupyterLab 的容器化工作臺"
+      url: "https://github.com/otterlab-bio/holt"
+
+cite:
+  kicker: "文件"
+  title: "閱讀、執行、引用。"
+  lead: "手冊按任務組織：安裝、資料準備、首次執行，以及五類分析模式。"
+  docsCardTitle: "文件"
+  docsCardBody: "安裝、FASTQ 配對規則、CLI 參考，以及舊專案的遷移路徑。"
+  docsCardLabel: "開啟手冊"
+  docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
+  paperCardTitle: "預印本"
+  paperCardBody: "Zheng 等，bioRxiv 2026。DOI 10.64898/2026.10.24.761506。"
+  paperCardCopiedLabel: "已複製"
+  paperCardCopyLabel: "複製 BibTeX"
+  paperCardLinkLabel: "在 bioRxiv 閱讀"
+  bibtex: |
+    @article{zheng2026otter,
+      author  = {Zheng, Yanhua and Liu, Xin and Yi, Yingyu and Sun, Xiaojun and Liu, Fang and Yan, Xiaojing and Man, Cheuk-Him and Gu, Hongcang and Wang, Xiaoxue and Zhang, Fan},
+      title   = {{OTTER}: Orchestrated Transcriptomic, Tumor-xenograft ({PDX/CDX}), and Epigenomic Reporting Workflow},
+      journal = {bioRxiv},
+      year    = {2026},
+      doi     = {10.64898/2026.10.24.761506},
+      url     = {https://doi.org/10.64898/2026.10.24.761506}
+    }
+  paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
+  dataCardTitle: "資料"
+  dataCardBody: "Hugging Face 上帶版本的 fixture 與溯源記錄。"
+  dataCardLabel: "開啟資料集"
+  dataCardUrl: "https://huggingface.co/datasets/fallingstar10/otter-data"
+  walkthroughCardTitle: "演練"
+  walkthroughCardBody: "十五分鐘 Colab，建立每個場景並解析每個階段。"
+  walkthroughCardLabel: "執行 notebook"
+  walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
+
+footer:
+  line: "OTTER 以 MIT 許可釋出，用 Go 與 Rust 寫成。二進位制覆蓋 Linux 與 macOS 的 amd64 與 arm64。"

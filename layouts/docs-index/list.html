@@ -1,0 +1,25 @@
+{{/* Documentation landing page. The theme's list template prints "There are no
+     articles to list here yet" when a section has no child pages, so this
+     section renders its own content instead. */}}
+{{ define "main" }}
+  <article class="ot-doc">
+    <div class="ot-wrap">
+      <h1 class="ot-h1">{{ .Title }}</h1>
+      {{ with .Description }}<p class="ot-section-lead">{{ . }}</p>{{ end }}
+      <div class="ot-doc-body prose prose-lg max-w-none dark:prose-invert">
+        {{ .Content }}
+      </div>
+      {{ $manual := .Site.GetPage "/docs/manual" }}
+      {{ with $manual }}
+        <h2 class="ot-h2" style="margin-top:2.5rem">{{ .Title }}</h2>
+        <div class="ot-doc-cards">
+          {{ range .Pages.ByWeight }}
+            <a class="ot-card ot-card--link" href="{{ .RelPermalink }}">
+              <h3>{{ .Title }}</h3>
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

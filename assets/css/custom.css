@@ -143,10 +143,20 @@ body:has(.ot-home-shell) > header {
   text-decoration: none;
 }
 
+/* The mark is dark line art on transparent ground, so on the warm dark surface it
+   disappears. A small paper-coloured tile keeps the illustration legible in both
+   appearances without altering the asset. */
 .ot-brand img {
   width: 2rem;
   height: 2rem;
+  padding: 0.2rem;
+  border-radius: 7px;
   object-fit: contain;
+  background: var(--ot-raised);
+}
+
+html.dark .ot-brand img {
+  background: #f3ece2;
 }
 
 .ot-nav {
@@ -197,6 +207,60 @@ body:has(.ot-home-shell) > header {
 .ot-seg svg {
   width: 1rem;
   height: 1rem;
+}
+
+/* A <details> summary styled as the same pill as the theme control; clicking
+   opens a list of the site's translations. */
+.ot-langmenu {
+  position: relative;
+}
+
+.ot-langmenu > details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.ot-langmenu > details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ot-langmenu svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.ot-langmenu-list {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 120;
+  min-width: 10rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border-radius: 11px;
+  border: 1px solid var(--ot-line);
+  background: var(--ot-raised);
+  box-shadow: 0 10px 28px -18px rgba(32, 25, 19, 0.45);
+}
+
+.ot-langmenu-list a {
+  display: block;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  font-size: var(--ot-fs-small);
+  color: var(--ot-ink-2);
+  text-decoration: none;
+}
+
+.ot-langmenu-list a:hover {
+  background: var(--ot-paper-2);
+  color: var(--ot-ink);
+}
+
+.ot-langmenu-list a.is-current {
+  color: var(--ot-accent);
+  font-weight: 600;
 }
 
 .ot-seg--theme {
@@ -262,7 +326,7 @@ body:has(.ot-home-shell) > header {
   }
 
   .ot-nav,
-  .ot-seg--lang {
+  .ot-langmenu {
     display: none;
   }
 
@@ -554,6 +618,16 @@ header button:focus-visible {
   padding: 4.5rem 0 0;
 }
 
+/* Section kicker, matching the reference layout: a short label in the ochre
+   accent, then the display heading. */
+.ot-kicker {
+  margin: 0 0 0.55rem;
+  font-size: var(--ot-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ot-accent-2);
+}
+
 .ot-h2 {
   margin: 0;
   max-width: 22em;
@@ -628,6 +702,9 @@ header button:focus-visible {
 .ot-card {
   display: flex;
   flex-direction: column;
+  /* Grid items default to min-width:auto, so one long unbreakable string (a DOI
+     URL in a card) would widen the whole column. */
+  min-width: 0;
   padding: 1.5rem 1.4rem;
   border-radius: 16px;
   border: 1px solid var(--ot-line);
@@ -690,6 +767,7 @@ header button:focus-visible {
   font-size: var(--ot-fs-small);
   line-height: 1.7;
   color: var(--ot-ink-2);
+  overflow-wrap: anywhere;
 }
 
 .ot-card-lang {
@@ -698,6 +776,60 @@ header button:focus-visible {
   font-family: var(--ot-mono);
   font-size: var(--ot-fs-small);
   color: var(--ot-ink-3);
+}
+
+.ot-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  align-self: flex-start;
+  margin-top: 0.9rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid var(--ot-line);
+  border-radius: 9px;
+  background: var(--ot-paper-2);
+  font-family: var(--ot-sans);
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  color: var(--ot-ink);
+  cursor: pointer;
+  transition: border-color 0.18s var(--ot-ease), color 0.18s var(--ot-ease);
+}
+
+.ot-copy:hover {
+  border-color: var(--ot-accent);
+  color: var(--ot-accent);
+}
+
+.ot-copy.is-copied {
+  border-color: var(--ot-ok);
+  color: var(--ot-ok);
+}
+
+.ot-copy svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* The BibTeX source is shown so a reader can select it by hand if the clipboard
+   API is blocked, but it stays visually secondary. */
+.ot-bib {
+  margin: 0.7rem 0 0;
+  padding: 0.7rem 0.85rem;
+  max-height: 9.5rem;
+  overflow: auto;
+  border-radius: 9px;
+  background: var(--ot-paper-2);
+}
+
+.ot-bib code {
+  font-family: var(--ot-mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--ot-ink-3);
+  background: none;
+  padding: 0;
+  white-space: pre;
 }
 
 .ot-card-link {
@@ -749,6 +881,15 @@ header button:focus-visible {
   background: var(--ot-raised);
 }
 
+.ot-metric .ot-metric-op {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-family: var(--ot-mono);
+  font-size: var(--ot-fs-small);
+  font-weight: 500;
+  color: var(--ot-accent);
+}
+
 .ot-metric .value {
   display: block;
   font-family: var(--ot-serif);
@@ -757,6 +898,7 @@ header button:focus-visible {
   letter-spacing: -0.03em;
   line-height: 1.05;
   color: var(--ot-accent-2);
+  overflow-wrap: anywhere;
 }
 
 .ot-metric .label {
@@ -877,8 +1019,17 @@ header button:focus-visible {
   border-top: 1px solid var(--ot-line);
 }
 
+/* The left column opens with a 48px tab strip plus its 16px gap, so the right
+   column is offset by the same amount to put both first lines on one baseline.
+   Below 900px the columns stack and the offset is dropped. */
+@media (min-width: 901px) {
+  .ot-points {
+    margin-top: 3rem;
+  }
+}
+
 .ot-points li {
-  padding: 0.9rem 0;
+  padding: 0.55rem 0;
   border-bottom: 1px solid var(--ot-line-soft);
   font-size: var(--ot-fs-body);
   line-height: 1.7;
@@ -960,6 +1111,25 @@ header button:focus-visible {
   border-collapse: collapse;
   font-size: var(--ot-fs-small);
   font-variant-numeric: tabular-nums;
+}
+
+/* Group header row for the two metric families. */
+.ot-table--bench thead .group {
+  text-align: center;
+  border-bottom: 1px solid var(--ot-line-soft);
+}
+
+.ot-table--bench thead tr:first-child th {
+  vertical-align: bottom;
+}
+
+.ot-table--bench thead .frac {
+  vertical-align: bottom;
+}
+
+/* Keep the eight columns from squeezing on a narrow screen: the wrapper scrolls. */
+.ot-table--bench {
+  min-width: 46rem;
 }
 
 .ot-table-caption {
@@ -1133,7 +1303,14 @@ html.ot-js .ot-reveal.is-in {
 .ot-foot-brand img {
   width: 1.6rem;
   height: 1.6rem;
+  padding: 0.15rem;
+  border-radius: 6px;
   object-fit: contain;
+  background: var(--ot-raised);
+}
+
+html.dark .ot-foot-brand img {
+  background: #f3ece2;
 }
 
 .ot-foot-version {
@@ -1209,6 +1386,27 @@ html.ot-js .ot-reveal.is-in {
 }
 
 /* --- documentation prose ------------------------------------------------ */
+
+/* The documentation landing page and the manual chapters reuse the theme's
+   prose styles; these two rules keep code and tables from overflowing the
+   column without fighting the typography. */
+.ot-doc-body {
+  max-width: 46rem;
+  margin-top: 1.5rem;
+}
+
+.ot-doc-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .ot-doc-cards {
+    grid-template-columns: 1fr;
+  }
+}
 
 .prose pre {
   overflow-x: auto;

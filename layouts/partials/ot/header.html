@@ -1,20 +1,21 @@
-{{/* Site header, modelled on the reference layout: one flat line, brand on the
-     left, then a plain link row and two segmented controls on the right. It is
-     rendered instead of the theme's header so the page is not wrapped in a
-     floating capsule. */}}
+{{/* Site header: one flat line, brand at left, a plain link row, then a language
+     menu and a three-state theme control. Rendered instead of the theme header so
+     the page is not wrapped in a floating capsule. */}}
 {{- $lang := site.Language.Lang -}}
-{{- $isZh := eq $lang "zh-cn" -}}
+{{- $isZh := hasPrefix $lang "zh" -}}
+{{- $isTw := eq $lang "zh-tw" -}}
 {{- $t := dict
-  "docs" (cond $isZh "文档" "Docs")
-  "bench" (cond $isZh "基准" "Benchmark")
-  "code" (cond $isZh "源码" "GitHub")
-  "paper" (cond $isZh "论文" "Paper")
-  "lang" (cond $isZh "简体中文" "English")
-  "switchTo" (cond $isZh "English" "简体中文")
-  "theme" (cond $isZh "主题" "Theme")
+  "docs" (cond $isTw "文件" (cond $isZh "文档" "Docs"))
+  "bench" (cond $isTw "基準" (cond $isZh "基准" "Benchmark"))
+  "code" (cond $isTw "原始碼" (cond $isZh "源码" "GitHub"))
+  "paper" (cond $isTw "論文" (cond $isZh "论文" "Paper"))
+  "main" (cond $isZh "主导航" "Main")
+  "theme" (cond $isTw "主題" (cond $isZh "主题" "Theme"))
+  "light" (cond $isTw "淺色" (cond $isZh "浅色" "Light"))
+  "dark" (cond $isTw "深色" (cond $isZh "深色" "Dark"))
+  "auto" (cond $isTw "跟隨系統" (cond $isZh "跟随系统" "System"))
+  "menu" (cond $isTw "選單" (cond $isZh "菜单" "Menu"))
 -}}
-{{- $other := "/" -}}
-{{- if eq $lang "en" }}{{ $other = "/zh-cn/" }}{{ end -}}
 
 <header class="ot-header">
   <div class="ot-header-inner">
@@ -23,7 +24,7 @@
       <span>OTTER</span>
     </a>
 
-    <nav class="ot-nav" aria-label="{{ cond $isZh "主导航" "Main" }}">
+    <nav class="ot-nav" aria-label="{{ $t.main }}">
       <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
       <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
       <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
@@ -31,28 +32,29 @@
     </nav>
 
     <div class="ot-tools">
-      <a class="ot-seg ot-seg--lang" href="{{ $other }}" hreflang="{{ cond $isZh "en" "zh-CN" }}" data-ot-lang-switch>
-        {{ partial "ot/icon.html" "globe" }}
-        <span>{{ $t.lang }}</span>
-      </a>
+      {{ partial "ot/language-menu.html" . }}
 
       <div class="ot-seg ot-seg--theme" role="group" aria-label="{{ $t.theme }}">
-        <button type="button" data-ot-theme="light" aria-label="{{ cond $isZh "浅色" "Light" }}" title="{{ cond $isZh "浅色" "Light" }}">{{ partial "ot/icon.html" "sun" }}</button>
-        <button type="button" data-ot-theme="dark" aria-label="{{ cond $isZh "深色" "Dark" }}" title="{{ cond $isZh "深色" "Dark" }}">{{ partial "ot/icon.html" "moon" }}</button>
-        <button type="button" data-ot-theme="auto" aria-label="{{ cond $isZh "跟随系统" "System" }}" title="{{ cond $isZh "跟随系统" "System" }}">{{ partial "ot/icon.html" "monitor" }}</button>
+        <button type="button" data-ot-theme="light" aria-label="{{ $t.light }}" title="{{ $t.light }}">{{ partial "ot/icon.html" "sun" }}</button>
+        <button type="button" data-ot-theme="dark" aria-label="{{ $t.dark }}" title="{{ $t.dark }}">{{ partial "ot/icon.html" "moon" }}</button>
+        <button type="button" data-ot-theme="auto" aria-label="{{ $t.auto }}" title="{{ $t.auto }}">{{ partial "ot/icon.html" "monitor" }}</button>
       </div>
 
-      <button class="ot-menu-btn" type="button" data-ot-menu-toggle aria-expanded="false" aria-controls="ot-mobile-nav" aria-label="{{ cond $isZh "菜单" "Menu" }}">
+      <button class="ot-menu-btn" type="button" data-ot-menu-toggle aria-expanded="false" aria-controls="ot-mobile-nav" aria-label="{{ $t.menu }}">
         {{ partial "ot/icon.html" "menu" }}
       </button>
     </div>
   </div>
 
-  <nav id="ot-mobile-nav" class="ot-mobile-nav" hidden aria-label="{{ cond $isZh "主导航" "Main" }}">
+  <nav id="ot-mobile-nav" class="ot-mobile-nav" hidden aria-label="{{ $t.main }}">
     <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
     <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
     <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
     <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ $t.paper }}</a>
-    <a href="{{ $other }}" hreflang="{{ cond $isZh "en" "zh-CN" }}" data-ot-lang-switch>{{ $t.switchTo }}</a>
+    {{- range .AllTranslations }}
+      {{- if ne .Language.Lang $.Site.Language.Lang }}
+        <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale | default .Language.Lang }}" lang="{{ .Language.Locale | default .Language.Lang }}" data-ot-lang-switch>{{ .Language.Params.displayName }}</a>
+      {{- end }}
+    {{- end }}
   </nav>
 </header>

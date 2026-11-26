@@ -7,6 +7,7 @@ showAuthor: false
 showWordCount: false
 showReadingTime: false
 showTableOfContents: false
+type: "docs-index"
 ---
 
 OTTER turns FASTQ inputs and sample metadata into validated workflow projects, then

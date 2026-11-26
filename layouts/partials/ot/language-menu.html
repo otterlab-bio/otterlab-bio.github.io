@@ -1,0 +1,26 @@
+{{/* Language menu. A <details> element keeps it working without JavaScript, and
+     listing every translation means a third language needs no further edits. */}}
+{{- $cur := .Site.Language.Lang -}}
+{{- $short := dict "en" "EN" "zh-cn" "简" "zh-tw" "繁" -}}
+<span class="ot-langmenu">
+  <details>
+    <summary class="ot-seg ot-seg--lang" aria-label="{{ cond (hasPrefix $cur "zh") "语言" "Language" }}">
+      {{ partial "ot/icon.html" "globe" }}
+      <span>{{ index $short $cur | default (upper $cur) }}</span>
+      {{ partial "ot/icon.html" "chevron-down" }}
+    </summary>
+    <ul class="ot-langmenu-list">
+      {{- range .AllTranslations }}
+        <li>
+          <a href="{{ .RelPermalink }}"
+             hreflang="{{ .Language.Locale | default .Language.Lang }}"
+             lang="{{ .Language.Locale | default .Language.Lang }}"
+             class="{{ if eq .Language.Lang $cur }}is-current{{ end }}"
+             data-ot-lang-switch>
+            {{ .Language.Params.displayName }}
+          </a>
+        </li>
+      {{- end }}
+    </ul>
+  </details>
+</span>

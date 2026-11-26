@@ -63,6 +63,7 @@
   {{/* ---------------- architecture ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.stack.kicker }}</p>
       <h2 class="ot-h2">{{ $c.stack.title }}</h2>
       <p class="ot-section-lead">{{ $c.stack.lead }}</p>
 
@@ -82,6 +83,7 @@
   {{/* ---------------- assay coverage ---------------- */}}
   <section class="ot-section" id="modes">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.modes.kicker }}</p>
       <h2 class="ot-h2">{{ $c.modes.title }}</h2>
       <p class="ot-section-lead">{{ $c.modes.lead }}</p>
       {{ partial "ot/modes.html" . }}
@@ -91,6 +93,7 @@
   {{/* ---------------- capabilities ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.cards.kicker }}</p>
       <h2 class="ot-h2">{{ $c.cards.title }}</h2>
       <p class="ot-section-lead">{{ $c.cards.lead }}</p>
 
@@ -116,12 +119,14 @@
   {{/* ---------------- evaluation ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.metrics.kicker }}</p>
       <h2 class="ot-h2">{{ $c.metrics.title }}</h2>
       <p class="ot-section-lead">{{ $c.metrics.lead }}</p>
 
       <div class="ot-metrics ot-reveal">
         {{ range $c.metrics.items }}
           <div class="ot-metric">
+            <span class="ot-metric-op">{{ .operator }}</span>
             <span class="value">{{ .value }}</span>
             <span class="label">{{ .label }}</span>
             <span class="note">{{ .note }}</span>
@@ -135,6 +140,7 @@
   {{/* ---------------- benchmark ---------------- */}}
   <section class="ot-section" id="benchmark">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.bench.kicker }}</p>
       <h2 class="ot-h2">{{ $c.bench.title }}</h2>
       <p class="ot-section-lead">{{ $c.bench.lead }}</p>
       {{ partial "ot/benchmark.html" . }}
@@ -144,6 +150,7 @@
   {{/* ---------------- quick start ---------------- */}}
   <section class="ot-section" id="quickstart">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.quick.kicker }}</p>
       <h2 class="ot-h2">{{ $c.quick.title }}</h2>
 
       <div class="ot-quick ot-reveal">
@@ -160,6 +167,7 @@
   {{/* ---------------- components ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.repos.kicker }}</p>
       <h2 class="ot-h2">{{ $c.repos.title }}</h2>
       <p class="ot-section-lead">{{ $c.repos.lead }}</p>
 
@@ -187,6 +195,7 @@
   {{/* ---------------- documentation and citation ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
+      <p class="ot-kicker">{{ $c.cite.kicker }}</p>
       <h2 class="ot-h2">{{ $c.cite.title }}</h2>
       <p class="ot-section-lead">{{ $c.cite.lead }}</p>
 
@@ -201,7 +210,12 @@
           <span class="ot-card-icon">{{ partial "ot/icon.html" "shield" }}</span>
           <h3>{{ $c.cite.paperCardTitle }}</h3>
           <p>{{ $c.cite.paperCardBody }}</p>
-          <a class="ot-card-link" href="{{ $c.cite.paperCardUrl }}" rel="noopener">{{ $c.cite.paperCardLabel }}</a>
+          <button class="ot-copy" type="button" data-ot-copy="{{ $c.cite.bibtex | htmlEscape }}">
+            {{ partial "ot/icon.html" "copy" }}
+            <span data-ot-copy-label data-copied="{{ $c.cite.paperCardCopiedLabel }}">{{ $c.cite.paperCardCopyLabel }}</span>
+          </button>
+          <pre class="ot-bib" data-ot-bib><code>{{ $c.cite.bibtex }}</code></pre>
+          <a class="ot-card-link" href="{{ $c.cite.paperCardUrl }}" rel="noopener">{{ $c.cite.paperCardLinkLabel }}</a>
         </div>
         <div class="ot-card">
           <span class="ot-card-icon">{{ partial "ot/icon.html" "database" }}</span>

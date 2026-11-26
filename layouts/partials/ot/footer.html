@@ -1,7 +1,7 @@
 {{/* Site footer. One column, aligned to the same 72rem measure as the page, so it
      does not read as two items pushed to opposite edges. */}}
 {{- $lang := site.Language.Lang -}}
-{{- $isZh := eq $lang "zh-cn" -}}
+{{- $isZh := hasPrefix $lang "zh" -}}
 {{- $c := index hugo.Data.home $lang -}}
 {{- if not $c }}{{ $c = index hugo.Data.home "en" }}{{ end -}}
 {{- $version := "1.3.0" -}}

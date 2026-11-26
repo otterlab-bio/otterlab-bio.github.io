@@ -6,7 +6,7 @@ Pages. The design rationale, the reference-site measurements, and the copy
 rules live in [`DESIGN.md`](./DESIGN.md).
 
 - Live target: `https://otter.rainoffallingstar.com/` (custom domain); `https://otterlab-bio.github.io/` redirects to it
-- Languages: English at `/`, Simplified Chinese at `/zh-cn/`
+- Languages: English at `/`, Simplified Chinese at `/zh-cn/`, Traditional Chinese at `/zh-tw/`
 - Theme: `github.com/nunocoracao/blowfish/v3` v3.11.0, consumed as a Hugo Module
 - Design skill: [`gemini-frontend-design`](https://github.com/google-gemini/demolab/tree/main/skills/gemini-frontend-design), installed into `.agents/skills/` and pinned in `skills-lock.json`
 
@@ -58,6 +58,19 @@ The page was audited against `gemini-frontend-design` twice: first by measuremen
 running the installed skill against the deployed site. Both passes, with the measured
 before and after values for every finding, are in
 [`docs/design-review-gemini-frontend-design.md`](./docs/design-review-gemini-frontend-design.md).
+
+## Localisation
+
+Three locales ship: `en`, `zh-cn`, `zh-tw`. `data/home/*.yaml` holds one file per
+language with identical keys; `zh-tw` is generated from `zh-cn` with OpenCC (`s2twp`)
+and then corrected by hand where the conversion is wrong for this domain (for example
+`質量` → `品質`, `校驗` → `驗證`). Partials decide "is Chinese" with
+`hasPrefix $lang "zh"`, so a fourth Chinese locale would need no template change.
+
+The manual under `content/docs/manual/` is synced verbatim from
+`otterlab-bio/otter:docs/manual`. Chapter bodies stay in English in all three locales
+because machine-translating shell commands and flag names would introduce ambiguity;
+the Chinese pages carry translated titles and a note saying so.
 
 ## Benchmark data
 
@@ -127,7 +140,7 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Cumulative layout shift | 0 |
 | Body type sizes | two (16 px, 14 px), down from nineteen |
 | Benchmark data | 14 fractions x 3 replicates per assay, generated from the manuscript archive |
-| Language switch | both directions verified, choice persists across reloads |
+| Languages | three locales built; the header menu lists all three |
 | Text under 13 px above the fold | none |
 | Kicker labels, decorative pills, badges | none |
 | Section first children | `h2, h2, h2, h2, h2, h2` |
