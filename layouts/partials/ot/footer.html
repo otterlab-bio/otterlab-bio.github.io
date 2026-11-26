@@ -2,6 +2,7 @@
      does not read as two items pushed to opposite edges. */}}
 {{- $lang := site.Language.Lang -}}
 {{- $isZh := hasPrefix $lang "zh" -}}
+{{- $isTw := eq $lang "zh-tw" -}}
 {{- $c := index hugo.Data.home $lang -}}
 {{- if not $c }}{{ $c = index hugo.Data.home "en" }}{{ end -}}
 {{- $version := "1.3.0" -}}
@@ -25,6 +26,9 @@
       <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ cond $isZh "DOI" "DOI" }}</a>
       <span class="ot-foot-sep" aria-hidden="true">·</span>
       <a href="https://huggingface.co/datasets/fallingstar10/otter-data" rel="noopener">{{ cond $isZh "数据" "Data" }}</a>
+      <span class="ot-foot-sep" aria-hidden="true">·</span>
+      {{/* Issue #35 asks for a feedback channel on the entry page. */}}
+      <a href="https://github.com/otterlab-bio/otter/issues" rel="noopener">{{ cond $isTw "問題回報" (cond $isZh "问题反馈" "Issues") }}</a>
       <span class="ot-foot-sep" aria-hidden="true">·</span>
       <a href="https://github.com/otterlab-bio/otter/blob/main/LICENSE" rel="noopener">MIT</a>
     </div>
