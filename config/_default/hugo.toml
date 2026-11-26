@@ -7,6 +7,10 @@ hasCJKLanguage = true
 enableRobotsTXT = true
 summaryLength = 40
 
+# The site has no taxonomy content, so the empty /tags/ and /categories/ listing
+# pages are disabled rather than published blank.
+disableKinds = ["taxonomy", "term"]
+
 [pagination]
   pagerSize = 10
 

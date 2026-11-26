@@ -75,6 +75,3 @@ copyright = "© { year } otterlab-bio · OTTER is released under the MIT License
 
 [sitemap]
   excludedKinds = ["taxonomy", "term"]
-
-[taxonomy]
-  showTermCount = false
