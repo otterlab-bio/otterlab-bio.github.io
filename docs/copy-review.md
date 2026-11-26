@@ -23,7 +23,7 @@
 1. `Host reads out. / Biology in.` 把五种分析模式窄化为去宿主一步，且 `Biology in.` 属空泛口号。改为 `Compiled pipelines. / Reproducible runs.`，中文 `编译型管线。可复现运行。`。
 2. `Eleven repositories` 与列表不符，改为 `Twelve repositories`。
 3. 统一使用 Slurm 官方拼写，替换正文中混用的 `SLURM`。
-4. `full-genome eRRBS` 改为稿件中的 `full-genome eRRBS` 表述，比较差值明确写作 `percentage points`。
+4. 比较差值明确写作 `percentage points` 而不是裸的 `points`，避免把绝对差值读成相对变化；这一处已采纳。Gemini 同时建议把 `full-genome eRRBS` 改成 `genome-wide eRRBS`，未采纳：`manuscript.typ` §2.3 与 §S4.4 的原文就是 `full-genome eRRBS data`，主页应与稿件逐字一致。
 
 ## 未采纳的意见及原因
 
@@ -33,7 +33,7 @@
 | 把终端输出改写为五行中文叙述（「校验样本元数据并锁定参考注册表版本」等） | 终端里是真实命令与日志，翻译后既不再是可复现的输出，也与 `cmd/build.go` 的实际日志不符。改为保留英文原样输出。 |
 | 把阶段状态改为「已解析 / 运行中 / 已完成」 | `otter-run/v1` schema 不定义运行期状态；快照只有阶段顺序与资源边界。改为只显示阶段名、backend 与序号。 |
 | 数据卡改写为「获取参考注册表 SHA-256 校验清单」 | Hugging Face 数据集是评测 fixture 与溯源记录，不是参考注册表清单。按原意保留。 |
-| 统计卡换用 BAM 记录数与离线阶段数 | 四个统计卡已覆盖构建速度、内存、调度、召回四个维度；BAM 位级保真与 99 阶段演练改放在能力卡与快速开始中，避免数字堆砌。 |
+| 统计卡换用 BAM 记录数（92,205,522）与离线阶段数（99 / 99） | 四个统计卡已覆盖构建速度、内存、调度、召回四个维度，正好对应读者选型时的四类疑问。99 阶段演练保留在快速开始的要点里；BAM 位级保真的数字未上首页，因为它在稿件里是 Gate A 的单次生产审计，放进统计卡会被误读为常规性能指标。 |
 
 ## 事实核验
 
