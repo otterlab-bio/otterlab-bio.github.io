@@ -210,11 +210,17 @@
           <span class="ot-card-icon">{{ partial "ot/icon.html" "shield" }}</span>
           <h3>{{ $c.cite.paperCardTitle }}</h3>
           <p>{{ $c.cite.paperCardBody }}</p>
-          <button class="ot-copy" type="button" data-ot-copy="{{ $c.cite.bibtex | htmlEscape }}">
-            {{ partial "ot/icon.html" "copy" }}
-            <span data-ot-copy-label data-copied="{{ $c.cite.paperCardCopiedLabel }}">{{ $c.cite.paperCardCopyLabel }}</span>
-          </button>
-          <a class="ot-card-link" href="{{ $c.cite.paperCardUrl }}" rel="noopener">{{ $c.cite.paperCardLinkLabel }}</a>
+          {{/* Two actions on one row: copy the BibTeX, or open the preprint. */}}
+          <div class="ot-card-actions">
+            <button class="ot-copy" type="button" data-ot-copy="{{ $c.cite.bibtex | htmlEscape }}">
+              {{ partial "ot/icon.html" "copy" }}
+              <span data-ot-copy-label data-copied="{{ $c.cite.paperCardCopiedLabel }}">{{ $c.cite.paperCardCopyLabel }}</span>
+            </button>
+            <a class="ot-copy" href="{{ $c.cite.paperCardUrl }}" rel="noopener">
+              {{ $c.cite.paperCardLinkLabel }}
+              {{ partial "ot/icon.html" "arrow-right" }}
+            </a>
+          </div>
         </div>
         <div class="ot-card">
           <span class="ot-card-icon">{{ partial "ot/icon.html" "database" }}</span>
