@@ -70,9 +70,15 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 
 | Check | Result |
 | :--- | :--- |
-| Production build | `hugo --minify` exits 0 |
+| Production build | `hugo --minify --gc --panicOnWarning` exits 0 |
+| Lighthouse, mobile, simulated throttling | performance 99, accessibility 100, best practices 100, SEO 100 |
+| Largest contentful paint | 1.9 s |
+| Cumulative layout shift | 0 |
 | Horizontal overflow | none at 320, 390, 768, 1024, 1440, 1920 px |
+| Text contrast (WCAG AA) | every inspected pair passes, light and dark |
 | Tabs | keyboard-focusable, `aria-selected` toggles, panels hide correctly |
 | Reduced motion | `prefers-reduced-motion: reduce` disables rise, reveal, hover lift |
 | Em dashes in rendered text | 0 |
-| Missing assets | 0 |
+| Missing assets or 4xx | none across `/`, `/zh-cn/`, `/docs/`, `/zh-cn/docs/` |
+| Heading order | h1 → h2 → h3, no skipped level |
+| Bilingual key parity | 163 keys in each locale, identical for values that must not be translated |
