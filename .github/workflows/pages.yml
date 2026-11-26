@@ -40,7 +40,7 @@ jobs:
           cache: false
 
       - name: Resolve theme module
-        run: hugo mod download
+        run: hugo mod tidy
 
       - name: Configure Pages
         id: pages
