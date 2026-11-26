@@ -59,6 +59,11 @@ that prebuilt bundle.
    (Fraunces, 67 KB) is self-hosted.
 4. **Content is bilingual but not duplicated.** `data/home/*.yaml` is the single
    source for both languages.
+5. **Two body type sizes, one display scale.** Body text is 16 px or 14 px. The
+   hero `<h1>`, section `<h2>`, and the four evaluation numerals share the display
+   scale. Do not introduce an intermediate 17 to 28 px step.
+6. **No eyebrow labels, decorative pills, or bordered card grids.** Sections open
+   with their heading. List content is hairline-separated rows.
 
 ## Deployment
 
@@ -71,14 +76,19 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Check | Result |
 | :--- | :--- |
 | Production build | `hugo --minify --gc --panicOnWarning` exits 0 |
-| Lighthouse, mobile, simulated throttling | performance 99, accessibility 100, best practices 100, SEO 100 |
-| Largest contentful paint | 1.9 s |
-| Cumulative layout shift | 0 |
+| Body type sizes | two (16 px, 14 px), down from nineteen |
+| Text under 13 px above the fold | none |
+| Kicker labels, decorative pills, badges | none |
+| Section first children | `h2, h2, h2, h2, h2, h2` |
+| Hero primary buttons | one |
 | Horizontal overflow | none at 320, 390, 768, 1024, 1440, 1920 px |
 | Text contrast (WCAG AA) | every inspected pair passes, light and dark |
 | Tabs | keyboard-focusable, `aria-selected` toggles, panels hide correctly |
 | Reduced motion | `prefers-reduced-motion: reduce` disables rise, reveal, hover lift |
-| Em dashes in rendered text | 0 |
+| Em dashes and spaced en dashes in copy | 0 |
 | Missing assets or 4xx | none across `/`, `/zh-cn/`, `/docs/`, `/zh-cn/docs/` |
 | Heading order | h1 → h2 → h3, no skipped level |
-| Bilingual key parity | 163 keys in each locale, identical for values that must not be translated |
+| Bilingual key parity | 156 keys in each locale, identical for values that must not be translated |
+
+The design review that produced the first six rows, with the measured before and
+after values, is in [`docs/design-review-gemini-frontend-design.md`](./docs/design-review-gemini-frontend-design.md).

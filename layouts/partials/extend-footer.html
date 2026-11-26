@@ -23,6 +23,13 @@
       });
     });
 
+    // The header is borderless over the hero and gains a surface once scrolled.
+    var headerState = function () {
+      document.body.classList.toggle('ot-scrolled', window.scrollY > 24);
+    };
+    headerState();
+    window.addEventListener('scroll', headerState, { passive: true });
+
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.ot-reveal').forEach(function (el) {
         el.classList.add('is-in');

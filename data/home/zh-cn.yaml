@@ -2,19 +2,15 @@
 # 中文不引入英文版没有的事实。
 
 hero:
-  eyebrowPill: "开源"
-  eyebrow: "面向异种移植模型的多组学工作流"
   titleLead: "编译型管线。"
   titleTail: "可复现运行。"
-  lead: "OTTER 将 FASTQ 与样本信息转换为经过校验的工作流项目，并在本地或 Slurm 上执行。backend、参考基因组与资源边界在第一个任务启动之前就写进不可变快照。"
+  lead: "OTTER 将 FASTQ 与样本信息转换为经过校验的项目，并在本地或 Slurm 上依据不可变快照执行。"
   primaryCta:
     label: "安装 OTTER"
     url: "#quickstart"
   secondaryCta:
     label: "查看源码"
     url: "https://github.com/otterlab-bio/otter"
-    github: "otterlab-bio/otter"
-  meta: "MIT 许可 · Linux 与 macOS · amd64 与 arm64"
 
 console:
   title: "demo_rrbs · otter build"
@@ -37,17 +33,13 @@ console:
   phases:
     - name: "step1"
       backend: "slurm"
-      order: "01"
     - name: "step2-check"
       backend: "slurm"
-      order: "02"
     - name: "step3-report"
       backend: "local"
-      order: "03"
-  footnote: "执行器、backend、阶段顺序与 CPU／内存边界都在解析阶段固定。"
+  footnote: "执行器、backend、阶段顺序与 CPU 和内存边界都在解析阶段固定。"
 
 stack:
-  kicker: "架构"
   title: "四层编译，一条命令。"
   lead: "每一层各自消除原型中的一类失效模式：求解器死锁、锁竞争、宿主库漂移，以及记录级正确性。"
   layers:
@@ -61,9 +53,10 @@ stack:
       role: "共享 BAM 原语之上的七个编译算子"
 
 cards:
-  ariaLabel: "能力"
+  title: "脚本被什么取代了。"
+  lead: "七个算子二进制覆盖了全部计算步骤，另有五条执行不变量在本地与集群上同时成立。"
   wide:
-    title: "七个编译算子取代旧脚本"
+    title: "七个编译算子"
     body: "质控、宿主–移植判定、配对修复、定量、剪接编排、质控汇总与甲基化矩阵均以二进制交付。每个算子都在相同输入上对照其基准实现校验。"
     ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
   items:
@@ -77,10 +70,8 @@ cards:
       body: "Linux release 资产为静态链接，工具链不再依赖曾让 CentOS 7 上动态构建失败的那一版 glibc。"
     - title: "本地与 Slurm 共用一份快照"
       body: "backend 与资源边界在快照解析时写入，因此同一份 run.yaml 无需修改即可驱动笔记本与集群。"
-      span: full
 
 metrics:
-  kicker: "评测"
   title: "对照基准实现的实测结果。"
   lead: "数字来自相同输入、相同集群资源配额下的配对运行，不是合成微基准。"
   items:
@@ -99,7 +90,6 @@ metrics:
   footnote: "标注处均为 n = 3 配对重复。完整梯度见补充表 S11 与 S12。"
 
 quick:
-  kicker: "快速开始"
   title: "两分钟拿到一份解析完成的 run。"
   tabs:
     installer: "安装脚本"
@@ -110,12 +100,11 @@ quick:
   colabNote: "写入一份模拟参考注册表，按场景建立项目，再用 --dry-run 解析每个阶段。它不执行任何工具。"
   points:
     - "RRBS、WGBS、RNA-seq、BS-PDX 与 RNA-PDX 都是一等分析模式。"
+    - "二进制原生支持 Linux 与 macOS 的 amd64 与 arm64，其中 Linux 为静态链接。"
     - "一份参考发布可达数十 GB，仅 GRCh38 STAR 索引就约 30 GB。"
     - "离线演练驱动真实二进制跑通 99 个阶段，0 失败。"
-    - "旧项目先用 otter config migrate 迁移，再交给同一执行器运行。"
 
 repos:
-  kicker: "组件"
   title: "十二个仓库，一套工具链。"
   lead: "每个组件独立发布、独立版本化。工作流通过 release 清单锁定它们，而不是依赖一个松散的环境。"
   items:
@@ -169,22 +158,24 @@ repos:
       url: "https://github.com/otterlab-bio/holt"
 
 cite:
-  kicker: "文档"
   title: "阅读、运行、引用。"
   lead: "手册按任务组织：安装、数据准备、首次运行，以及五类分析模式。"
   docsCardTitle: "文档"
   docsCardBody: "安装、FASTQ 配对规则、CLI 参考，以及旧项目的迁移路径。"
+  docsCardLabel: "打开手册"
   docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
   paperCardTitle: "预印本"
   paperCardBody: "Zheng 等，bioRxiv 2026。DOI 10.64898/2026.10.24.761506。"
+  paperCardLabel: "在 bioRxiv 阅读"
   paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
   dataCardTitle: "数据"
   dataCardBody: "Hugging Face 上带版本的 fixture 与溯源记录。"
+  dataCardLabel: "打开数据集"
   dataCardUrl: "https://huggingface.co/datasets/fallingstar10/otter-data"
   walkthroughCardTitle: "演练"
   walkthroughCardBody: "十五分钟 Colab，建立每个场景并解析每个阶段。"
+  walkthroughCardLabel: "运行 notebook"
   walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
 
 footer:
-  ariaLabel: "页脚"
-  line: "OTTER 以 MIT 许可发布，用 Go 与 Rust 写成。"
+  line: "OTTER 以 MIT 许可发布，用 Go 与 Rust 写成。二进制覆盖 Linux 与 macOS 的 amd64 与 arm64。"

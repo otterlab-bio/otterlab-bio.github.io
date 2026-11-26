@@ -3,19 +3,15 @@
 # data/home/zh-cn.yaml mirrors this file key for key.
 
 hero:
-  eyebrowPill: "Open source"
-  eyebrow: "Multi-omics workflows for xenograft models"
   titleLead: "Compiled pipelines."
   titleTail: "Reproducible runs."
-  lead: "OTTER turns FASTQ files and sample metadata into validated workflow projects, then runs them locally or on Slurm. Backends, references, and resource envelopes are fixed in an immutable snapshot before a single task starts."
+  lead: "OTTER turns FASTQ files and sample metadata into validated projects, then runs them locally or on Slurm from an immutable snapshot."
   primaryCta:
     label: "Install OTTER"
     url: "#quickstart"
   secondaryCta:
     label: "View source"
     url: "https://github.com/otterlab-bio/otter"
-    github: "otterlab-bio/otter"
-  meta: "MIT licensed · Linux and macOS · amd64 and arm64"
 
 console:
   title: "demo_rrbs · otter build"
@@ -38,17 +34,13 @@ console:
   phases:
     - name: "step1"
       backend: "slurm"
-      order: "01"
     - name: "step2-check"
       backend: "slurm"
-      order: "02"
     - name: "step3-report"
       backend: "local"
-      order: "03"
-  footnote: "Executor, backend, phase order, and the CPU/memory envelope are fixed at resolve time."
+  footnote: "Executor, backend, phase order, and the CPU and memory envelope are fixed at resolve time."
 
 stack:
-  kicker: "Architecture"
   title: "Four compiled layers, one command."
   lead: "Each layer isolates one failure mode of the R and Snakemake prototype: solver deadlocks, lock contention, host-library drift, and record-level correctness."
   layers:
@@ -62,10 +54,11 @@ stack:
       role: "Seven compiled domain operators over shared BAM primitives"
 
 cards:
-  ariaLabel: "Capabilities"
+  title: "What replaced the scripts."
+  lead: "Seven operator binaries now cover every computational step, and five execution invariants hold across local and cluster runs."
   wide:
-    title: "Seven compiled operators replace legacy scripts"
-    body: "Quality control, host–graft classification, mate repair, quantification, splicing orchestration, QC aggregation, and methylation matrices now run as binaries. Each operator is checked against its reference implementation on identical inputs."
+    title: "Seven compiled operators"
+    body: "Quality control, host–graft classification, mate repair, quantification, splicing orchestration, QC aggregation, and methylation matrices run as binaries. Each operator is checked against its reference implementation on identical inputs."
     ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
   items:
     - title: "One writer, no lock contention"
@@ -78,10 +71,8 @@ cards:
       body: "Release assets are statically linked on Linux, so the toolchain no longer depends on the host glibc version that broke dynamic builds on CentOS 7."
     - title: "Local and Slurm share a snapshot"
       body: "Backend and resource envelopes are recorded when the snapshot is resolved, so the same run.yaml drives a laptop and a cluster without edits."
-      span: full
 
 metrics:
-  kicker: "Evaluation"
   title: "Measured against the reference implementations."
   lead: "Numbers come from matched runs on identical inputs and cluster allocations, not from synthetic microbenchmarks."
   items:
@@ -100,7 +91,6 @@ metrics:
   footnote: "n = 3 paired repeats where stated. Full gradients are reported in Supplementary Tables S11 and S12."
 
 quick:
-  kicker: "Quick start"
   title: "Two minutes to a resolved run."
   tabs:
     installer: "Installer"
@@ -111,12 +101,11 @@ quick:
   colabNote: "Writes a simulated reference registry, authors each scenario, and resolves every phase with --dry-run. It executes no tool."
   points:
     - "RRBS, WGBS, RNA-seq, BS-PDX, and RNA-PDX ship as first-class modes."
+    - "Binaries are native on Linux and macOS, for amd64 and arm64; Linux builds are statically linked."
     - "A reference release is tens of gigabytes; a GRCh38 STAR index alone is about 30 GB."
     - "The offline rehearsal drives the real binaries through 99 stages with 0 failures."
-    - "Legacy projects migrate with otter config migrate, then run through the same executor."
 
 repos:
-  kicker: "Components"
   title: "Twelve repositories, one toolchain."
   lead: "Each component is released and versioned on its own. The workflow pins them through the release manifest rather than through a loose environment."
   items:
@@ -170,22 +159,24 @@ repos:
       url: "https://github.com/otterlab-bio/holt"
 
 cite:
-  kicker: "Documentation"
   title: "Read it, run it, cite it."
   lead: "The manual is task-oriented: installation, data preparation, a first run, and the five analysis modes."
   docsCardTitle: "Documentation"
   docsCardBody: "Installation, FASTQ pairing rules, the CLI reference, and the migration path for legacy projects."
+  docsCardLabel: "Open the manual"
   docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
   paperCardTitle: "Preprint"
   paperCardBody: "Zheng et al., bioRxiv 2026. DOI 10.64898/2026.10.24.761506."
+  paperCardLabel: "Read on bioRxiv"
   paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
   dataCardTitle: "Data"
   dataCardBody: "Versioned fixtures and provenance records on Hugging Face."
+  dataCardLabel: "Open the dataset"
   dataCardUrl: "https://huggingface.co/datasets/fallingstar10/otter-data"
   walkthroughCardTitle: "Walkthrough"
   walkthroughCardBody: "A fifteen-minute Colab that authors every scenario and resolves every phase."
+  walkthroughCardLabel: "Run the notebook"
   walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb"
 
 footer:
-  ariaLabel: "Colophon"
-  line: "OTTER is MIT licensed and written in Go and Rust."
+  line: "OTTER is MIT licensed and written in Go and Rust. Binaries ship for Linux and macOS on amd64 and arm64."
