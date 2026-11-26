@@ -163,10 +163,18 @@
       <h2 class="ot-h2">{{ $c.repos.title }}</h2>
       <p class="ot-section-lead">{{ $c.repos.lead }}</p>
 
+      {{/* One icon per component, keyed by name: a language-based mapping left
+           nine of twelve cards with the same glyph. */}}
+      {{ $repoIcons := dict
+        "otter" "terminal" "craftmake" "git-branch" "enva" "box"
+        "fastqcx" "chart" "xenofilx" "shield" "pairbam" "package"
+        "seq2mat" "database" "matsrun" "layers" "qctb" "check"
+        "methx" "cpu" "bamdriver" "lock" "holt" "monitor"
+      }}
       <div class="ot-cards ot-cards--three ot-reveal">
         {{ range $c.repos.items }}
           <a class="ot-card ot-card--link" href="{{ .url }}" rel="noopener">
-            <span class="ot-card-icon">{{ partial "ot/icon.html" (cond (eq .lang "Rust") "cpu" (cond (eq .lang "Shell") "package" "git-branch")) }}</span>
+            <span class="ot-card-icon">{{ partial "ot/icon.html" (index $repoIcons .name | default "box") }}</span>
             <h3>{{ .name }}</h3>
             <p>{{ .role }}</p>
             <span class="ot-card-lang">{{ .lang }}</span>
