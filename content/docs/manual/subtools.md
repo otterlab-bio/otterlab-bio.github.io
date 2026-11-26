@@ -8,9 +8,7 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 6. Component reference
-
-Otter is the orchestration layer; the focused repositories own most specialized computation.
+`otter` handles workflow orchestration; each component repository below implements one part of the domain computation.
 
 ## `craftmake`
 
@@ -21,7 +19,7 @@ craftmake doctor --backend local
 craftmake plan --config run.yaml --phase step1 --catalog workflows/
 ```
 
-Craftmake is under integration. Snakemake remains the explicit compatibility executor for existing production workflows.
+`craftmake` is the default executor for canonical v1 snapshots. `snakemake` remains available as the compatibility executor for existing Snakemake-based workflows, selected with `--executor snakemake`.
 
 ## `enva`
 
@@ -36,12 +34,12 @@ enva run otter-core -- <command>
 enva validate --all
 ```
 
-Bismark 3.1.0 (Rust suite) and Bowtie2 2.5.5 are provided by the `otter-core`
+Bismark 3.1.0 and Bowtie2 2.5.5 are provided by the `otter-core`
 environment; the installer verifies the pinned versions after environment
 creation. The maintained methylation rules invoke them through
 `enva run otter-core -- ...` rather than any user-global installation.
 
-External conda/mamba/micromamba environments require explicit compatibility handling or adoption.
+`enva` does not adopt an external conda, mamba, or micromamba environment automatically. Either configure that environment for compatibility or move its dependencies into an `enva` environment.
 
 ## `fastqcx`
 

@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 7. FAQ
-
 ## Why is `otter` not found?
 
 Check the installation directory and `PATH`:
@@ -41,7 +39,7 @@ git submodule status --recursive
 
 ## Can I replace Snakemake with Craftmake immediately?
 
-No. The runtime is dual-track. Craftmake requires an immutable v1 run snapshot and is the native executor under integration; existing production workflows still use the explicit Snakemake compatibility path.
+Mostly. OTTER records one executor per run snapshot. `craftmake` is the default and executes canonical v1 snapshots; `snakemake` remains available as the compatibility executor and is selected with `--executor snakemake`. A single snapshot cannot be executed by both.
 
 ## Why did FASTQ pairing fail?
 
@@ -116,7 +114,7 @@ craftmake resume \
   --run <run-id>--step1 --gate
 ```
 
-See the [Craftmake skill](../../skills/craftmake/SKILL.md) for the full
+See [chapter 6](../subtools/) for the full
 controller sequence and the `--gate` requirement.
 
 ## Why do docs still mention FastQC, Bismark, Methrix, or rMATS?

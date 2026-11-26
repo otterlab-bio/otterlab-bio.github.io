@@ -1,21 +1,23 @@
 {{/* Xengsort comparison. Numbers come from data/benchmark.yaml, generated from the
      manuscript's benchmark archive.
 
-     Two metric groups per row: raw classification recall (before any alignment
-     check) and usable recall (after a qualifying human alignment), plus the
-     PPV among pairs that align. */}}
+     OTTER only selects pairs that also pass a human alignment, so one recall and
+     one PPV column cover it. Xengsort calls graft before that check, so its raw
+     and post-alignment numbers are both shown. */}}
 {{- $lang := site.Language.Lang -}}
 {{- $isTw := eq $lang "zh-tw" -}}
 {{- $isZh := hasPrefix $lang "zh" -}}
 {{- $b := hugo.Data.benchmark.assay -}}
 {{- $t := dict
   "frac" (cond $isTw "人類輸入佔比" (cond $isZh "人类输入占比" "Human fraction"))
-  "delta" (cond $isTw "可用召回差值（百分點）" (cond $isZh "可用召回差值（百分点）" "Δ usable recall (pp)"))
-  "otterAlignPpv" (cond $isTw "OTTER 比對 PPV" (cond $isZh "OTTER 比对 PPV" "OTTER alignment PPV"))
-  "xengsortAlignPpv" (cond $isTw "Xengsort 比對 PPV" (cond $isZh "Xengsort 比对 PPV" "Xengsort alignment PPV"))
-  "raw" (cond $isTw "原始分類召回" (cond $isZh "原始分类召回" "Raw classification recall"))
-  "usable" (cond $isTw "可用召回（通過比對）" (cond $isZh "可用召回（通过比对）" "Usable recall (aligned)"))
-  "n" (cond $isTw "每檔 3 個重複" (cond $isZh "每档 3 个重复" "3 replicates per fraction"))
+  "otter" "OTTER"
+  "xgRaw" (cond $isTw "Xengsort 原始" (cond $isZh "Xengsort 原始" "Xengsort raw"))
+  "xgUsable" (cond $isTw "Xengsort 可用" (cond $isZh "Xengsort 可用" "Xengsort usable"))
+  "delta" (cond $isTw "可用召回差值" (cond $isZh "可用召回差值" "Δ usable recall"))
+  "otterPpv" (cond $isTw "OTTER PPV" (cond $isZh "OTTER PPV" "OTTER PPV"))
+  "xgRawPpv" (cond $isTw "Xengsort 原始 PPV" (cond $isZh "Xengsort 原始 PPV" "Xengsort raw PPV"))
+  "xgUsablePpv" (cond $isTw "Xengsort 可用 PPV" (cond $isZh "Xengsort 可用 PPV" "Xengsort usable PPV"))
+  "n" (cond $isTw "每檔 3 個重複；單位為百分比，差值為百分點" (cond $isZh "每档 3 个重复；单位为百分比，差值为百分点" "3 replicates per fraction; values are percentages, the delta is in percentage points"))
 -}}
 
 <div class="ot-tabs" data-ot-tabs>
@@ -32,30 +34,28 @@
           <thead>
             <tr>
               <th scope="col" rowspan="2" class="frac">{{ $t.frac }}</th>
-              <th scope="colgroup" colspan="2" class="group">{{ $t.raw }}</th>
-              <th scope="colgroup" colspan="2" class="group">{{ $t.usable }}</th>
-              <th scope="col" rowspan="2" class="num">{{ $t.delta }}</th>
-              <th scope="col" rowspan="2" class="num">{{ $t.otterAlignPpv }}</th>
-              <th scope="col" rowspan="2" class="num">{{ $t.xengsortAlignPpv }}</th>
+              <th scope="colgroup" colspan="3" class="group">{{ cond $isZh "召回" "Recall" }}</th>
+              <th scope="colgroup" colspan="3" class="group">{{ cond $isZh "PPV" "PPV" }}</th>
             </tr>
             <tr>
-              <th scope="col" class="num">OTTER</th>
-              <th scope="col" class="num">Xengsort</th>
-              <th scope="col" class="num">OTTER</th>
-              <th scope="col" class="num">Xengsort</th>
+              <th scope="col" class="num">{{ $t.otter }}</th>
+              <th scope="col" class="num">{{ $t.xgRaw }}</th>
+              <th scope="col" class="num">{{ $t.xgUsable }}</th>
+              <th scope="col" class="num">{{ $t.otterPpv }}</th>
+              <th scope="col" class="num">{{ $t.xgRawPpv }}</th>
+              <th scope="col" class="num">{{ $t.xgUsablePpv }}</th>
             </tr>
           </thead>
           <tbody>
             {{ range $rows }}
               <tr>
                 <th scope="row">{{ .fraction }}</th>
-                <td class="num">{{ printf "%.2f" .otterRaw }}</td>
+                <td class="num">{{ printf "%.2f" .otter }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortRaw }}</td>
-                <td class="num">{{ printf "%.2f" .otterUsable }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortUsable }}</td>
-                <td class="num{{ if gt .delta 0.0 }} is-pos{{ else }} is-neg{{ end }}">{{ printf "%+.2f" .delta }}</td>
-                <td class="num">{{ printf "%.2f" .otterAlignPpv }}</td>
-                <td class="num">{{ printf "%.2f" .xengsortAlignPpv }}</td>
+                <td class="num">{{ printf "%.2f" .otterPpv }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortRawPpv }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortUsablePpv }}</td>
               </tr>
             {{ end }}
           </tbody>

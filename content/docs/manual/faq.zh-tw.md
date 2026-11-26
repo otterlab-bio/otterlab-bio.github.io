@@ -8,32 +8,28 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-> 本章正文由上游 `otterlab-bio/otter` 儲存庫同步，目前僅提供英文原文；標題已譯，命令與術語保持原樣以免歧義。
+## 为什么找不到 `otter`？
 
-
-
-## Why is `otter` not found?
-
-Check the installation directory and `PATH`:
+检查安装目录与 `PATH`：
 
 ```bash
 command -v otter
 printf '%s\n' "$PATH"
 ```
 
-A source-built binary may still report compatibility-era `xdxtools` symbols. Check `./otter --help` before deploying it.
+从源码构建的二进制文件可能仍包含兼容期遗留的 `xdxtools` 符号。部署前请运行 `./otter --help` 确认。
 
-## Why does the installer return 404?
+## 为什么安装程序返回 404？
 
-Verify the canonical repository and authenticate when assets are private:
+核对规范仓库地址，并在资产为私有时进行身份验证：
 
 ```text
 https://github.com/otterlab-bio/otter
 ```
 
-Use `GITHUB_TOKEN`, `GH_TOKEN`, or `GITHUB_PAT` only through the installer's supported environment interface. Never commit tokens or put them in URLs.
+仅通过安装程序支持的环境变量接口传递 `GITHUB_TOKEN`、`GH_TOKEN` 或 `GITHUB_PAT`。切勿提交令牌或将其写入 URL。
 
-## Why are submodules empty?
+## 为什么子模块目录为空？
 
 ```bash
 git submodule sync --recursive
@@ -41,22 +37,22 @@ git submodule update --init --recursive
 git submodule status --recursive
 ```
 
-## Can I replace Snakemake with Craftmake immediately?
+## 可以立即用 Craftmake 替代 Snakemake 吗？
 
-No. The runtime is dual-track. Craftmake requires an immutable v1 run snapshot and is the native executor under integration; existing production workflows still use the explicit Snakemake compatibility path.
+基本可以。OTTER 为每个运行（run）快照（snapshot）记录单一执行器（executor）。`craftmake` 为默认执行器，负责执行规范 v1 快照；`snakemake` 仍作为兼容执行器保留，可通过 `--executor snakemake` 指定。同一快照不能同时由两者执行。
 
-## Why did FASTQ pairing fail?
+## 为什么 FASTQ 配对失败？
 
-Check:
+检查以下各项：
 
-- R1/R2 suffixes match `--suffix1` and `--suffix2`.
-- Filename-derived sample IDs match pdata `sampleid` exactly.
-- Every sample has both mates.
-- Duplicate sample IDs are removed.
+- R1/R2 后缀与 `--suffix1` 和 `--suffix2` 匹配。
+- 从文件名提取的样本 ID 与 pdata 中的 `sampleid` 完全一致。
+- 每个样本均包含双端配对（mate）。
+- 已移除重复的样本 ID。
 
-## Why did SLURM submission fail?
+## 为什么 SLURM 作业提交失败？
 
-Inspect site availability and the requested envelope:
+检查站点资源可用性以及所请求的资源边界（envelope）：
 
 ```bash
 sinfo
@@ -72,18 +68,13 @@ otter run \
   --executor craftmake --phase step1 --dry-run --foreground
 ```
 
-Use the dry-run to distinguish a workflow/configuration problem from a scheduler
-submission problem. Compare partition, account/QOS, CPU, memory, and checker
-settings with your cluster policy.
+通过空运行区分工作流/配置问题与调度器提交问题。将分区、账户/QOS、CPU、内存及检查器设置与集群策略进行比对。
 
-Remember that the envelope is fixed in the snapshot, so the run-time
-`--slurm-partition`, `--slurm-cores`, and `--stepN-*` flags are refused. If the
-envelope is wrong, edit `resources:` in `project.yaml` or the site profile and
-**resolve a new run**; do not retry the same snapshot with a different flag.
+资源边界已在快照中固定，因此运行时的 `--slurm-partition`、`--slurm-cores` 与 `--stepN-*` 参数会被拒绝。若资源边界有误，请修改 `project.yaml` 或站点配置文件中的 `resources:` 并**解析（resolve）一次新的运行**；切勿仅更换参数重试同一快照。
 
-## Why did `methx` report an HDF5 error?
+## 为什么 `methx` 报告 HDF5 错误？
 
-Release binaries statically include the HDF5 runtime and should not need `HDF5_DIR` or `LD_LIBRARY_PATH`. Verify the binary first:
+发布版本（release）的二进制文件已静态链接 HDF5 运行时，通常无需设置 `HDF5_DIR` 或 `LD_LIBRARY_PATH`。请先校验二进制文件：
 
 ```bash
 methx --version
@@ -91,12 +82,11 @@ file "$(command -v methx)"
 ldd "$(command -v methx)" | grep -E 'hdf5|not found' || true
 ```
 
-If the failure occurs during a source build, follow the native build instructions in [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md). For native Methrix loading, convert the custom HDF5 output with `methx/scripts/export_methrix_hdf5.R`; do not call the custom file a native Methrix HDF5 directory.
+若错误发生在源码构建过程中，请遵循 [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md) 中的原生构建说明。如需原生 Methrix 加载，请使用 `methx/scripts/export_methrix_hdf5.R` 转换自定义 HDF5 输出；切勿将自定义文件称为原生 Methrix HDF5 目录。
 
-## How do I inspect or resume a background run?
+## 如何查看或恢复后台运行？
 
-A run always executes from a snapshot, so name the snapshot rather than a legacy
-configuration file:
+运行始终基于快照执行，因此请指定快照而非旧版配置文件：
 
 ```bash
 otter task list --all
@@ -109,8 +99,7 @@ otter run \
   --executor craftmake --phase step1 --backend local
 ```
 
-Recovery uses the run identity in the snapshot. Craftmake keys one row per
-phase-scoped run, so resume against the same snapshot and phase:
+恢复操作使用快照中的运行标识。Craftmake 为每个按阶段划分的运行记录一行状态，因此请针对同一快照与阶段执行恢复：
 
 ```bash
 craftmake resume \
@@ -118,12 +107,10 @@ craftmake resume \
   --run <run-id>--step1 --gate
 ```
 
-See the [Craftmake skill](../../skills/craftmake/SKILL.md) for the full
-controller sequence and the `--gate` requirement.
+完整的控制器执行顺序与 `--gate` 参数要求请参阅[第 6 章](../subtools/)。
 
-## Why do docs still mention FastQC, Bismark, Methrix, or rMATS?
+## 为什么文档中仍提及 FastQC、Bismark、Methrix 或 rMATS？
 
-Those are external tools, formats, standards, or scientific domains. They are not historical product names and should remain unchanged where they describe the actual compatibility contract.
+这些名称对应外部工具、数据格式、标准或科学领域，并非历史遗留的产品名称；在描述实际兼容契约时应保持原样不变。
 
-[Back to the manual](README.md) · [Documentation hub](../README.md)
-
+[返回手册](README.md) · [文档中心](../README.md)

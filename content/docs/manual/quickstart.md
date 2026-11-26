@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 3. Quick start
-
 Otter authors canonical v1 projects, marked on disk by `project.lock.yaml`.
 Projects created by earlier releases on the legacy compatibility layout
 (marked by `.otter/assets.manifest.json`, with `config/otter.yaml` under
@@ -93,9 +91,9 @@ otter config resolve \
   --backend local
 ```
 
-On a shared cluster, record the site once instead of repeating flags. `otter
-site generate` probes the cluster and writes the profile; on a SLURM site it
-needs the policy fields it cannot discover:
+On a shared cluster, record the site once instead of repeating flags.
+`otter site generate` probes the cluster and writes the profile; on a SLURM site
+it needs the policy fields it cannot discover:
 
 ```bash
 otter site generate --id production --backend slurm \

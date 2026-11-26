@@ -32,7 +32,7 @@ This manual is organized around the first successful run rather than the interna
 otter → craftmake → enva → operators → bamdriver
 ```
 
-The production compatibility path remains Snakemake. Craftmake is the native Go executor under integration and validation. Use the executor explicitly when working with canonical immutable `otter.run/v1` snapshots; do not treat it as an undocumented fallback for every legacy project.
+Two executors ship. `craftmake` is the default for `otter build` and `otter config resolve`, and it executes canonical immutable `otter.run/v1` snapshots. `snakemake` is the compatibility executor for existing Snakemake-based workflows; select it with `--executor snakemake`.
 
 ## Core command flow
 

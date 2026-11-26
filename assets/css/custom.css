@@ -811,27 +811,6 @@ header button:focus-visible {
   height: 0.95rem;
 }
 
-/* The BibTeX source is shown so a reader can select it by hand if the clipboard
-   API is blocked, but it stays visually secondary. */
-.ot-bib {
-  margin: 0.7rem 0 0;
-  padding: 0.7rem 0.85rem;
-  max-height: 9.5rem;
-  overflow: auto;
-  border-radius: 9px;
-  background: var(--ot-paper-2);
-}
-
-.ot-bib code {
-  font-family: var(--ot-mono);
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--ot-ink-3);
-  background: none;
-  padding: 0;
-  white-space: pre;
-}
-
 .ot-card-link {
   align-self: flex-start;
   margin-top: 0.9rem;
@@ -1129,7 +1108,14 @@ header button:focus-visible {
 
 /* Keep the eight columns from squeezing on a narrow screen: the wrapper scrolls. */
 .ot-table--bench {
-  min-width: 46rem;
+  min-width: 40rem;
+}
+
+/* Hairlines between metric groups, so the two triplets read as blocks. */
+.ot-table--bench tbody td:nth-child(4),
+.ot-table--bench thead tr:last-child th:nth-child(4) {
+  border-left: 1px solid var(--ot-line);
+  padding-left: 0.9rem;
 }
 
 .ot-table-caption {
@@ -1395,11 +1381,26 @@ html.dark .ot-foot-brand img {
   margin-top: 1.5rem;
 }
 
+.ot-doc-manual-head {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ot-line);
+}
+
 .ot-doc-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
+}
+
+.ot-doc-cards .ot-card {
+  padding: 1rem 1.15rem;
+}
+
+.ot-doc-cards .ot-card h3 {
+  margin: 0;
+  font-size: var(--ot-fs-body);
 }
 
 @media (max-width: 860px) {

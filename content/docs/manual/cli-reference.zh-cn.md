@@ -8,28 +8,23 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-> 本章正文由上游 `otterlab-bio/otter` 仓库同步，目前仅提供英文原文；标题已译，命令与术语保持原样以免歧义。
+本章将公开命令树映射到其所属契约。请以已安装发布版本（release）的 `otter <command> --help` 输出作为准确的选项参数来源。
 
+## 项目与执行命令
 
-
-This chapter maps the public command tree to its owning contract. Use
-`otter <command> --help` as the exact flag source for the installed release.
-
-## Project and execution commands
-
-| Command | Purpose | Important boundary |
+| 命令 | 用途 | 重要边界 |
 | --- | --- | --- |
-| `otter init <project>` | Pin workflow assets and schemas into a canonical project | Refuses existing canonical or legacy project markers. |
-| `otter create` | Pair FASTQs, validate pdata/references, and write project intent | Canonical-only; PDX requires both graft and host reference roles. |
-| `otter build` | Run init → create → validate → resolve | Stops before execution; prints the absolute snapshot path. |
-| `otter config validate` | Validate `v1`, `legacy`, or auto-detected configuration | Legacy validation exists only to support migration. |
-| `otter config migrate` | Convert an existing legacy `otter.yaml` into v1 intent | Requires reference release identities and a canonical root. |
-| `otter config resolve` | Freeze intent, references, site/backend, and resources into `run.yaml` | The snapshot is immutable and authoritative at run time. |
-| `otter run` | Plan or execute one resolved phase through Craftmake or Snakemake | Raw `project.yaml` and legacy `otter.yaml` are rejected. |
-| `otter status [project]` | Summarize a project/run state | Read-only. |
-| `otter task list/status/logs/report/stop` | Monitor and control background Otter tasks | `task report` exports controller/executor evidence; it is not a scientific comparator. |
+| `otter init <project>` | 将工作流资产与模式（schema）固定到规范项目中 | 若存在规范项目或旧版项目标记则拒绝执行。 |
+| `otter create` | 配对 FASTQ、校验 pdata/参考基因组并写入项目意图 | 仅支持规范项目；PDX 需要同时提供移植物（graft）和宿主（host）参考角色。 |
+| `otter build` | 依次执行 init → create → validate → resolve | 在执行前停止；输出快照（snapshot）的绝对路径。 |
+| `otter config validate` | 校验 `v1`、`legacy` 或自动检测的配置 | 旧版校验仅用于支持迁移。 |
+| `otter config migrate` | 将现有旧版 `otter.yaml` 转换为 v1 意图 | 需要参考发布版本标识以及规范根目录。 |
+| `otter config resolve` | 将意图、参考基因组、站点/后端（backend）及资源冻结到 `run.yaml` | 快照在运行（run）时不可变且具有权威性。 |
+| `otter run` | 通过 Craftmake 或 Snakemake 规划或执行一个已解析（resolve）的阶段 | 拒绝原始 `project.yaml` 与旧版 `otter.yaml`。 |
+| `otter status [project]` | 汇总项目/运行状态 | 只读。 |
+| `otter task list/status/logs/report/stop` | 监控并控制后台 Otter 任务 | `task report` 导出控制器/执行器（executor）证据；它不是科学性比对工具。 |
 
-## Site and asset commands
+## 站点与资产命令
 
 ```bash
 otter site list
@@ -39,7 +34,7 @@ otter site generate --id production --backend slurm \
 otter site validate production
 ```
 
-`site generate` probes machine facts but requires explicit cluster policy.
+`site generate` 会探测机器信息，但需要显式指定集群策略。
 
 ```bash
 otter assets stamp  --project old_project
@@ -47,12 +42,11 @@ otter assets verify --project old_project --strict
 otter assets print  --project old_project
 ```
 
-`assets` manages the compatibility-era `.otter/assets.manifest.json`; canonical
-v1 projects use `project.lock.yaml` and resolved workflow digests.
+`assets` 管理兼容时期的 `.otter/assets.manifest.json`；规范 v1 项目使用 `project.lock.yaml` 与已解析的工作流摘要。
 
-## Reference commands
+## 参考基因组命令
 
-Build and atomically publish an immutable registry release:
+构建并以原子方式发布不可变注册表发布版本：
 
 ```bash
 otter reference build \
@@ -64,10 +58,9 @@ otter reference build \
   --index-build-threads 16
 ```
 
-`samtools`, `bismark_genome_preparation`, `bowtie2-build`, and `STAR` are the
-default tool names. In the release runtime they are provided by `otter-core`.
+`samtools`、`bismark_genome_preparation`、`bowtie2-build` 和 `STAR` 为默认工具名称。在发布版本运行时中，它们由 `otter-core` 提供。
 
-Promote a run's effective reference selection back to the project lock:
+将某次运行的实际参考基因组选择提升回项目锁定文件：
 
 ```bash
 # Preview only.
@@ -77,7 +70,7 @@ otter reference promote runs/<run-id>/run.yaml
 otter reference promote runs/<run-id>/run.yaml --confirm
 ```
 
-## Artifact commands
+## 产物命令
 
 ```bash
 # Build and immutably publish results/artifacts.json from declarations.
@@ -96,12 +89,11 @@ otter artifact compare \
   runs/<right-run-id>/run.yaml
 ```
 
-Manifest completion proves declared identity/integrity, not scientific parity.
+清单（manifest）完成仅证明所声明的标识与完整性，不代表科学结果等价。
 
-## Acquisition provenance
+## 获取溯源
 
-Convert a verified Craftmake SRA decode manifest into immutable Otter
-provenance:
+将已校验的 Craftmake SRA 解码清单转换为不可变的 Otter 溯源记录：
 
 ```bash
 otter acquisition publish \
@@ -113,14 +105,11 @@ otter acquisition publish \
   --primary-manifest-sha256 <digest>
 ```
 
-For `bs-pdx`/`rna-pdx`, replace the primary flags with complete graft and host
-triples: `--graft-id`, `--graft-release`, `--graft-manifest-sha256`,
-`--host-id`, `--host-release`, and `--host-manifest-sha256`. The command
-verifies referenced files and refuses to overwrite the create-only output.
+对于 `bs-pdx`/`rna-pdx`，请将 primary 相关参数替换为完整的移植物与宿主三元组参数：`--graft-id`、`--graft-release`、`--graft-manifest-sha256`、`--host-id`、`--host-release` 和 `--host-manifest-sha256`。该命令会校验所引用的文件，并拒绝覆盖仅限新建的输出文件。
 
-## Executor benchmark evidence
+## 执行器基准测试证据
 
-Collect matched, completed SLURM accounting cells:
+收集已匹配且已完成的 SLURM 记账单元：
 
 ```bash
 otter benchmark collect \
@@ -132,9 +121,6 @@ otter benchmark collect \
   --output executor-benchmark.json
 ```
 
-Both snapshots must represent the same immutable comparison boundary. The
-output is create-only evidence; it does not assert that one executor is
-universally faster.
+两个快照必须代表相同的不可变比较边界。输出为仅限新建的证据文件，并不意味着某一执行器在所有情况下都更快。
 
-[Back to the manual](README.md)
-
+[返回手册](README.md)

@@ -67,10 +67,11 @@ and then corrected by hand where the conversion is wrong for this domain (for ex
 `質量` → `品質`, `校驗` → `驗證`). Partials decide "is Chinese" with
 `hasPrefix $lang "zh"`, so a fourth Chinese locale would need no template change.
 
-The manual under `content/docs/manual/` is synced verbatim from
-`otterlab-bio/otter:docs/manual`. Chapter bodies stay in English in all three locales
-because machine-translating shell commands and flag names would introduce ambiguity;
-the Chinese pages carry translated titles and a note saying so.
+The manual under `content/docs/manual/` is synced from `otterlab-bio/otter:docs/manual`
+and translated in full: nine chapters, each in `en`, `zh-cn`, and `zh-tw`. Translation
+keeps code blocks, inline code, URLs, and table structure byte-identical to the English
+source; `zh-tw` is converted from `zh-cn` with OpenCC and then corrected by hand. Any
+future edit to the English chapter must be mirrored in the two Chinese files.
 
 ## Benchmark data
 

@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 4. Analysis modes
-
 `otter create --mode` selects the scenario. On the canonical track the **references
 carry the species**: a release records its own organism and assembly, so you name
 a release rather than a species.

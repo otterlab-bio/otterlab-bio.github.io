@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 8. Reference Genome Migration Guide
-
 This chapter describes the supported compatibility procedure for moving an
 existing reference tree into the immutable Otter Reference Registry
 (`$OTTER_REFERENCE_ROOT`). The source layout is deployment-specific: supply its
@@ -68,7 +66,7 @@ The repository provides an automated migration script: `scripts/migrate_legacy_r
 
 | Flag | Default | Description |
 | --- | --- | --- |
-| `--legacy-inst PATH` | `$beaverhome/inst` | Path to legacy `inst/` directory |
+| `--legacy-inst PATH` | `$beaverhome/inst` when `$beaverhome` is set; otherwise required | Path to legacy `inst/` directory |
 | `--species NAME` | `all` | Species to migrate: `hg19`, `mm10`, or `all` |
 | `--registry-root PATH` | `$OTTER_REFERENCE_ROOT` or `~/.otter/references` | Destination Reference Registry root |
 | `--mode MODE` | `rebuild` | Migration mode: `ingest` (fast, hardlinks existing indexes) or `rebuild` (build from source) |
@@ -117,7 +115,7 @@ Expected output:
 ### Step 3: Execute Migration
 
 **Option A — Ingest existing indexes (recommended)**:
-When the legacy directory already contains pre-built Bismark or STAR indexes, `--mode ingest` reuses them via hardlinks (zero additional disk space on the same filesystem) and generates the compliant `reference.yaml`, `manifest.json`, and `checksums.sha256` in under two minutes:
+When the legacy directory already contains pre-built Bismark or STAR indexes, `--mode ingest` reuses them via hardlinks (zero additional disk space on the same filesystem) and generates the compliant `reference.yaml`, `manifest.json`, and `checksums.sha256`:
 
 ```bash
 bash scripts/migrate_legacy_reference.sh \
@@ -143,7 +141,7 @@ bash scripts/migrate_legacy_reference.sh \
 
 ## 4. Verifying the Migrated Reference Release
 
-After migration completes, verify the release with `otter reference`:
+After migration completes, verify the directory permissions and the checksums:
 
 ```bash
 export OTTER_REFERENCE_ROOT=/path/to/otter/references
@@ -178,5 +176,5 @@ In practice `otter create --reference-primary hg19@GRCh37.p13-gencode-v19 --refe
 
 ---
 
-[Back to the user manual](README.md) · [Next: FAQ](07-faq.md)
+[Back to the user manual](README.md) · [Next: CLI reference](09-cli-reference.md)
 

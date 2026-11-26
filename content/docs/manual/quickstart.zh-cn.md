@@ -8,26 +8,17 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-> 本章正文由上游 `otterlab-bio/otter` 仓库同步，目前仅提供英文原文；标题已译，命令与术语保持原样以免歧义。
+Otter 编写以磁盘上的 `project.lock.yaml` 为标记的规范（canonical）v1 项目。早期发布版本（release）在旧版兼容布局（legacy compatibility layout）中创建的项目（以 `.otter/assets.manifest.json` 为标记，且 `userspace/<jobid>/` 下包含 `config/otter.yaml`）仍可被检测到：编写类命令会拒绝此类项目，而[迁移](#migrating-a-legacy-project-to-v1)可将其转换为规范项目。
 
+## 规范 v1 项目
 
-
-Otter authors canonical v1 projects, marked on disk by `project.lock.yaml`.
-Projects created by earlier releases on the legacy compatibility layout
-(marked by `.otter/assets.manifest.json`, with `config/otter.yaml` under
-`userspace/<jobid>/`) are still detected: authoring commands refuse them, and
-[migration](#migrating-a-legacy-project-to-v1) converts them into canonical
-projects.
-
-## Canonical v1 project
-
-### 1. Initialize the project
+### 1. 初始化项目
 
 ```bash
 otter init my_project
 ```
 
-This pins the packaged workflow assets into `my_project/` and records their digests:
+该命令会将打包的工作流资产固定到 `my_project/` 并记录其摘要：
 
 ```text
 my_project/
@@ -39,14 +30,11 @@ my_project/
 └── runs/               # immutable run snapshots, written by config resolve
 ```
 
-The rules live under `workflows/` rather than at the project root because a
-Snakefile's `include:` directives resolve relative to the Snakefile itself.
-Keeping them together is what lets a canonical project run without writing any
-asset into the project root.
+规则位于 `workflows/` 下而非项目根目录，因为 Snakefile 的 `include:` 指令是相对于 Snakefile 自身路径解析的。将它们放在一起，可使规范项目在不向项目根目录写入任何资产的情况下运行。
 
-### 2. Provide a reference registry release
+### 2. 提供参考注册表（reference registry）发布版本
 
-Canonical projects lock a logical reference id and release digest; they never copy genome files into the project. Build a release once, or select an existing one:
+规范项目锁定逻辑参考 ID 与发布版本摘要，从不将基因组文件复制到项目中。构建一次发布版本，或选择一个现有发布版本：
 
 ```bash
 export OTTER_REFERENCE_ROOT=/shared/otter/references
@@ -56,9 +44,9 @@ otter reference build \
   --fasta /staging/genome.fa.gz --gtf /staging/genes.gtf.gz
 ```
 
-See [reference migration](08-reference-migration.md) for the layout, manifest, and checksum contract.
+有关布局、清单（manifest）和校验和契约，见[参考迁移](08-reference-migration.md)。
 
-### 3. Create the project intent
+### 3. 创建项目意图
 
 ```bash
 otter create \
@@ -70,9 +58,9 @@ otter create \
   --reference-primary hg38@GRCh38.p14
 ```
 
-This verifies every declared reference against the registry and writes `project.yaml`, `samples.tsv`, and `references.lock.yaml`. `samples.tsv` records each FASTQ path relative to the project root, plus group and adapter columns; changing it later requires a new run.
+该命令会对照参考注册表校验每个声明的参考，并写入 `project.yaml`、`samples.tsv` 和 `references.lock.yaml`。`samples.tsv` 记录相对于项目根目录的每条 FASTQ 路径，以及分组和接头（adapter）列；后续若修改该文件，则需要发起一次新的运行（run）。
 
-For PDX scenarios, name the graft and host references instead:
+对于 PDX 场景，改为指定移植物（graft）和宿主（host）参考：
 
 ```bash
 otter create \
@@ -84,7 +72,7 @@ otter create \
   --reference-host mm10@GRCm38.p6
 ```
 
-### 4. Resolve an immutable run
+### 4. 解析（resolve）不可变运行
 
 ```bash
 otter config validate --config my_project/project.yaml --schema v1
@@ -95,9 +83,7 @@ otter config resolve \
   --backend local
 ```
 
-On a shared cluster, record the site once instead of repeating flags. `otter
-site generate` probes the cluster and writes the profile; on a SLURM site it
-needs the policy fields it cannot discover:
+在共享集群上，只需记录一次站点（site）配置，无需重复传入参数。`otter site generate` 会探测集群并写入配置文件；在 SLURM 站点上，需要提供它无法自动发现的策略字段：
 
 ```bash
 otter site generate --id production --backend slurm \
@@ -108,15 +94,15 @@ otter site validate production
 otter config resolve --project my_project/project.yaml --site production --backend slurm
 ```
 
-With `--site` and no `--reference-root`, the registry root comes from the profile.
+使用 `--site` 且未指定 `--reference-root` 时，注册表根目录来自站点配置文件。
 
-Resolution prints the snapshot path. The snapshot is read-only and binds scenario, executor, backend, references, inputs, digests, and resources:
+解析过程会输出快照（snapshot）路径。快照为只读，并绑定了场景、执行器（executor）、后端（backend）、参考、输入、摘要和资源：
 
 ```text
 my_project/runs/run-20260915T094657Z-eghubq/run.yaml
 ```
 
-### 5. Dry-run, then run
+### 5. 试运行，再正式运行
 
 ```bash
 otter run \
@@ -129,18 +115,13 @@ otter run \
   --foreground
 ```
 
-`--dry-run` maps to `craftmake plan`: it resolves the workflow catalog and reports the task graph without executing anything. Drop `--dry-run` to execute, and swap `--backend local` for `--backend slurm` on a configured cluster.
+`--dry-run` 对应 `craftmake plan`：它会解析工作流目录（workflow catalog）并报告任务图，而不执行任何操作。去掉 `--dry-run` 即可执行；在已配置的集群上，可将 `--backend local` 替换为 `--backend slurm`。
 
-`--run-id` is a convenience for `--config my_project/runs/<run-id>/run.yaml`. Otter never resolves `project.yaml` implicitly at run time; the snapshot must already exist.
+`--run-id` 是 `--config my_project/runs/<run-id>/run.yaml` 的简写形式。Otter 从不在运行时隐式解析 `project.yaml`；快照必须预先存在。
 
-### Running from any directory
+### 从任意目录运行
 
-You do not need to `cd` into the project. The snapshot is the execution boundary
-and it records every path absolutely — the run root, work/results/logs/state
-directories, the project config, the pinned workflow assets, the resolved
-reference release, and each sample's FASTQ path with its checksum. Nothing is
-discovered from the working directory, and `OTTER_REFERENCE_ROOT` is a build-time
-input only, so a run does not read it.
+无需 `cd` 进入项目目录。快照是执行边界，它将每条路径都记录为绝对路径：运行根目录、work/results/logs/state 目录、项目配置、固定的工作流资产、已解析的参考发布版本，以及每个样本的 FASTQ 路径及其校验和。运行时不会从工作目录探测任何内容，且 `OTTER_REFERENCE_ROOT` 仅作为构建时输入，因此运行过程不会读取它。
 
 ```bash
 # works from anywhere: the path printed by "otter build" is absolute
@@ -149,21 +130,19 @@ otter run \
   --executor craftmake --phase step1 --backend local --foreground
 ```
 
-Three inputs are still resolved relative to your shell, and only these:
+只有以下三项输入仍相对于当前 shell 解析：
 
-| Input | Behaviour |
+| 输入 | 行为 |
 | --- | --- |
-| `--config <path>` | Resolved against the working directory, so use an absolute path when running from elsewhere. |
-| `--run-id <id>` | Expands to `<working-directory>/runs/<id>/run.yaml`, so it **does** assume you are in the project. Pass `--project-dir <dir>` instead, or `cd` first. |
-| `--catalog <path>` | Resolved against the working directory. Omitting it is usually right: the snapshot already pins the catalog the run resolved against. |
+| `--config <path>` | 相对于工作目录解析，因此在其他目录运行时请使用绝对路径。 |
+| `--run-id <id>` | 展开为 `<working-directory>/runs/<id>/run.yaml`，因此它**确实**假定你当前位于项目目录中。在其他目录时请改用 `--project-dir <dir>`，或先执行 `cd`。 |
+| `--catalog <path>` | 相对于工作目录解析。通常省略即可：快照已固定该运行所解析的工作流目录。 |
 
-The executors then place themselves correctly on their own: the Snakemake path
-switches to the project directory internally, and the Craftmake worker is started
-with the project directory as its working directory.
+随后各执行器会自行定位到正确目录：Snakemake 路径会在内部切换到项目目录，而 Craftmake worker 则以项目目录作为工作目录启动。
 
-### Authoring in one step
+### 一步完成编写
 
-Steps 1 to 4 are also available as a single command:
+步骤 1–4 也可通过单条命令完成：
 
 ```bash
 otter build \
@@ -176,38 +155,24 @@ otter build \
   --backend local
 ```
 
-`otter build` chains init, create, validate, and resolve, then stops before
-execution and prints the snapshot path. It produces exactly the project the four
-steps produce; the e2e rehearsal asserts that artifact by artifact.
+`otter build` 会串联执行 init、create、validate 和 resolve，随后在执行前停止并输出快照路径。它生成的项目与上述四个步骤完全一致；端到端演练（e2e rehearsal）会逐一核对产出的每件产物。
 
-It defaults to the `craftmake` executor. Pass `--executor snakemake` to record
-the Snakemake compatibility executor in the snapshot instead. The executor
-belongs to the run snapshot, so the choice changes nothing in `project.yaml` and
-can differ between runs.
+它默认使用 `craftmake` 执行器。传入 `--executor snakemake` 则可在快照中改记录为 Snakemake 兼容执行器。执行器归属于运行快照，因此该选择不会更改 `project.yaml` 中的任何内容，且不同运行之间可以不同。
 
-A directory that already holds a `project.yaml` is refused rather than
-overwritten. Authoring intent is not rewritten in place, because doing so would
-silently invalidate every snapshot already resolved from it; use
-`otter config resolve` to freeze a further run from the existing project.
+若目标目录已包含 `project.yaml`，命令会拒绝执行而非覆盖。编写意图不会原地重写，因为那样会静默使基于它解析的所有现有快照失效；请使用 `otter config resolve` 基于现有项目冻结新的运行。
 
-## Migrating a legacy project to v1
+## 将旧版项目迁移到 v1
 
-Otter no longer authors legacy projects, but a project created by an earlier
-release still carries `config/otter.yaml` under `userspace/<jobid>/`. That file
-is **not accepted by any executor**: running it means converting it to a
-canonical project.
+Otter 不再编写旧版项目，但早期发布版本创建的项目仍会在 `userspace/<jobid>/` 下保留 `config/otter.yaml`。该文件**不被任何执行器接受**：运行它必须先将其转换为规范项目。
 
-Before migrating, the legacy file can be sanity-checked (`--schema auto` also
-detects it), and an old checkout's pinned assets can still be verified:
+迁移前，可先对旧版文件进行健全性检查（`--schema auto` 也可检测该格式），且仍可验证旧检出目录中固定的资产：
 
 ```bash
 otter config validate --config old_project/userspace/demo_rrbs/config/otter.yaml --schema legacy
 otter assets verify --project old_project --strict
 ```
 
-`otter config migrate` converts the configuration into canonical project intent.
-Every reference must be named as `id@release`, because the legacy configuration
-records filesystem paths rather than registry releases:
+`otter config migrate` 将配置转换为规范项目意图。由于旧版配置记录的是文件系统路径而非注册表发布版本，因此每个参考都必须以 `id@release` 的形式命名：
 
 ```bash
 otter init migrated
@@ -218,16 +183,11 @@ otter config migrate \
   --reference-primary hg38@GRCh38.p14
 ```
 
-Migration reports adopted fields, deprecated fields, and conflicts, and writes
-nothing when a conflict remains.
+迁移过程会报告采纳的字段、已弃用的字段以及冲突项；若仍存在冲突，则不写入任何内容。
 
-It writes project intent only, so it needs a canonical project root (created by
-`otter init` above) that already carries the pinned workflow assets the resolver
-digests. Migrating into a bare directory leaves a project that cannot be resolved,
-and the command warns when you do.
+该命令仅写入项目意图，因此需要一个已包含解析器所摘要的固定工作流资产的规范项目根目录（如上文 `otter init` 所创建）。若迁移到空目录，所得项目将无法解析，命令也会对此发出警告。
 
-Resolve and run the migrated project — note that this selects the Snakemake
-executor, because the legacy adapter maps the compatibility track onto it:
+解析并运行迁移后的项目（注意这里会选择 Snakemake 执行器，因为旧版适配器将兼容轨道映射到该执行器）：
 
 ```bash
 otter config validate --config migrated/project.yaml --schema v1
@@ -239,10 +199,9 @@ otter run --config migrated/runs/<run-id>/run.yaml \
   --executor snakemake --dry-run --foreground
 ```
 
-Executing this needs an `enva` or conda runtime providing Snakemake; `--dry-run`
-validates configuration and workflow planning without one.
+实际执行该流程需要提供 Snakemake 的 `enva` 或 conda 运行时；`--dry-run` 无需该运行时即可验证配置与工作流规划。
 
-## Inspect and control tasks
+## 查看与控制任务
 
 ```bash
 otter task list
@@ -252,7 +211,6 @@ otter task stop <task-id>
 otter status my_project
 ```
 
-Without `--foreground`, Otter creates a background task and prints its task ID.
+未指定 `--foreground` 时，Otter 会创建后台任务并输出其任务 ID。
 
-[Back to the manual](README.md) · [Next: analysis modes](04-analysis-modes.md)
-
+[返回手册](README.md) · [下一章：分析模式](04-analysis-modes.md)

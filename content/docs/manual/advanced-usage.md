@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 5. Advanced usage
-
 ## Custom references
 
 On the canonical track, a reference is not a filesystem path — it is a **registry
@@ -30,7 +28,7 @@ otter create \
 ```
 
 `create` verifies the release against the registry and locks its manifest digest,
-so the project never records a path that can drift. For PDX, name the roles
+so the project never stores a filesystem path that can become invalid when files move. For PDX, name the roles
 separately with `--reference-graft` and `--reference-host`. There are no flags
 that take literal genome paths: a reference always enters a project as a locked
 registry release.
@@ -50,8 +48,9 @@ otter create \
 
 ## Resources and SLURM
 
-The resource envelope is **not** a run-time flag. It is declared in `project.yaml`,
-fixed into the snapshot when the run is resolved, and authoritative afterwards:
+The resource envelope is **not** a run-time flag. You declare it in `project.yaml`;
+`otter config resolve` locks it into the run snapshot, and `otter run` enforces
+those limits without accepting overrides:
 
 ```yaml
 resources:
@@ -70,8 +69,8 @@ resources:
 `memory` takes `MiB` or `GiB`; `time` takes `HH:MM:SS`. `phases` overrides
 `defaults` for a named phase.
 
-Select the backend and the site at resolve time, and the envelope travels with the
-snapshot:
+Select the backend and the site when you run `otter config resolve`, so the
+snapshot stores that resource envelope:
 
 ```bash
 otter site generate --id production --backend slurm \
@@ -82,8 +81,9 @@ otter config resolve --project my_project/project.yaml \
   --site production --backend slurm
 ```
 
-Resolution validates the envelope against the target — an unreachable partition or
-a request larger than the machine is rejected there, not at submission time.
+`otter config resolve` checks the resource envelope against the target backend and
+rejects an unreachable partition or an oversized request during resolution, before
+job submission.
 
 Confirm partition names and account/QOS limits with `sinfo` and your site
 administrator before resolving.
@@ -118,14 +118,15 @@ Error: --step1-cores cannot override an immutable run snapshot; resolve a new ru
 Error: --engine slurm conflicts with immutable run backend local
 ```
 
-This includes `--backend`/`--engine`, every `--stepN-*` and `--slurm-*` resource
-flag, and `--copy-fastq`. `--parallel-jobs` and `--load-ratio` remain settable,
-because they size the local pool without altering what a task is.
+Refused run-time flags include `--backend`, `--engine`, all `--stepN-*` and
+`--slurm-*` resource flags, and `--copy-fastq`. You can still pass `--parallel-jobs`
+and `--load-ratio` because they only size the local worker pool and do not change
+task inputs, commands, or per-task resources.
 
 To change the contract, resolve a new snapshot. Editing `project.yaml` also
 invalidates existing runs: the snapshot pins the project digest, so a later
 `otter run` reports `run snapshot drift detected` and refuses to execute a run
-whose intent has moved.
+whose `project.yaml` has changed since resolution.
 
 ```bash
 otter config resolve --project project.yaml --backend slurm --site production
@@ -141,7 +142,7 @@ Published run artifacts can be checked after execution:
 otter artifact verify runs/<run-id>/run.yaml
 ```
 
-The manifest binds artifacts to the immutable run identity and verifies declared checksums. Manifest completion is not a substitute for a scientific comparator.
+The manifest binds artifacts to the immutable run identity and verifies declared checksums. Passing artifact verification confirms only that the expected output files exist with matching checksums; it does not verify the scientific accuracy of the results.
 
 [Back to the manual](README.md) · [Next: component reference](06-subtools.md)
 

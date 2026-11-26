@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 1. Installation
-
 This chapter covers release installation, source builds, runtime environments, and a first verification for **OTTER** (**O**rchestrated **T**ranscriptomic, **T**umor-xenograft (PDX/CDX), and **E**pigenomic **R**eporting Workflow).
 
 ## Requirements
@@ -48,7 +46,7 @@ creating the optional environment setup. On Intel macOS, both installers skip
 environment setup automatically: the pinned Bismark package has no `osx-64`
 build. This does not prevent installing or running the native OTTER tools.
 
-After installation, verify the selected binary and asset set rather than assuming the latest pre-release is production-qualified:
+After installation, confirm that `otter` is on your `PATH` and check the installed version:
 
 ```bash
 otter --help
@@ -95,10 +93,10 @@ git submodule update --init holt
 docker build --build-arg OTTER_VERSION=v1.3.0 -t holt-run ./holt/holt-run
 ```
 
-`OTTER_VERSION` defaults to `latest`. Each tool is checked against the
-release's `checksums.txt` before it is installed, and the environment YAML
-files come from the same release, so binaries and runtime definitions cannot
-drift apart.
+`OTTER_VERSION` defaults to `latest`. The build verifies each tool against the
+release's `checksums.txt` before installing it, and fetches the environment YAML
+files from the same release, so the binaries and the runtime definitions always
+match.
 
 The image is published for **`linux/amd64` and `linux/arm64`**. Both are built
 from one multi-architecture base (`menci/archlinuxarm`, which maps amd64 to
@@ -136,7 +134,7 @@ Rust Bismark 3.1.0 and Bowtie2 2.5.5 are provided together by the `otter-core` e
 | `otter-snakemake` | Optional Snakemake compatibility runtime. |
 | `otter-extra` | Optional analysis and visualization tools. |
 
-The production runtime remains dual-track. Install `otter-snakemake` for existing workflows and install/build `craftmake` for the canonical migration path.
+OTTER ships two executors. `craftmake` is the default and runs canonical `otter.run/v1` snapshots. Install `otter-snakemake` only if you need the Snakemake compatibility executor for existing workflows.
 
 ## Verify component binaries
 
@@ -173,7 +171,7 @@ third-party package availability on every operating system.
 
 ## Compatibility note
 
-Some source-level symbols, generated state paths, or older release assets may still use `xdxtools`. That is a migration-era compatibility name; do not infer from a renamed output file that every code and runtime path has been renamed.
+Some source-level symbols, generated state paths, or older release assets may still use `xdxtools`. `xdxtools` is an older compatibility name. Output files may be named for OTTER while some internal symbols and runtime paths still use `xdxtools`.
 
 [Back to the manual](README.md) · [Documentation hub](../README.md)
 

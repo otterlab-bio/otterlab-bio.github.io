@@ -8,8 +8,6 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 9. CLI reference
-
 This chapter maps the public command tree to its owning contract. Use
 `otter <command> --help` as the exact flag source for the installed release.
 

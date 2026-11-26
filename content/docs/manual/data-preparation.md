@@ -8,9 +8,7 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-# 2. Data preparation
-
-A successful `otter create` needs a discoverable FASTQ pair for each sample and a pdata file whose sample IDs match those FASTQ names.
+A successful `otter create` needs a discoverable FASTQ pair for each sample. The pdata file is optional; when you pass `--pdata`, its `sampleid` values must match the FASTQ sample names.
 
 ## FASTQ naming
 
@@ -35,7 +33,7 @@ Sample matching is sensitive to the scanner's suffixes and the resulting sample 
 
 ## pdata
 
-`--pdata` accepts Excel or CSV input through the root parser. The required column is `sampleid`. For grouping and downstream comparisons, use `sample_group` or `condition`.
+`--pdata` accepts an Excel or CSV file. The required column is `sampleid`. For grouping and downstream comparisons, use `sample_group` or `condition`.
 
 Supported aliases include:
 
@@ -89,7 +87,7 @@ otter create \
 The canonical track always names a reference release, so the preflight needs a
 registry with that release published (see the [quick start](03-quickstart.md)).
 
-If pairing fails, first compare the actual suffixes, sample-name case, and pdata `sampleid` values. Do not rename files blindly when they are referenced by another pipeline.
+If pairing fails, first compare the actual suffixes, the sample-name case, and the pdata `sampleid` values. If another pipeline depends on the current filenames, pass matching `--suffix1` and `--suffix2` values to `otter create` instead of renaming the files.
 
 [Back to the manual](README.md) · [Next: quick start](03-quickstart.md)
 

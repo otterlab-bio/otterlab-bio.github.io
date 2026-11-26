@@ -1,7 +1,9 @@
 {{/* Documentation landing page. The theme's list template prints "There are no
-     articles to list here yet" when a section has no child pages, so this
-     section renders its own content instead. */}}
+     articles to list here yet" when a section has no child pages, so this section
+     renders its own content, followed by a card per manual chapter. */}}
 {{ define "main" }}
+  {{- $isTw := eq site.Language.Lang "zh-tw" -}}
+  {{- $isZh := hasPrefix site.Language.Lang "zh" -}}
   <article class="ot-doc">
     <div class="ot-wrap">
       <h1 class="ot-h1">{{ .Title }}</h1>
@@ -9,9 +11,17 @@
       <div class="ot-doc-body prose prose-lg max-w-none dark:prose-invert">
         {{ .Content }}
       </div>
+
       {{ $manual := .Site.GetPage "/docs/manual" }}
       {{ with $manual }}
-        <h2 class="ot-h2" style="margin-top:2.5rem">{{ .Title }}</h2>
+        <h2 class="ot-h2 ot-doc-manual-head">
+          {{ cond $isTw "使用者手冊" (cond $isZh "用户手册" "User manual") }}
+        </h2>
+        <p class="ot-section-lead">
+          {{ cond $isTw "九個章節，依首次成功執行組織。"
+               (cond $isZh "九个章节，按首次成功运行组织。"
+                          "Nine chapters, organised around the first successful run.") }}
+        </p>
         <div class="ot-doc-cards">
           {{ range .Pages.ByWeight }}
             <a class="ot-card ot-card--link" href="{{ .RelPermalink }}">
