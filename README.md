@@ -8,6 +8,11 @@ rules live in [`DESIGN.md`](./DESIGN.md).
 - Live target: `https://otterlab-bio.github.io/`
 - Languages: English at `/`, Simplified Chinese at `/zh-cn/`
 - Theme: `github.com/nunocoracao/blowfish/v3` v3.11.0, consumed as a Hugo Module
+- Design skill: [`gemini-frontend-design`](https://github.com/google-gemini/demolab/tree/main/skills/gemini-frontend-design), installed into `.agents/skills/` and pinned in `skills-lock.json`
+
+```bash
+npx skills add google-gemini/demolab --skill gemini-frontend-design
+```
 
 ## Layout
 
@@ -46,6 +51,13 @@ The build does not run Node and does not compile Tailwind. Blowfish ships a
 prebuilt stylesheet; site-specific styling uses plain CSS in
 `assets/css/custom.css`, and templates use only utilities that already exist in
 that prebuilt bundle.
+
+## Design review
+
+The page was audited against `gemini-frontend-design` twice: first by measurement, then by
+running the installed skill against the deployed site. Both passes, with the measured
+before and after values for every finding, are in
+[`docs/design-review-gemini-frontend-design.md`](./docs/design-review-gemini-frontend-design.md).
 
 ## Design constraints worth keeping
 
