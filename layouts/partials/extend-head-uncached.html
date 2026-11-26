@@ -3,6 +3,7 @@
      once is stored so a reader is never bounced again. */}}
 {{ if and .IsHome (eq site.Language.Lang "en") }}
 <script>
+  document.documentElement.classList.add('ot-js');
   (function () {
     try {
       var key = 'otter_lang';

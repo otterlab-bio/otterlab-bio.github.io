@@ -99,6 +99,7 @@ quick:
   installerNote: "Detects your platform, downloads the matching release asset, and verifies it against the published checksums."
   containerNote: "The holt-run image follows the newest stable release and installs every tool from the release checksums."
   colabNote: "Writes a simulated reference registry, authors each scenario, and resolves every phase with --dry-run. It executes no tool."
+  colabUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb"
   points:
     - "RRBS, WGBS, RNA-seq, BS-PDX, and RNA-PDX ship as first-class modes."
     - "Binaries are native on Linux and macOS, for amd64 and arm64; Linux builds are statically linked."

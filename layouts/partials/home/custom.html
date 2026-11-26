@@ -22,16 +22,13 @@
 
     <p class="ot-hero-lead ot-rise ot-rise-1">{{ $c.hero.lead }}</p>
 
-    {{/* One button. The source link is a plain text link with an arrow, not a
-         second bordered control, so the opening screen has a single action. */}}
+    {{/* Exactly one action. The source link lives in the header nav and in the
+         component list, so repeating it here would give the opening screen two
+         competing calls to action. */}}
     <div class="ot-hero-actions ot-rise ot-rise-2">
       <a class="ot-btn ot-btn--primary" href="{{ $c.hero.primaryCta.url }}">
         {{ partial "ot/icon.html" "download" }}
         {{ $c.hero.primaryCta.label }}
-      </a>
-      <a class="ot-hero-link" href="{{ $c.hero.secondaryCta.url }}" rel="noopener">
-        {{ $c.hero.secondaryCta.label }}
-        {{ partial "ot/icon.html" "arrow-right" }}
       </a>
     </div>
 
@@ -39,7 +36,6 @@
          palette in both appearances. */}}
     <div class="ot-console ot-rise ot-rise-3">
       <div class="ot-console-bar">
-        <span class="ot-dot"></span><span class="ot-dot"></span><span class="ot-dot"></span>
         <span class="ot-console-title">{{ $c.console.title }}</span>
       </div>
       <div class="ot-console-body">
@@ -141,7 +137,7 @@
     <div class="ot-repos ot-reveal">
       {{ range $c.repos.items }}
         <a class="ot-repo" href="{{ .url }}" rel="noopener">
-          <span class="name" data-lang="{{ .lang }}">{{ .name }}</span>
+          <span class="name">{{ .name }}<span class="lang">{{ .lang }}</span></span>
           <span class="role">{{ .role }}</span>
         </a>
       {{ end }}
@@ -173,8 +169,8 @@
     </div>
   </section>
 
-  <section class="ot-section ot-end">
+  <div class="ot-end">
     <p class="ot-footer-line">{{ $c.footer.line }}</p>
-  </section>
+  </div>
 
 </div>

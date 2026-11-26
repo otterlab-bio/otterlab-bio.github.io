@@ -98,6 +98,7 @@ quick:
   installerNote: "识别平台，下载匹配的 release 资产，并用已发布的 checksums 校验。"
   containerNote: "holt-run 镜像跟随最新稳定版，并按 release checksums 安装全部工具。"
   colabNote: "写入一份模拟参考注册表，按场景建立项目，再用 --dry-run 解析每个阶段。它不执行任何工具。"
+  colabUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
   points:
     - "RRBS、WGBS、RNA-seq、BS-PDX 与 RNA-PDX 都是一等分析模式。"
     - "二进制原生支持 Linux 与 macOS 的 amd64 与 arm64，其中 Linux 为静态链接。"

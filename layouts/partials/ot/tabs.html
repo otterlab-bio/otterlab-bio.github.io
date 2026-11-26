@@ -1,4 +1,6 @@
 {{- $c := .c -}}
+{{- /* The Colab notebook exists in both languages; point each page at its own. */ -}}
+{{- $colab := $c.quick.colabUrl | default $c.cite.walkthroughCardUrl -}}
 <div class="ot-tabs" data-ot-tabs>
   <div class="ot-tabbar" role="tablist" aria-label="{{ $c.quick.title }}">
     <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="installer" aria-selected="true">{{ $c.quick.tabs.installer }}</button>
@@ -30,7 +32,7 @@ otter create --output my_project --fastq /data/fastq --mode RRBS \
   <div class="ot-tabpanel" role="tabpanel" data-ot-panel="colab" hidden>
     <p class="ot-tabnote">{{ $c.quick.colabNote }}</p>
     <div class="ot-code ot-code--wrap">
-      <pre><code>https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb</code></pre>
+      <pre><code>{{ $colab }}</code></pre>
     </div>
   </div>
 </div>

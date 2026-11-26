@@ -1,6 +1,7 @@
-{{/* Two small behaviours: tab switching for the quick-start panel, and the
-     scroll reveal used by the card grids. Both are progressively enhanced: with
-     JavaScript disabled every panel and card is already visible. */}}
+{{/* Three small behaviours: tab switching for the quick-start panel, the scroll
+     reveal used by the list sections, and the header surface on scroll. The
+     reveal is scoped to html.ot-js, which extend-head sets inline, so a reader
+     without JavaScript gets fully visible content. */}}
 <script>
   (function () {
     document.querySelectorAll('[data-ot-tabs]').forEach(function (root) {

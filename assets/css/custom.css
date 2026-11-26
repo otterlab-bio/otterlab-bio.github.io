@@ -87,6 +87,13 @@ html.dark .ot-home-shell::before {
 
 /* --- header brand -------------------------------------------------------- */
 
+/* The home page opens with a full-width hero, so the theme's 128px spacer that
+   reserves room for a static header is removed here and the hero padding takes
+   over the clearance instead. */
+body:has(.ot-home-shell) header > div.min-h-32 {
+  display: none;
+}
+
 header img.logo {
   max-height: 2.5rem;
   max-width: 2.5rem;
@@ -110,6 +117,8 @@ header > div.fixed > div.relative {
 
 header > div.fixed > div.relative > div.absolute {
   background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   transition: background-color 0.2s var(--ot-ease), backdrop-filter 0.2s var(--ot-ease);
 }
 
@@ -140,8 +149,14 @@ header .main-menu a.text-base {
 /* --- hero ---------------------------------------------------------------- */
 
 .ot-hero {
-  padding: 4.75rem 0 1rem;
+  padding: 6.5rem 0 1rem;
   text-align: center;
+}
+
+@media (max-width: 620px) {
+  .ot-hero {
+    padding-top: 6.75rem;
+  }
 }
 
 .ot-hero-title {
@@ -232,15 +247,34 @@ html.dark .ot-btn--primary {
   background: var(--ot-cyan);
 }
 
-.ot-btn--ghost {
-  border: 1px solid var(--ot-line);
-  background: transparent;
-  color: var(--ot-ink);
+.ot-btn:focus-visible,
+.ot-hero-link:focus-visible,
+.ot-repo:focus-visible,
+.ot-link a:focus-visible,
+#the-top a:focus-visible,
+#scroll-to-top a:focus-visible,
+header a:focus-visible,
+header button:focus-visible {
+  outline: 2px solid var(--ot-cyan);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.ot-btn--ghost:hover {
-  border-color: var(--ot-accent);
-  color: var(--ot-accent);
+@media (max-width: 900px) {
+  .ot-btn,
+  .ot-hero-link {
+    min-height: 44px;
+    padding-block: 0.7rem;
+  }
+
+  header button,
+  header label[for="mobile-menu-toggle"] {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* --- console stage ------------------------------------------------------- */
@@ -639,7 +673,7 @@ html.dark .ot-term .ok { color: #7ac295; }
 
 .ot-repo {
   display: grid;
-  grid-template-columns: 9.5rem minmax(0, 1fr);
+  grid-template-columns: 10.5rem minmax(0, 1fr);
   gap: 0.35rem 1rem;
   align-items: baseline;
   padding: 0.85rem 0;
@@ -655,8 +689,7 @@ html.dark .ot-term .ok { color: #7ac295; }
   white-space: nowrap;
 }
 
-.ot-repo .name::after {
-  content: " · " attr(data-lang);
+.ot-repo .lang {
   font-family: var(--ot-sans);
   font-size: var(--ot-fs-small);
   font-weight: 400;
@@ -714,12 +747,18 @@ html.dark .ot-term .ok { color: #7ac295; }
 /* --- motion -------------------------------------------------------------- */
 
 .ot-reveal {
+  opacity: 1;
+}
+
+/* The initial hidden state is scoped to a document that has run the inline
+   probe in extend-head, so a reader without JavaScript sees full content. */
+html.ot-js .ot-reveal {
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.5s var(--ot-ease), transform 0.5s var(--ot-ease);
 }
 
-.ot-reveal.is-in {
+html.ot-js .ot-reveal.is-in {
   opacity: 1;
   transform: none;
 }
@@ -753,8 +792,13 @@ html.dark .ot-term .ok { color: #7ac295; }
     animation: none;
   }
 
-  .ot-btn:hover {
+  .ot-btn:hover,
+  .ot-hero-link:hover svg {
     transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }
 
@@ -762,6 +806,7 @@ html.dark .ot-term .ok { color: #7ac295; }
    scrolling it reads as a glyph colliding with the body text underneath. Give
    it an opaque surface and a hairline so it sits as a control above content. */
 #scroll-to-top a {
+  font-size: var(--ot-fs-body);
   background: var(--ot-raised);
   border: 1px solid var(--ot-line);
   box-shadow: 0 1px 2px rgba(26, 24, 21, 0.05), 0 10px 24px -18px rgba(26, 24, 21, 0.4);
@@ -770,6 +815,18 @@ html.dark .ot-term .ok { color: #7ac295; }
 
 #scroll-to-top a:hover {
   border-color: var(--ot-accent);
+  color: var(--ot-accent);
+}
+
+/* The theme's skip link inverts to a light blue on a mid grey in dark mode,
+   which measures about 1.95:1. Give it the page surface instead. */
+#the-top a {
+  background: var(--ot-raised);
+  color: var(--ot-ink);
+  border: 1px solid var(--ot-line);
+}
+
+#the-top a span {
   color: var(--ot-accent);
 }
 
@@ -839,25 +896,33 @@ footer#site-footer a:hover {
 }
 
 @media (max-width: 620px) {
-  .ot-hero {
-    padding-top: 3.25rem;
-  }
-
-  .ot-layers {
+  .ot-layers,
+  .ot-metrics {
     grid-template-columns: 1fr;
   }
 
-  .ot-layer {
+  .ot-layer,
+  .ot-metric {
     border-right: 0;
     padding-right: 0;
   }
 
-  .ot-layer:nth-child(-n+2) {
+  .ot-layer:nth-child(-n+2),
+  .ot-metric:nth-last-child(-n+2) {
     border-bottom: 0;
   }
 
-  .ot-layer + .ot-layer {
+  .ot-layer + .ot-layer,
+  .ot-metric + .ot-metric {
     border-top: 1px solid var(--ot-line-soft);
+  }
+
+  .ot-metric {
+    border-bottom: 1px solid var(--ot-line-soft);
+  }
+
+  .ot-metric:last-child {
+    border-bottom: 0;
   }
 
   .ot-metric .value {

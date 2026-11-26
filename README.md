@@ -87,6 +87,9 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Horizontal overflow | none at 320, 390, 768, 1024, 1440, 1920 px |
 | Text contrast (WCAG AA) | every inspected pair passes, light and dark |
 | Prose line length | 64 characters, against a 65 limit |
+| Content without JavaScript | every section visible at full opacity |
+| Hero starts at the page top | `y = 0`, header borderless until scrolled |
+| Touch targets below 900 px | 44 px minimum |
 | Tabs | keyboard-focusable, `aria-selected` toggles, panels hide correctly |
 | Reduced motion | `prefers-reduced-motion: reduce` disables rise, reveal, hover lift |
 | Em dashes and spaced en dashes in copy | 0 |
