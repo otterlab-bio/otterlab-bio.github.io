@@ -3,7 +3,7 @@
 
 hero:
   titleLead: "从 FASTQ 到完整报告。"
-  titleTail: "极速、稳健、可复现、易扩展。"
+  titleTail: "极速、稳健、<span class=\"ot-nowrap\">可复现</span>、易扩展。"
   tags:
     - "RNA-seq"
     - "PDX / CDX"

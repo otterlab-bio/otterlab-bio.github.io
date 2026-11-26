@@ -28,7 +28,10 @@
            rather than four equal lines. */}}
       <h1 class="ot-hero-title ot-rise ot-rise-1">
         <span class="ot-hero-line">{{ $c.hero.titleLead }}</span>
-        <span class="ot-hero-stop ot-stop">{{ $c.hero.titleTail }}</span>
+        {{/* The Chinese taglines wrap a phrase in a no-break span so a word such as
+             可复现 is never split across lines on a narrow screen; the markup comes
+             from the copy file, so it is emitted unescaped. */}}
+        <span class="ot-hero-stop ot-stop">{{ $c.hero.titleTail | safeHTML }}</span>
       </h1>
 
       <p class="ot-hero-lead ot-rise ot-rise-2">{{ $c.hero.lead }}</p>
