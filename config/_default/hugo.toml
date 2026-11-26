@@ -1,6 +1,8 @@
 # Hugo configuration. Theme assets come from the module; site assets (custom.css,
 # scheme, fonts) come from this repository's assets/ directory.
-baseURL = "https://otterlab-bio.github.io/"
+# The site is served from a custom domain configured in the repository's Pages
+# settings; CI overrides this with the value configure-pages reports.
+baseURL = "https://otter.rainoffallingstar.com/"
 title = "OTTER"
 defaultContentLanguage = "en"
 hasCJKLanguage = true

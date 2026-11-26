@@ -5,7 +5,7 @@ Hugo and the [Blowfish](https://blowfish.page/) theme and deployed to GitHub
 Pages. The design rationale, the reference-site measurements, and the copy
 rules live in [`DESIGN.md`](./DESIGN.md).
 
-- Live target: `https://otterlab-bio.github.io/`
+- Live target: `https://otter.rainoffallingstar.com/` (custom domain); `https://otterlab-bio.github.io/` redirects to it
 - Languages: English at `/`, Simplified Chinese at `/zh-cn/`
 - Theme: `github.com/nunocoracao/blowfish/v3` v3.11.0, consumed as a Hugo Module
 - Design skill: [`gemini-frontend-design`](https://github.com/google-gemini/demolab/tree/main/skills/gemini-frontend-design), installed into `.agents/skills/` and pinned in `skills-lock.json`
@@ -44,7 +44,7 @@ hugo server --port 1313
 A production build:
 
 ```bash
-hugo --minify --gc --baseURL "https://otterlab-bio.github.io/"
+hugo --minify --gc --baseURL "https://otter.rainoffallingstar.com/"
 ```
 
 The build does not run Node and does not compile Tailwind. Blowfish ships a

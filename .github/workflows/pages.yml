@@ -51,9 +51,12 @@ jobs:
           HUGO_ENVIRONMENT: production
           TZ: Asia/Shanghai
         run: |
-          hugo --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" \
-            --gc --panicOnWarning
+          # configure-pages reports the custom domain over http on some runners,
+          # which would put http URLs in every canonical tag and the sitemap.
+          # Force https, since GitHub Pages serves this site over TLS only.
+          BASE="${{ steps.pages.outputs.base_url }}"
+          BASE="${BASE/http:\/\//https://}"
+          hugo --minify --baseURL "${BASE}/" --gc --panicOnWarning
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://otterlab-bio.github.io/sitemap.xml
+Sitemap: https://otter.rainoffallingstar.com/sitemap.xml
