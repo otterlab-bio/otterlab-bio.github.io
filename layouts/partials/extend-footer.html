@@ -1,7 +1,7 @@
-{{/* Three small behaviours: tab switching for the quick-start panel, the scroll
-     reveal used by the list sections, and the header surface on scroll. The
-     reveal is scoped to html.ot-js, which extend-head sets inline, so a reader
-     without JavaScript gets fully visible content. */}}
+{{/* Three small behaviours: tab switching for the panels, the scroll reveal used
+     by the list sections, and the header surface on scroll. The reveal is scoped
+     to html.ot-js, which extend-head sets inline, so a reader without JavaScript
+     gets fully visible content. */}}
 <script>
   (function () {
     document.querySelectorAll('[data-ot-tabs]').forEach(function (root) {
@@ -83,13 +83,13 @@
       });
     });
 
+    // Scroll reveal.
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.ot-reveal').forEach(function (el) {
         el.classList.add('is-in');
       });
       return;
     }
-
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -98,7 +98,6 @@
         }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-
     document.querySelectorAll('.ot-reveal').forEach(function (el) { io.observe(el); });
   })();
 </script>

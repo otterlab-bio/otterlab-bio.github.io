@@ -31,10 +31,13 @@ fingerprintAlgorithm = "sha512"
   layout = "custom"
 
 [footer]
-  showMenu = true
-  showCopyright = true
-  showThemeAttribution = true
-  showAppearanceSwitcher = true
+  # The site renders its own footer in layouts/partials/ot/footer.html: a single
+  # column with the licence, the version, and the citation. The theme's two-column
+  # footer with the Hugo/Blowfish attribution is suppressed here.
+  showMenu = false
+  showCopyright = false
+  showThemeAttribution = false
+  showAppearanceSwitcher = false
   showScrollToTop = true
 
 [homepage]

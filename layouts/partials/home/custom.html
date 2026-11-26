@@ -79,6 +79,15 @@
     </div>
   </section>
 
+  {{/* ---------------- assay coverage ---------------- */}}
+  <section class="ot-section" id="modes">
+    <div class="ot-wrap">
+      <h2 class="ot-h2">{{ $c.modes.title }}</h2>
+      <p class="ot-section-lead">{{ $c.modes.lead }}</p>
+      {{ partial "ot/modes.html" . }}
+    </div>
+  </section>
+
   {{/* ---------------- capabilities ---------------- */}}
   <section class="ot-section">
     <div class="ot-wrap">
@@ -201,11 +210,5 @@
       </div>
     </div>
   </section>
-
-  <div class="ot-end">
-    <div class="ot-wrap">
-      <p class="ot-footer-line">{{ $c.footer.line }}</p>
-    </div>
-  </div>
 
 </div>

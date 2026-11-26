@@ -91,6 +91,10 @@ metrics:
       note: "Across the human-fraction gradient, 0.575–1.200 percentage points above Xengsort pass@Bismark."
   footnote: "n = 3 paired repeats where stated. Full gradients are reported in Supplementary Tables S11 and S12."
 
+modes:
+  title: "RRBS, WGBS, and RNA-seq, with their xenograft models."
+  lead: "Each assay ships as a first-class mode. The xenograft variants run the same workflow with host-read separation switched on, so a PDX or CDX library needs no hand-written step order."
+
 bench:
   title: "How OTTER and Xengsort compare."
   lead: "Fourteen human fractions from 0.1% to 99%, three replicates each, read at fragment level. Usable recall counts only pairs that also pass a human alignment, which is the number that reaches downstream analysis."

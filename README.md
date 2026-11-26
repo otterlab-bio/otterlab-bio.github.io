@@ -68,6 +68,31 @@ manuscript repository, and the comparison basis matches the manuscript: OTTER is
 and RRBS uses `bismark_replay` checked against Bismark. Regenerate the file when the
 archive changes.
 
+## Warm palette
+
+The surfaces, inks, and accents were designed in review and are defined once in the
+`:root` and `html.dark` blocks of `assets/css/custom.css`. Light mode uses rag paper
+`#f7f0e5`, sand `#ede3d2`, and ivory cards `#fdfaf4`; dark mode uses warm umber-charcoal
+`#171310` / `#27201a` rather than a blue-black. The accent is mineral ink-teal
+`#0e515e` (light) and `#6fc0cc` (dark), and the ochre highlight `#8f5127` / `#d99d68`
+comes from the otter fur in the logo. Every foreground pair was measured at or above
+5.50:1 against the page background.
+
+Two rules follow from that review: the ochre is used only for small type (the hero's
+second line and the four numerals), never as a large fill, so it does not compete with
+the brown in the logo; and dark cards always keep a 1px `--ot-line` border, because the
+three dark surfaces are close enough to merge on an uncalibrated display.
+
+## Layout notes
+
+- The header is fixed for the whole document. This needs two overrides: the theme
+  wraps it in a `<header>` box only as tall as the bar, so that wrapper is set to
+  `display: contents`, and the theme pins `body` to `100vh`, so the body becomes
+  `min-height: 100svh` instead.
+- The footer is a single left-aligned column, not the theme's two-column layout.
+- The assay section states RRBS, WGBS, and RNA-seq with their PDX/CDX variants as
+  separate cards, because the xenograft pairing is the point.
+
 ## Design constraints worth keeping
 
 1. **No em dashes in prose.** Use subordinate clauses, prepositional phrases, or
