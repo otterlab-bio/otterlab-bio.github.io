@@ -10,7 +10,7 @@ hero:
     - "PDX / CDX"
     - "RRBS / WGBS"
     - "Local and Slurm"
-  lead: "From FASTQ to a finished report, fast, robust, reproducible, and extensible. OTTER is a compiled workflow for transcriptomic, tumor xenograft (PDX/CDX), and epigenomic data: it catches sample and parameter errors before execution, then scales from a laptop to Slurm without changing the run."
+  lead: "From FASTQ to a finished report—fast, robust, reproducible, and extensible. OTTER is a compiled workflow for transcriptomic, PDX/CDX, and epigenomic data that scales from a laptop to Slurm."
   primaryCta:
     label: "Install OTTER"
     url: "#quickstart"
