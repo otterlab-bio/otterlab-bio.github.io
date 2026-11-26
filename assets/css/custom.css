@@ -27,7 +27,7 @@
   --ot-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --ot-fs-body: 1rem;
   --ot-fs-small: 0.875rem;
-  --ot-fs-h2: clamp(1.75rem, 3.4vw, 2.5rem);
+  --ot-fs-h2: clamp(1.5rem, 3.4vw, 2.5rem);
 }
 
 html.dark {
@@ -148,7 +148,7 @@ header .main-menu a.text-base {
   margin: 0 auto;
   max-width: 14em;
   font-family: var(--ot-serif);
-  font-size: clamp(1.75rem, 6.4vw, 5rem);
+  font-size: clamp(2rem, 6.4vw, 5rem);
   font-weight: 900;
   line-height: 1.04;
   letter-spacing: -0.025em;

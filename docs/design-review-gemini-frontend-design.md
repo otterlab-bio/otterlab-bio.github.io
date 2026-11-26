@@ -25,6 +25,8 @@ DOM with Playwright at 1440×900 and 390×844, before and after the changes.
 | 12 | `transition: all` and idle bobbing | none | unchanged, already compliant |
 | 13 | Body prose ≤ 65 characters per line | section leads measured 72 | 64 |
 | 14 | No text collisions in the rendered page | the theme's 50%-opacity scroll-to-top glyph collided with body text on mobile | opaque surface and hairline border |
+| 15 | Display hierarchy must stay legible at every width | at 320 to 480 px the hero h1 and the h2 both computed to 28 px, so the hierarchy collapsed | h1 floor raised to 2rem (32 px on mobile, 80 px on desktop), h2 floor lowered to 1.5rem |
+| 16 | Multi-column lists must not split a paragraph | Chrome's multicolumn split the Chinese methx description across columns and broke two CTA labels mid-phrase | row-major two-column grid, and unbreakable link labels |
 
 ## Structural change worth naming
 
