@@ -34,7 +34,9 @@
         <span class="ot-hero-stop ot-stop">{{ $c.hero.titleTail | safeHTML }}</span>
       </h1>
 
-      <p class="ot-hero-lead ot-rise ot-rise-2">{{ $c.hero.lead }}</p>
+      {{/* The lead may carry the same no-break span as the title, so it is
+           emitted unescaped. */}}
+      <p class="ot-hero-lead ot-rise ot-rise-2">{{ $c.hero.lead | safeHTML }}</p>
 
       <div class="ot-hero-actions ot-rise ot-rise-3">
         <a class="ot-btn ot-btn--primary" href="{{ $c.hero.primaryCta.url }}">
