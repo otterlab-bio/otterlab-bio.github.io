@@ -9,6 +9,7 @@ title = "OTTER"
   rtl = false
   dateFormat = "2 January 2006"
   description = "A reproducible multi-omics workflow CLI for PDX, CDX, RRBS, WGBS, and RNA-seq."
+  copyright = "© { year } otterlab-bio · OTTER is released under the MIT License"
 
 [params.author]
   name = "otterlab-bio"

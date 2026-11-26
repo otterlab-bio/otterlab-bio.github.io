@@ -1,0 +1,4 @@
+# The theme's Chinese footer attribution reads "强力驱动", which is the kind of
+# marketing register this project avoids. Override just that string.
+footer:
+  powered_by: "由 {{ .Hugo }} 与 {{ .Theme }} 构建"

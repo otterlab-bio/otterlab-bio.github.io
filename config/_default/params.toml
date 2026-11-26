@@ -19,7 +19,6 @@ disableImageOptimization = false
 disableImageOptimizationMD = false
 disableTextInHeader = false
 fingerprintAlgorithm = "sha512"
-copyright = "© { year } otterlab-bio · OTTER is released under the MIT License"
 
 # Language routing is handled by a small script in layouts/partials/extend-head.html.
 # The theme's built-in redirect also bounces explicit /zh-cn/ visits by visitors
