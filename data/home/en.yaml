@@ -3,9 +3,14 @@
 # data/home/zh-cn.yaml mirrors this file key for key.
 
 hero:
-  titleLead: "Compiled pipelines."
-  titleTail: "Reproducible runs."
-  lead: "OTTER turns FASTQ files and sample metadata into validated projects, then runs them locally or on Slurm from an immutable snapshot."
+  titleLead: "From FASTQ to a finished report."
+  titleTail: "Fast. Robust. Reproducible. Extensible."
+  tags:
+    - "RNA-seq"
+    - "PDX / CDX"
+    - "RRBS / WGBS"
+    - "Local and Slurm"
+  lead: "OTTER is a compiled workflow for transcriptomic, tumor xenograft (PDX/CDX), and epigenomic data. It catches sample and parameter errors before execution, then scales from a laptop to Slurm without changing the run."
   primaryCta:
     label: "Install OTTER"
     url: "#quickstart"

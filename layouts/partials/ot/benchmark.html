@@ -17,7 +17,8 @@
   "otterPpv" (cond $isTw "OTTER PPV" (cond $isZh "OTTER PPV" "OTTER PPV"))
   "xgRawPpv" (cond $isTw "Xengsort 原始 PPV" (cond $isZh "Xengsort 原始 PPV" "Xengsort raw PPV"))
   "xgUsablePpv" (cond $isTw "Xengsort 可用 PPV" (cond $isZh "Xengsort 可用 PPV" "Xengsort usable PPV"))
-  "n" (cond $isTw "每檔 3 個重複；單位為百分比，差值為百分點" (cond $isZh "每档 3 个重复；单位为百分比，差值为百分点" "3 replicates per fraction; values are percentages, the delta is in percentage points"))
+  "delta" (cond $isTw "差值" (cond $isZh "差值" "Δ"))
+  "n" (cond $isTw "每檔 3 個重複；數值為百分比，差值為 OTTER 減 Xengsort 的可用召回，單位為百分點" (cond $isZh "每档 3 个重复；数值为百分比，差值为 OTTER 减 Xengsort 的可用召回，单位为百分点" "3 replicates per fraction; values are percentages, Δ is OTTER minus Xengsort usable recall in percentage points"))
 -}}
 
 <div class="ot-tabs" data-ot-tabs>
@@ -34,13 +35,14 @@
           <thead>
             <tr>
               <th scope="col" rowspan="2" class="frac">{{ $t.frac }}</th>
-              <th scope="colgroup" colspan="3" class="group">{{ cond $isZh "召回" "Recall" }}</th>
+              <th scope="colgroup" colspan="4" class="group">{{ cond $isZh "召回" "Recall" }}</th>
               <th scope="colgroup" colspan="3" class="group">{{ cond $isZh "PPV" "PPV" }}</th>
             </tr>
             <tr>
               <th scope="col" class="num">{{ $t.otter }}</th>
               <th scope="col" class="num">{{ $t.xgRaw }}</th>
               <th scope="col" class="num">{{ $t.xgUsable }}</th>
+              <th scope="col" class="num">{{ $t.delta }}</th>
               <th scope="col" class="num">{{ $t.otterPpv }}</th>
               <th scope="col" class="num">{{ $t.xgRawPpv }}</th>
               <th scope="col" class="num">{{ $t.xgUsablePpv }}</th>
@@ -53,6 +55,7 @@
                 <td class="num">{{ printf "%.2f" .otter }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortRaw }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortUsable }}</td>
+                <td class="num{{ if gt .delta 0.0 }} is-pos{{ else }} is-neg{{ end }}">{{ printf "%+.2f" .delta }}</td>
                 <td class="num">{{ printf "%.2f" .otterPpv }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortRawPpv }}</td>
                 <td class="num">{{ printf "%.2f" .xengsortUsablePpv }}</td>

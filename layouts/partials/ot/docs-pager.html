@@ -1,0 +1,37 @@
+{{/* Previous/next navigation for a manual chapter. Chapter order comes from the
+     manual section's weight ordering, which is the same order the sidebar shows. */}}
+{{- $cur := . -}}
+{{- $isTw := eq site.Language.Lang "zh-tw" -}}
+{{- $isZh := hasPrefix site.Language.Lang "zh" -}}
+{{- $manual := site.GetPage "/docs/manual" -}}
+{{- $pages := slice -}}
+{{- with $manual -}}
+  {{- range .Pages.ByWeight -}}
+    {{- if ne .Weight 1 -}}{{- $pages = $pages | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $idx := -1 -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p.RelPermalink $cur.RelPermalink -}}{{- $idx = $i -}}{{- end -}}
+{{- end -}}
+{{- if ge $idx 0 -}}
+  {{- $prev := "" -}}{{- $next := "" -}}
+  {{- if gt $idx 0 -}}{{- $prev = index $pages (sub $idx 1) -}}{{- end -}}
+  {{- if lt $idx (sub (len $pages) 1) -}}{{- $next = index $pages (add $idx 1) -}}{{- end -}}
+  {{- if or $prev $next }}
+<nav class="ot-doc-pager" aria-label="{{ cond $isTw "章節導覽" (cond $isZh "章节导航" "Chapter navigation") }}">
+    {{- with $prev }}
+  <a class="ot-pager-link ot-pager-link--prev" href="{{ .RelPermalink }}">
+    <span class="ot-pager-dir">{{ cond $isTw "上一章" (cond $isZh "上一章" "Previous") }}</span>
+    <span class="ot-pager-title">{{ .Title }}</span>
+  </a>
+    {{- end }}
+    {{- with $next }}
+  <a class="ot-pager-link ot-pager-link--next" href="{{ .RelPermalink }}">
+    <span class="ot-pager-dir">{{ cond $isTw "下一章" (cond $isZh "下一章" "Next") }}</span>
+    <span class="ot-pager-title">{{ .Title }}</span>
+  </a>
+    {{- end }}
+</nav>
+  {{- end -}}
+{{- end -}}

@@ -14,14 +14,26 @@
   {{/* ---------------- hero ---------------- */}}
   <section class="ot-hero">
     <div class="ot-wrap">
-      <h1 class="ot-hero-title ot-rise">
-        {{ $c.hero.titleLead }}<br>
-        <span class="ot-stop">{{ $c.hero.titleTail }}</span>
+      {{/* Small tag strip first, then the display headline, the lead, and the two
+           actions. The tag row states scope before the reader reaches the claim. */}}
+      <ul class="ot-hero-tags ot-rise">
+        {{ range $i, $tag := $c.hero.tags }}
+          {{ if $i }}<li class="ot-hero-tag-sep" aria-hidden="true"></li>{{ end }}
+          <li>{{ $tag }}</li>
+        {{ end }}
+      </ul>
+
+      {{/* Two levels inside one h1: the statement, then the four adjectives at a
+           smaller display size so the headline reads as a sentence and a tagline
+           rather than four equal lines. */}}
+      <h1 class="ot-hero-title ot-rise ot-rise-1">
+        <span class="ot-hero-line">{{ $c.hero.titleLead }}</span>
+        <span class="ot-hero-stop ot-stop">{{ $c.hero.titleTail }}</span>
       </h1>
 
-      <p class="ot-hero-lead ot-rise ot-rise-1">{{ $c.hero.lead }}</p>
+      <p class="ot-hero-lead ot-rise ot-rise-2">{{ $c.hero.lead }}</p>
 
-      <div class="ot-hero-actions ot-rise ot-rise-2">
+      <div class="ot-hero-actions ot-rise ot-rise-3">
         <a class="ot-btn ot-btn--primary" href="{{ $c.hero.primaryCta.url }}">
           {{ partial "ot/icon.html" "download" }}
           {{ $c.hero.primaryCta.label }}
@@ -32,7 +44,7 @@
         </a>
       </div>
 
-      <div class="ot-console ot-rise ot-rise-3">
+      <div class="ot-console ot-rise ot-rise-4">
         <div class="ot-console-bar">
           <span class="ot-console-title">{{ $c.console.title }}</span>
         </div>

@@ -62,20 +62,27 @@ html.dark {
 
 /* --- header -------------------------------------------------------------- */
 
-body:has(.ot-home-shell) header > div.min-h-32 { display: none; }
-
-/* The theme constrains every page to a centred column. On the home page the
-   header and the hero backdrop run full width, so the wrapper is released there
-   only; documentation pages keep the reading column. */
-body:has(.ot-home-shell) {
+/* The theme centres the whole body in a 7xl column with large side padding and
+   pins it to 100vh. Both interfere with a full-width sticky bar: inside a
+   max-width column the bar's background only spans the column, and the 100vh
+   ceiling caps how far a sticky child can travel. The wrapper is therefore
+   released on every page; each page constrains its own text with .ot-wrap. */
+body {
   max-width: none;
   padding-inline: 0;
-  /* The theme fixes the body to 100vh (`h-screen`), which caps the range of any
-     sticky child at one viewport. A minimum height keeps the flex column while
-     letting the page grow past the fold, so the header can stick for the whole
-     document. */
   height: auto;
   min-height: 100svh;
+}
+
+/* The theme reserves room for a static header with a spacer, and wraps the header
+   in a <header> box only as tall as the bar. Removing both lets the bar stick
+   against the document for the whole scroll. */
+body > header > div.min-h-32 {
+  display: none;
+}
+
+body > header {
+  display: contents;
 }
 
 /* One container for the wide sections. */
@@ -90,14 +97,6 @@ body:has(.ot-home-shell) {
   .ot-wrap {
     padding-inline: 1rem;
   }
-}
-
-/* The bar must stay put while the page scrolls. Sticky alone does not do that:
-   the theme wraps the header in a <header> element that is only as tall as the
-   bar, so the sticky range would be 59px. Making that wrapper `display:
-   contents` removes its box, and the bar then sticks against the document. */
-body:has(.ot-home-shell) > header {
-  display: contents;
 }
 
 .ot-header {
@@ -378,8 +377,47 @@ html.dark .ot-brand img {
   text-wrap: balance;
 }
 
-.ot-hero-title .ot-stop {
+.ot-hero-title .ot-hero-line,
+.ot-hero-title .ot-hero-stop {
+  display: block;
+}
+
+.ot-hero-title .ot-hero-stop {
+  margin-top: 0.35em;
+  font-size: 0.52em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   color: var(--ot-accent-2);
+}
+
+/* Scope strip above the headline. Plain words separated by hairline dividers,
+   not interactive chips. */
+.ot-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.45rem 0.55rem;
+  margin: 0 0 1.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.ot-hero-tags li {
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  color: var(--ot-ink-2);
+  letter-spacing: 0.01em;
+}
+
+/* Separators are their own flex items, so a line break can never leave a dot
+   stranded at the start of the next line. */
+.ot-hero-tag-sep {
+  width: 3px;
+  height: 3px;
+  margin-top: 0.6em;
+  border-radius: 999px;
+  background: var(--ot-line);
 }
 
 .ot-hero-lead {
@@ -1119,14 +1157,26 @@ header button:focus-visible {
 
 /* Keep the eight columns from squeezing on a narrow screen: the wrapper scrolls. */
 .ot-table--bench {
-  min-width: 40rem;
+  min-width: 48rem;
 }
 
-/* Hairlines between metric groups, so the two triplets read as blocks. */
-.ot-table--bench tbody td:nth-child(4),
-.ot-table--bench thead tr:last-child th:nth-child(4) {
+/* Hairlines separate OTTER from Xengsort (column 3) and the recall block from
+   the PPV block (column 6, which is OTTER PPV). */
+.ot-table--bench tbody td:nth-child(3),
+.ot-table--bench thead tr:last-child th:nth-child(3) {
   border-left: 1px solid var(--ot-line);
   padding-left: 0.9rem;
+}
+
+.ot-table--bench tbody td:nth-child(6),
+.ot-table--bench thead tr:last-child th:nth-child(6) {
+  border-left: 1px solid var(--ot-line);
+  padding-left: 0.9rem;
+}
+
+/* The delta column keeps the numeral weight but sits in the accent. */
+.ot-table--bench tbody td:nth-child(5) {
+  font-weight: 600;
 }
 
 .ot-table-caption {
@@ -1385,11 +1435,152 @@ html.dark .ot-foot-brand img {
 /* --- documentation prose ------------------------------------------------ */
 
 /* The documentation landing page and the manual chapters reuse the theme's
-   prose styles; these two rules keep code and tables from overflowing the
-   column without fighting the typography. */
+   prose styles. These rules keep wide tables and long inline tokens from
+   pushing the reading column past the viewport on a narrow screen: the table
+   scrolls inside its own box, and an unbreakable token inside prose wraps. */
+.ot-doc-body {
+  overflow-wrap: break-word;
+}
+
+.ot-doc-body .prose {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.ot-doc-body :is(p, li, td, th) code {
+  overflow-wrap: anywhere;
+}
+
+.ot-doc-body table {
+  border-collapse: collapse;
+}
+/* Two-column documentation layout: content on the left at a readable measure,
+   the manual's table of contents pinned on the right. */
+.ot-doc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 3.5rem;
+  align-items: start;
+  padding-top: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .ot-doc-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.ot-doc-main {
+  min-width: 0;
+}
+
 .ot-doc-body {
   max-width: 46rem;
   margin-top: 1.5rem;
+}
+
+/* --- documentation sidebar ---------------------------------------------- */
+
+.ot-docnav {
+  position: sticky;
+  top: 5.5rem;
+  padding-top: 0.15rem;
+}
+
+@media (max-width: 900px) {
+  .ot-docnav {
+    position: static;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--ot-line);
+    border-bottom: 1px solid var(--ot-line);
+  }
+}
+
+.ot-docnav-title {
+  margin: 0 0 0.85rem;
+  font-size: var(--ot-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ot-ink);
+}
+
+.ot-docnav-list {
+  margin: 0;
+  padding: 0 0 0 0.9rem;
+  list-style: none;
+  border-left: 1px solid var(--ot-line);
+}
+
+.ot-docnav-list li {
+  margin: 0;
+}
+
+.ot-docnav-list a {
+  display: block;
+  padding: 0.34rem 0;
+  font-size: var(--ot-fs-small);
+  line-height: 1.5;
+  color: var(--ot-ink-2);
+  text-decoration: none;
+  transition: color 0.16s var(--ot-ease);
+}
+
+.ot-docnav-list a:hover {
+  color: var(--ot-ink);
+}
+
+.ot-docnav-list a.is-current {
+  margin-left: -0.9rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--ot-accent);
+  font-weight: 700;
+  color: var(--ot-accent);
+}
+
+/* --- chapter pager ------------------------------------------------------ */
+
+.ot-doc-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 46rem;
+  margin: 3rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ot-line);
+}
+
+.ot-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 48%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ot-line);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: border-color 0.18s var(--ot-ease), transform 0.18s var(--ot-ease);
+}
+
+.ot-pager-link:hover {
+  border-color: var(--ot-accent);
+  transform: translateY(-2px);
+}
+
+.ot-pager-link--next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.ot-pager-dir {
+  font-size: var(--ot-fs-small);
+  color: var(--ot-ink-3);
+}
+
+.ot-pager-title {
+  font-size: var(--ot-fs-small);
+  font-weight: 700;
+  color: var(--ot-ink);
 }
 
 .ot-doc-manual-head {
@@ -1425,9 +1616,15 @@ html.dark .ot-foot-brand img {
   -webkit-overflow-scrolling: touch;
 }
 
+/* A wide table scrolls inside the reading column instead of widening the page.
+   `display: block` plus `overflow-x: auto` makes the table its own scroll box;
+   the cells still lay out as a table inside it. */
+.ot-doc-body .prose table,
 .prose table {
-  display: table;
+  display: block;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   font-size: var(--ot-fs-small);
 }
 

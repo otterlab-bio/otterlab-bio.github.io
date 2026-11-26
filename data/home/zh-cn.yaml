@@ -2,9 +2,14 @@
 # 中文不引入英文版没有的事实。
 
 hero:
-  titleLead: "编译型管线。"
-  titleTail: "可复现运行。"
-  lead: "OTTER 将 FASTQ 与样本信息转换为经过校验的项目，并在本地或 Slurm 上依据不可变快照执行。"
+  titleLead: "从 FASTQ 到完整报告。"
+  titleTail: "极速、稳健、可复现、易扩展。"
+  tags:
+    - "RNA-seq"
+    - "PDX / CDX"
+    - "RRBS / WGBS"
+    - "本地与 Slurm"
+  lead: "OTTER 是一套面向转录组、肿瘤异种移植（PDX/CDX）与表观遗传数据的编译型工作流。提交前自动拦截样本与参数错误，并无缝调度本地与 Slurm 算力。"
   primaryCta:
     label: "安装 OTTER"
     url: "#quickstart"

@@ -99,11 +99,17 @@ three dark surfaces are close enough to merge on an uncalibrated display.
 
 ## Layout notes
 
-- The header is fixed for the whole document. This needs two overrides: the theme
-  wraps it in a `<header>` box only as tall as the bar, so that wrapper is set to
-  `display: contents`, and the theme pins `body` to `100vh`, so the body becomes
-  `min-height: 100svh` instead.
+- The header is fixed and full width on every page. Three theme defaults had to go:
+  the `<header>` wrapper box (set to `display: contents` so the bar can stick for
+  the whole document), the `100vh` body height (`min-height: 100svh` instead), and
+  the centred `max-width` body column. That last one mattered: with the body still
+  constrained, the bar's background spanned only the 7xl column on pages without a
+  hero, so it looked like a narrow block instead of a full-width bar. Each page now
+  constrains its own text with `.ot-wrap` instead.
 - The footer is a single left-aligned column, not the theme's two-column layout.
+- Documentation pages use a two-column layout: text at a 46rem measure on the left,
+  the manual's chapter list sticky on the right, and previous/next pager links at
+  the end of each chapter. Wide tables scroll inside their own box.
 - The assay section states RRBS, WGBS, and RNA-seq with their PDX/CDX variants as
   separate cards, because the xenograft pairing is the point.
 

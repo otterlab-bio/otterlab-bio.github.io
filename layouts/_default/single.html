@@ -1,0 +1,24 @@
+{{/* Chapter pages. Reimplements the theme's single layout so the documentation
+     section can carry a sticky table of contents and a previous/next footer while
+     every other page keeps the theme's article treatment. */}}
+{{ define "main" }}
+  {{- if eq .Section "docs" -}}
+<article class="ot-doc">
+  <div class="ot-wrap">
+    <div class="ot-doc-grid">
+      <div class="ot-doc-main">
+        <h1 class="ot-h1">{{ .Title }}</h1>
+        {{ with .Description }}<p class="ot-section-lead">{{ . }}</p>{{ end }}
+        <div class="ot-doc-body prose prose-lg max-w-none dark:prose-invert">
+          {{ .Content }}
+        </div>
+        {{ partial "ot/docs-pager.html" . }}
+      </div>
+      {{ partial "ot/docs-sidebar.html" . }}
+    </div>
+  </div>
+</article>
+  {{- else -}}
+    {{- partial "ot/footer.html" . -}}
+  {{- end }}
+{{ end }}
