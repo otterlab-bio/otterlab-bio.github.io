@@ -1,0 +1,181 @@
+{{/* OTTER homepage.
+     All copy lives in data/home/<lang>.yaml so translators never touch markup.
+     Custom visual classes are defined in assets/css/custom.css; the site build
+     does not run Tailwind, so no ad-hoc utility classes appear here. */}}
+
+{{- $lang := .Site.Language.Lang -}}
+{{- $c := index hugo.Data.home $lang -}}
+{{- if not $c -}}
+  {{- $c = index hugo.Data.home "en" -}}
+{{- end -}}
+
+<div class="ot-home-shell">
+
+  <section class="ot-hero">
+    <p class="ot-eyebrow ot-rise">
+      <span class="ot-pill">{{ $c.hero.eyebrowPill }}</span>
+      <span>{{ $c.hero.eyebrow }}</span>
+    </p>
+
+    <h1 class="ot-hero-title ot-rise ot-rise-1">
+      {{ $c.hero.titleLead }}<br>
+      <span class="ot-stop">{{ $c.hero.titleTail }}</span>
+    </h1>
+
+    <p class="ot-hero-lead ot-rise ot-rise-2">{{ $c.hero.lead }}</p>
+
+    <div class="ot-hero-actions ot-rise ot-rise-3">
+      <a class="ot-btn ot-btn--primary" href="{{ $c.hero.primaryCta.url }}">
+        {{ partial "ot/icon.html" "download" }}
+        {{ $c.hero.primaryCta.label }}
+      </a>
+      <a class="ot-btn ot-btn--ghost" href="{{ $c.hero.secondaryCta.url }}" rel="noopener">
+        {{ partial "ot/icon.html" "github" }}
+        {{ $c.hero.secondaryCta.label }}
+      </a>
+    </div>
+
+    <p class="ot-hero-meta ot-rise ot-rise-3">{{ $c.hero.meta }}</p>
+
+    <div class="ot-console ot-rise ot-rise-4">
+      <div class="ot-console-bar">
+        <span class="ot-dot"></span><span class="ot-dot"></span><span class="ot-dot"></span>
+        <span class="ot-console-title">{{ $c.console.title }}</span>
+      </div>
+      <div class="ot-console-body">
+        <div class="ot-term">
+          <div><span class="dim">$</span> <span class="cmd">{{ $c.console.command }}</span></div>
+          <div class="dim">&nbsp;&nbsp;{{ $c.console.flags }}</div>
+          <div>&nbsp;</div>
+          {{ range $c.console.lines }}
+            <div class="{{ if eq .state "ok" }}ok{{ else }}dim{{ end }}">{{ .text }}</div>
+          {{ end }}
+        </div>
+        <div class="ot-panel">
+          <h3>{{ $c.console.phasesTitle }}</h3>
+          {{ range $c.console.phases }}
+            <div class="ot-phase">
+              <code>{{ .name }}</code>
+              <span class="ot-tag ot-tag--plain">{{ .backend }}</span>
+              <span class="ot-order">{{ .order }}</span>
+            </div>
+          {{ end }}
+          <p class="ot-footnote">{{ $c.console.footnote }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <p class="ot-kicker">{{ $c.stack.kicker }}</p>
+    <h2 class="ot-h2">{{ $c.stack.title }}</h2>
+    <p class="ot-section-lead">{{ $c.stack.lead }}</p>
+
+    <div class="ot-grid ot-grid--four ot-reveal">
+      {{ $icons := slice "terminal" "git-branch" "box" "layers" }}
+      {{ range $i, $layer := $c.stack.layers }}
+        <article class="ot-card">
+          <span class="ot-icon">{{ partial "ot/icon.html" (index $icons (mod $i 4)) }}</span>
+          <h3>{{ $layer.name }}</h3>
+          <p>{{ $layer.role }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <div class="ot-grid ot-reveal">
+      <article class="ot-card ot-card--wide">
+        <span class="ot-icon">{{ partial "ot/icon.html" "cpu" }}</span>
+        <h3>{{ $c.cards.wide.title }}</h3>
+        <p>{{ $c.cards.wide.body }}</p>
+        <div class="ot-ops">
+          {{ range $c.cards.wide.ops }}<span>{{ . }}</span>{{ end }}
+        </div>
+      </article>
+      {{ range $c.cards.items }}
+        <article class="ot-card{{ if eq .span "full" }} ot-card--full{{ else if .wide }} ot-card--wide{{ end }}">
+          <span class="ot-icon">{{ partial "ot/icon.html" "check" }}</span>
+          <h3>{{ .title }}</h3>
+          <p>{{ .body }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <p class="ot-kicker">{{ $c.metrics.kicker }}</p>
+    <h2 class="ot-h2">{{ $c.metrics.title }}</h2>
+    <p class="ot-section-lead">{{ $c.metrics.lead }}</p>
+
+    <div class="ot-metrics ot-reveal">
+      {{ range $c.metrics.items }}
+        <div class="ot-metric">
+          <span class="value{{ if gt (len .value) 7 }} value--long{{ end }}">{{ .value }}</span>
+          <span class="label">{{ .label }}</span>
+          <span class="note">{{ .note }}</span>
+        </div>
+      {{ end }}
+    </div>
+    <p class="ot-footnote">{{ $c.metrics.footnote }}</p>
+  </section>
+
+  <section class="ot-section" id="quickstart">
+    <p class="ot-kicker">{{ $c.quick.kicker }}</p>
+    <h2 class="ot-h2">{{ $c.quick.title }}</h2>
+
+    <div class="ot-quick ot-reveal">
+      <div>
+        {{ partial "ot/tabs.html" (dict "c" $c) }}
+      </div>
+      <ul class="ot-points">
+        {{ range $c.quick.points }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <p class="ot-kicker">{{ $c.repos.kicker }}</p>
+    <h2 class="ot-h2">{{ $c.repos.title }}</h2>
+    <p class="ot-section-lead">{{ $c.repos.lead }}</p>
+
+    <div class="ot-repos ot-reveal">
+      {{ range $c.repos.items }}
+        <a class="ot-repo" href="{{ .url }}" rel="noopener">
+          <span class="name">{{ .name }}<span class="lang">{{ .lang }}</span></span>
+          <span class="role">{{ .role }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <p class="ot-kicker">{{ $c.cite.kicker }}</p>
+    <h2 class="ot-h2">{{ $c.cite.title }}</h2>
+    <p class="ot-section-lead">{{ $c.cite.lead }}</p>
+
+    <div class="ot-cite ot-reveal">
+      <div class="ot-cite-card">
+        <h3>{{ $c.cite.docsCardTitle }}</h3>
+        <p>{{ $c.cite.docsCardBody }}<br><a href="{{ $c.cite.docsCardUrl }}" rel="noopener">{{ $c.cite.docsCardUrl }}</a></p>
+      </div>
+      <div class="ot-cite-card">
+        <h3>{{ $c.cite.paperCardTitle }}</h3>
+        <p>{{ $c.cite.paperCardBody }}<br><a href="{{ $c.cite.paperCardUrl }}" rel="noopener">{{ $c.cite.paperCardUrl }}</a></p>
+      </div>
+      <div class="ot-cite-card">
+        <h3>{{ $c.cite.dataCardTitle }}</h3>
+        <p>{{ $c.cite.dataCardBody }}<br><a href="{{ $c.cite.dataCardUrl }}" rel="noopener">{{ $c.cite.dataCardUrl }}</a></p>
+      </div>
+      <div class="ot-cite-card">
+        <h3>{{ $c.cite.walkthroughCardTitle }}</h3>
+        <p>{{ $c.cite.walkthroughCardBody }}<br><a href="{{ $c.cite.walkthroughCardUrl }}" rel="noopener">{{ $c.cite.walkthroughCardUrl }}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ot-section ot-end">
+    <p class="ot-footer-line">{{ $c.footer.line }}</p>
+  </section>
+
+</div>

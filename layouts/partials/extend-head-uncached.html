@@ -1,0 +1,19 @@
+{{/* First-visit language routing, limited to the bare English homepage.
+     An explicit /zh-cn/ URL is always respected, and an explicit choice made
+     once is stored so a reader is never bounced again. */}}
+{{ if and .IsHome (eq site.Language.Lang "en") }}
+<script>
+  (function () {
+    try {
+      var key = 'otter_lang';
+      var stored = localStorage.getItem(key);
+      if (stored === 'en' || stored === 'zh-cn') return;
+      var pref = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      if (/^zh\b/i.test(pref) && location.pathname === '/') {
+        location.replace('/zh-cn/');
+      }
+    } catch (e) {}
+  })();
+</script>
+{{ end }}
+

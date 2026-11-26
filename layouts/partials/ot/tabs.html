@@ -1,0 +1,37 @@
+{{- $c := .c -}}
+{{- $uid := "qs" -}}
+<div class="ot-tabs" data-ot-tabs>
+  <div class="ot-tabbar" role="tablist" aria-label="{{ $c.quick.title }}">
+    <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="installer" aria-selected="true">{{ $c.quick.tabs.installer }}</button>
+    <button class="ot-tab" role="tab" type="button" data-ot-tab="container" aria-selected="false">{{ $c.quick.tabs.container }}</button>
+    <button class="ot-tab" role="tab" type="button" data-ot-tab="colab" aria-selected="false">{{ $c.quick.tabs.colab }}</button>
+  </div>
+
+  <div class="ot-tabpanel is-active" role="tabpanel" data-ot-panel="installer">
+    <p class="ot-tabnote">{{ $c.quick.installerNote }}</p>
+    <div class="ot-code ot-code--wrap">
+      <pre><code>bash &lt;(curl -fsSL https://raw.githubusercontent.com/otterlab-bio/otter/main/scripts/install.sh)</code></pre>
+    </div>
+    <div class="ot-code">
+      <pre><code>otter init my_project
+otter create --output my_project --fastq /data/fastq --mode RRBS \
+  --pdata /data/samples.csv --jobid demo_rrbs \
+  --reference-root /shared/otter/references \
+  --reference-primary hg19@GRCh37.p13-gencode-v19</code></pre>
+    </div>
+  </div>
+
+  <div class="ot-tabpanel" role="tabpanel" data-ot-panel="container" hidden>
+    <p class="ot-tabnote">{{ $c.quick.containerNote }}</p>
+    <div class="ot-code ot-code--wrap">
+      <pre><code>docker run --rm -it -p 2222:2222 ghcr.io/otterlab-bio/holt-run:latest otter --version</code></pre>
+    </div>
+  </div>
+
+  <div class="ot-tabpanel" role="tabpanel" data-ot-panel="colab" hidden>
+    <p class="ot-tabnote">{{ $c.quick.colabNote }}</p>
+    <div class="ot-code ot-code--wrap">
+      <pre><code>https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb</code></pre>
+    </div>
+  </div>
+</div>

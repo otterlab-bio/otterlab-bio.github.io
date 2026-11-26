@@ -1,0 +1,33 @@
+# Hugo configuration. Theme assets come from the module; site assets (custom.css,
+# scheme, fonts) come from this repository's assets/ directory.
+baseURL = "https://otterlab-bio.github.io/"
+title = "OTTER"
+defaultContentLanguage = "en"
+hasCJKLanguage = true
+enableRobotsTXT = true
+summaryLength = 40
+
+[pagination]
+  pagerSize = 10
+
+[module]
+  [[module.imports]]
+    path = "github.com/nunocoracao/blowfish/v3"
+    [[module.imports.mounts]]
+      source = "assets"
+      target = "assets"
+    [[module.imports.mounts]]
+      source = "layouts"
+      target = "layouts"
+    [[module.imports.mounts]]
+      source = "i18n"
+      target = "i18n"
+    [[module.imports.mounts]]
+      source = "data"
+      target = "data"
+    [[module.imports.mounts]]
+      source = "static"
+      target = "static"
+    [[module.imports.mounts]]
+      source = "archetypes"
+      target = "archetypes"

@@ -1,0 +1,188 @@
+# 简体中文首页文案。键与 data/home/en.yaml 一一对应，数值、命令、仓库名一律保持原样。
+# 中文不引入英文版没有的事实。
+
+hero:
+  eyebrowPill: "开源"
+  eyebrow: "面向异种移植模型的多组学工作流"
+  titleLead: "编译型管线。"
+  titleTail: "可复现运行。"
+  lead: "OTTER 将 FASTQ 与样本信息转换为经过校验的工作流项目，并在本地或 Slurm 上执行。backend、参考基因组与资源边界在第一个任务启动之前就写进不可变快照。"
+  primaryCta:
+    label: "安装 OTTER"
+    url: "#quickstart"
+  secondaryCta:
+    label: "查看源码"
+    url: "https://github.com/otterlab-bio/otter"
+    github: "otterlab-bio/otter"
+  meta: "MIT 许可 · Linux 与 macOS · amd64 与 arm64"
+
+console:
+  title: "demo_rrbs · otter build"
+  command: "otter build --project-root demo --fastq ./fastq --mode RRBS --pdata ./samples.csv"
+  flags: "--reference-primary hg19@GRCh37.p13-gencode-v19 --backend slurm"
+  lines:
+    - text: "Identified 2 samples"
+      state: ok
+    - text: "Successfully paired 2/2 samples"
+      state: ok
+    - text: "Verifying declared references against the registry..."
+      state: ok
+    - text: "Reference primary verified: hg19@GRCh37.p13-gencode-v19 (Homo sapiens, manifest sha256:33dfd7d4…)"
+      state: ok
+    - text: "Build complete"
+      state: ok
+    - text: "Snapshot: /shared/otter/demo/runs/run-20261124T091204Z-7f3a1c/run.yaml"
+      state: dim
+  phasesTitle: "快照中的阶段"
+  phases:
+    - name: "step1"
+      backend: "slurm"
+      order: "01"
+    - name: "step2-check"
+      backend: "slurm"
+      order: "02"
+    - name: "step3-report"
+      backend: "local"
+      order: "03"
+  footnote: "执行器、backend、阶段顺序与 CPU／内存边界都在解析阶段固定。"
+
+stack:
+  kicker: "架构"
+  title: "四层编译，一条命令。"
+  lead: "每一层各自消除原型中的一类失效模式：求解器死锁、锁竞争、宿主库漂移，以及记录级正确性。"
+  layers:
+    - name: "otter"
+      role: "项目、配置、工作流与任务控制"
+    - name: "craftmake"
+      role: "原生 Local 与 Slurm 执行器，单写者状态库"
+    - name: "enva"
+      role: "rattler 优先的运行时环境，每套工具链只构建一次"
+    - name: "operators"
+      role: "共享 BAM 原语之上的七个编译算子"
+
+cards:
+  wide:
+    title: "七个编译算子取代旧脚本"
+    body: "质控、宿主–移植判定、配对修复、定量、剪接编排、质控汇总与甲基化矩阵均以二进制交付。每个算子都在相同输入上对照其基准实现校验。"
+    ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
+  items:
+    - title: "单写者，无锁竞争"
+      body: "craftmake 通过一个 SQLite 连接与回滚日志串行化控制面写入。在 Lustre 上，256 个重叠事务完成，零记录丢失。"
+    - title: "参考基因组封存，不再重解析"
+      body: "每次基因组选择写作 id@release，经 SHA-256 清单校验后绑定进运行快照。重跑不会静默换用另一份索引。"
+    - title: "每套工具链只建一次环境"
+      body: "enva 用 rattler 解析上游工具链并复用单一最小环境，避免每个步骤都重新求解依赖。"
+    - title: "Linux 上的静态二进制"
+      body: "Linux release 资产为静态链接，工具链不再依赖曾让 CentOS 7 上动态构建失败的那一版 glibc。"
+    - title: "本地与 Slurm 共用一份快照"
+      body: "backend 与资源边界在快照解析时写入，因此同一份 run.yaml 无需修改即可驱动笔记本与集群。"
+      span: full
+
+metrics:
+  kicker: "评测"
+  title: "对照基准实现的实测结果。"
+  lead: "数字来自相同输入、相同集群资源配额下的配对运行，不是合成微基准。"
+  items:
+    - value: "2.41×"
+      label: "甲基化矩阵构建"
+      note: "全基因组 eRRBS 上，91.6 s 对比 Methrix 规范流程的 221.0 s。"
+    - value: "65.51%"
+      label: "峰值 RSS 降幅"
+      note: "在同样的 4 核、128 GiB 配额下，从 18.62 GiB 降至 6.42 GiB。"
+    - value: "4.213 s"
+      label: "控制器对账"
+      note: "Slurm 上 BS-PDX 的中位数，Snakemake 路径为 19.819 s；n = 3 配对重复。"
+    - value: "51.61%–54.03%"
+      label: "RRBS 可用召回"
+      note: "跨人类输入梯度，比 Xengsort pass@Bismark 高 0.575–1.200 个百分点。"
+  footnote: "标注处均为 n = 3 配对重复。完整梯度见补充表 S11 与 S12。"
+
+quick:
+  kicker: "快速开始"
+  title: "两分钟拿到一份解析完成的 run。"
+  tabs:
+    installer: "安装脚本"
+    container: "容器"
+    colab: "Colab"
+  installerNote: "识别平台，下载匹配的 release 资产，并用已发布的 checksums 校验。"
+  containerNote: "holt-run 镜像跟随最新稳定版，并按 release checksums 安装全部工具。"
+  colabNote: "写入一份模拟参考注册表，按场景建立项目，再用 --dry-run 解析每个阶段。它不执行任何工具。"
+  points:
+    - "RRBS、WGBS、RNA-seq、BS-PDX 与 RNA-PDX 都是一等分析模式。"
+    - "一份参考发布可达数十 GB，仅 GRCh38 STAR 索引就约 30 GB。"
+    - "离线演练驱动真实二进制跑通 99 个阶段，0 失败。"
+    - "旧项目先用 otter config migrate 迁移，再交给同一执行器运行。"
+
+repos:
+  kicker: "组件"
+  title: "十二个仓库，一套工具链。"
+  lead: "每个组件独立发布、独立版本化。工作流通过 release 清单锁定它们，而不是依赖一个松散的环境。"
+  items:
+    - name: "otter"
+      lang: "Go"
+      role: "项目、配置、工作流与任务控制面"
+      url: "https://github.com/otterlab-bio/otter"
+    - name: "craftmake"
+      lang: "Go"
+      role: "原生工作流编译器与 Local/Slurm 执行器"
+      url: "https://github.com/otterlab-bio/craftmake"
+    - name: "enva"
+      lang: "Rust"
+      role: "rattler 优先的环境生命周期管理器"
+      url: "https://github.com/otterlab-bio/enva"
+    - name: "fastqcx"
+      lang: "Go"
+      role: "与 FastQC 汇总口径一致的 FASTQ 质控"
+      url: "https://github.com/otterlab-bio/fastqcx"
+    - name: "xenofilx"
+      lang: "Go"
+      role: "链感知的宿主–移植读段判定"
+      url: "https://github.com/otterlab-bio/xenofilx"
+    - name: "pairbam"
+      lang: "Go"
+      role: "保留读段名分组的双端 BAM 过滤"
+      url: "https://github.com/otterlab-bio/pairbam"
+    - name: "seq2mat"
+      lang: "Go"
+      role: "HTSeq 计数到可追溯表达矩阵"
+      url: "https://github.com/otterlab-bio/seq2mat"
+    - name: "matsrun"
+      lang: "Go"
+      role: "rMATS 两两剪接编排"
+      url: "https://github.com/otterlab-bio/matsrun"
+    - name: "qctb"
+      lang: "Go"
+      role: "带版本的 QC 汇总报告"
+      url: "https://github.com/otterlab-bio/qctb"
+    - name: "methx"
+      lang: "Rust"
+      role: "Bismark coverage 到带版本的 HDF5 甲基化矩阵"
+      url: "https://github.com/otterlab-bio/methx"
+    - name: "bamdriver"
+      lang: "Go"
+      role: "共享 BAM 与 BGZF 原语"
+      url: "https://github.com/otterlab-bio/bamdriver"
+    - name: "holt"
+      lang: "Shell"
+      role: "带 SSH 与 JupyterLab 的容器化工作台"
+      url: "https://github.com/otterlab-bio/holt"
+
+cite:
+  kicker: "文档"
+  title: "阅读、运行、引用。"
+  lead: "手册按任务组织：安装、数据准备、首次运行，以及五类分析模式。"
+  docsCardTitle: "文档"
+  docsCardBody: "安装、FASTQ 配对规则、CLI 参考，以及旧项目的迁移路径。"
+  docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
+  paperCardTitle: "预印本"
+  paperCardBody: "Zheng 等，bioRxiv 2026。DOI 10.64898/2026.10.24.761506。"
+  paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
+  dataCardTitle: "数据"
+  dataCardBody: "Hugging Face 上带版本的 fixture 与溯源记录。"
+  dataCardUrl: "https://huggingface.co/datasets/fallingstar10/otter-data"
+  walkthroughCardTitle: "演练"
+  walkthroughCardBody: "十五分钟 Colab，建立每个场景并解析每个阶段。"
+  walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
+
+footer:
+  line: "OTTER 以 MIT 许可发布，用 Go 与 Rust 写成。"

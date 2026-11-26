@@ -1,0 +1,20 @@
+locale = "en"
+label = "English"
+weight = 1
+title = "OTTER"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "A reproducible multi-omics workflow CLI for PDX, CDX, RRBS, WGBS, and RNA-seq."
+
+[params.author]
+  name = "otterlab-bio"
+  headline = "Reproducible multi-omics workflows for xenograft models"
+  bio = "OTTER turns FASTQ inputs and sample metadata into validated workflow projects, then runs them locally or on SLURM."
+  links = [
+    { github = "https://github.com/otterlab-bio/otter" },
+    { huggingface = "https://huggingface.co/datasets/fallingstar10/otter-data" },
+  ]

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://otterlab-bio.github.io/sitemap.xml

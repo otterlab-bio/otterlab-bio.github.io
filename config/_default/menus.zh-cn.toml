@@ -1,0 +1,14 @@
+[[main]]
+  name = "文档"
+  pageRef = "/docs"
+  weight = 10
+
+[[main]]
+  name = "GitHub"
+  url = "https://github.com/otterlab-bio/otter"
+  weight = 20
+
+[[main]]
+  name = "论文"
+  url = "https://doi.org/10.64898/2026.10.24.761506"
+  weight = 30

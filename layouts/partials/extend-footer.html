@@ -1,0 +1,44 @@
+{{/* Two small behaviours: tab switching for the quick-start panel, and the
+     scroll reveal used by the card grids. Both are progressively enhanced: with
+     JavaScript disabled every panel and card is already visible. */}}
+<script>
+  (function () {
+    document.querySelectorAll('[data-ot-tabs]').forEach(function (root) {
+      var tabs = root.querySelectorAll('[data-ot-tab]');
+      var panels = root.querySelectorAll('[data-ot-panel]');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var key = tab.getAttribute('data-ot-tab');
+          tabs.forEach(function (t) {
+            var on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          panels.forEach(function (p) {
+            var on = p.getAttribute('data-ot-panel') === key;
+            p.classList.toggle('is-active', on);
+            if (on) { p.removeAttribute('hidden'); } else { p.setAttribute('hidden', ''); }
+          });
+        });
+      });
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.ot-reveal').forEach(function (el) {
+        el.classList.add('is-in');
+      });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    document.querySelectorAll('.ot-reveal').forEach(function (el) { io.observe(el); });
+  })();
+</script>

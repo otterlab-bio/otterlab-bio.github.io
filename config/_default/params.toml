@@ -1,0 +1,80 @@
+# Theme parameters. The homepage uses the "custom" layout (layouts/partials/home/custom.html),
+# because the reference design needs a terminal panel the built-in landing layout cannot express.
+# Copy lives in data/home/<lang>.yaml; visual overrides live in assets/css/custom.css.
+# Header mark. Cropped from figures/logo.svg so the top bar shows the otter itself
+# rather than a wordmark that repeats the site title.
+Logo = "img/mark.png"
+
+colorScheme = "otter"
+defaultAppearance = "light"
+autoSwitchAppearance = true
+
+enableA11y = false
+enableSearch = false
+enableCodeCopy = true
+enableStructuredBreadcrumbs = false
+replyByEmail = false
+
+disableImageOptimization = false
+disableImageOptimizationMD = false
+disableTextInHeader = false
+fingerprintAlgorithm = "sha512"
+copyright = "© { year } otterlab-bio · OTTER is released under the MIT License"
+
+# Language routing is handled by a small script in layouts/partials/extend-head.html.
+# The theme's built-in redirect also bounces explicit /zh-cn/ visits by visitors
+# whose browser is in English, which makes the Chinese site hard to reach from a
+# shared link. The local script only redirects the bare homepage on a first visit.
+[languageRedirect]
+  enabled = false
+
+[header]
+  layout = "floating"
+
+[footer]
+  showMenu = true
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = true
+  showScrollToTop = true
+
+[homepage]
+  layout = "custom"
+  showRecent = false
+  showRecentItems = 0
+  showMoreLink = false
+  cardView = false
+  cardViewScreenWidth = false
+
+[article]
+  showDate = false
+  showViews = false
+  showLikes = false
+  showAuthor = false
+  showHero = false
+  showBreadcrumbs = false
+  showEdit = false
+  showPagination = false
+  showReadingTime = false
+  showReadingProgress = false
+  showTableOfContents = true
+  showRelatedContent = false
+  showTaxonomies = false
+  showWordCount = false
+  showZenMode = false
+
+[list]
+  showHero = false
+  showBreadcrumbs = false
+  showSummary = true
+  showTableOfContents = false
+  showCards = true
+  orderByWeight = true
+  groupByYear = false
+  cardView = true
+
+[sitemap]
+  excludedKinds = ["taxonomy", "term"]
+
+[taxonomy]
+  showTermCount = false

@@ -1,0 +1,189 @@
+# English homepage copy. Every number here is traceable to the manuscript
+# (manuscript.typ sections 2.3, 3.2, S4.2, S4.4) or to the release itself.
+# data/home/zh-cn.yaml mirrors this file key for key.
+
+hero:
+  eyebrowPill: "Open source"
+  eyebrow: "Multi-omics workflows for xenograft models"
+  titleLead: "Compiled pipelines."
+  titleTail: "Reproducible runs."
+  lead: "OTTER turns FASTQ files and sample metadata into validated workflow projects, then runs them locally or on Slurm. Backends, references, and resource envelopes are fixed in an immutable snapshot before a single task starts."
+  primaryCta:
+    label: "Install OTTER"
+    url: "#quickstart"
+  secondaryCta:
+    label: "View source"
+    url: "https://github.com/otterlab-bio/otter"
+    github: "otterlab-bio/otter"
+  meta: "MIT licensed · Linux and macOS · amd64 and arm64"
+
+console:
+  title: "demo_rrbs · otter build"
+  command: "otter build --project-root demo --fastq ./fastq --mode RRBS --pdata ./samples.csv"
+  flags: "--reference-primary hg19@GRCh37.p13-gencode-v19 --backend slurm"
+  lines:
+    - text: "Identified 2 samples"
+      state: ok
+    - text: "Successfully paired 2/2 samples"
+      state: ok
+    - text: "Verifying declared references against the registry..."
+      state: ok
+    - text: "Reference primary verified: hg19@GRCh37.p13-gencode-v19 (Homo sapiens, manifest sha256:33dfd7d4…)"
+      state: ok
+    - text: "Build complete"
+      state: ok
+    - text: "Snapshot: /shared/otter/demo/runs/run-20261124T091204Z-7f3a1c/run.yaml"
+      state: dim
+  phasesTitle: "Phases in the snapshot"
+  phases:
+    - name: "step1"
+      backend: "slurm"
+      order: "01"
+    - name: "step2-check"
+      backend: "slurm"
+      order: "02"
+    - name: "step3-report"
+      backend: "local"
+      order: "03"
+  footnote: "Executor, backend, phase order, and the CPU/memory envelope are fixed at resolve time."
+
+stack:
+  kicker: "Architecture"
+  title: "Four compiled layers, one command."
+  lead: "Each layer isolates one failure mode of the R and Snakemake prototype: solver deadlocks, lock contention, host-library drift, and record-level correctness."
+  layers:
+    - name: "otter"
+      role: "Project, configuration, workflow, and task control"
+    - name: "craftmake"
+      role: "Native Local and Slurm executor with a single-writer state store"
+    - name: "enva"
+      role: "Rattler-first runtime environments, built once per tool set"
+    - name: "operators"
+      role: "Seven compiled domain operators over shared BAM primitives"
+
+cards:
+  wide:
+    title: "Seven compiled operators replace legacy scripts"
+    body: "Quality control, host–graft classification, mate repair, quantification, splicing orchestration, QC aggregation, and methylation matrices now run as binaries. Each operator is checked against its reference implementation on identical inputs."
+    ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
+  items:
+    - title: "One writer, no lock contention"
+      body: "craftmake serialises controller writes through one SQLite connection with a rollback journal. On Lustre, 256 overlapping transactions completed with zero lost records."
+    - title: "References sealed, not re-resolved"
+      body: "Each genome selection is written as id@release, checked against a SHA-256 manifest, and bound into the run snapshot. A rerun cannot silently pick up a different index."
+    - title: "Environments built once per tool set"
+      body: "enva resolves the upstream toolchain with rattler and reuses one minimal environment, instead of re-solving dependencies at every step."
+    - title: "Static binaries on Linux"
+      body: "Release assets are statically linked on Linux, so the toolchain no longer depends on the host glibc version that broke dynamic builds on CentOS 7."
+    - title: "Local and Slurm share a snapshot"
+      body: "Backend and resource envelopes are recorded when the snapshot is resolved, so the same run.yaml drives a laptop and a cluster without edits."
+      span: full
+
+metrics:
+  kicker: "Evaluation"
+  title: "Measured against the reference implementations."
+  lead: "Numbers come from matched runs on identical inputs and cluster allocations, not from synthetic microbenchmarks."
+  items:
+    - value: "2.41×"
+      label: "Methylation matrix build"
+      note: "91.6 s vs 221.0 s for the canonical Methrix workflow on full-genome eRRBS."
+    - value: "65.51%"
+      label: "Lower peak RSS"
+      note: "18.62 GiB to 6.42 GiB under the same four-core, 128 GiB allocation."
+    - value: "4.213 s"
+      label: "Controller reconciliation"
+      note: "Median for BS-PDX on Slurm, against 19.819 s on the Snakemake path; n = 3 paired repeats."
+    - value: "51.61%–54.03%"
+      label: "Usable recall, RRBS"
+      note: "Across the human-fraction gradient, 0.575–1.200 percentage points above Xengsort pass@Bismark."
+  footnote: "n = 3 paired repeats where stated. Full gradients are reported in Supplementary Tables S11 and S12."
+
+quick:
+  kicker: "Quick start"
+  title: "Two minutes to a resolved run."
+  tabs:
+    installer: "Installer"
+    container: "Container"
+    colab: "Colab"
+  installerNote: "Detects your platform, downloads the matching release asset, and verifies it against the published checksums."
+  containerNote: "The holt-run image follows the newest stable release and installs every tool from the release checksums."
+  colabNote: "Writes a simulated reference registry, authors each scenario, and resolves every phase with --dry-run. It executes no tool."
+  points:
+    - "RRBS, WGBS, RNA-seq, BS-PDX, and RNA-PDX ship as first-class modes."
+    - "A reference release is tens of gigabytes; a GRCh38 STAR index alone is about 30 GB."
+    - "The offline rehearsal drives the real binaries through 99 stages with 0 failures."
+    - "Legacy projects migrate with otter config migrate, then run through the same executor."
+
+repos:
+  kicker: "Components"
+  title: "Twelve repositories, one toolchain."
+  lead: "Each component is released and versioned on its own. The workflow pins them through the release manifest rather than through a loose environment."
+  items:
+    - name: "otter"
+      lang: "Go"
+      role: "Project, configuration, workflow, and task control plane"
+      url: "https://github.com/otterlab-bio/otter"
+    - name: "craftmake"
+      lang: "Go"
+      role: "Native workflow compiler and Local/Slurm executor"
+      url: "https://github.com/otterlab-bio/craftmake"
+    - name: "enva"
+      lang: "Rust"
+      role: "Rattler-first environment lifecycle manager"
+      url: "https://github.com/otterlab-bio/enva"
+    - name: "fastqcx"
+      lang: "Go"
+      role: "FASTQ quality control with FastQC-compatible summaries"
+      url: "https://github.com/otterlab-bio/fastqcx"
+    - name: "xenofilx"
+      lang: "Go"
+      role: "Strand-aware host–graft read classification"
+      url: "https://github.com/otterlab-bio/xenofilx"
+    - name: "pairbam"
+      lang: "Go"
+      role: "Paired-end BAM filtering that keeps read-name groups intact"
+      url: "https://github.com/otterlab-bio/pairbam"
+    - name: "seq2mat"
+      lang: "Go"
+      role: "HTSeq counts to traceable expression matrices"
+      url: "https://github.com/otterlab-bio/seq2mat"
+    - name: "matsrun"
+      lang: "Go"
+      role: "rMATS pairwise splicing orchestration"
+      url: "https://github.com/otterlab-bio/matsrun"
+    - name: "qctb"
+      lang: "Go"
+      role: "Versioned QC summary reporting"
+      url: "https://github.com/otterlab-bio/qctb"
+    - name: "methx"
+      lang: "Rust"
+      role: "Bismark coverage to versioned HDF5 methylation matrices"
+      url: "https://github.com/otterlab-bio/methx"
+    - name: "bamdriver"
+      lang: "Go"
+      role: "Shared BAM and BGZF primitives"
+      url: "https://github.com/otterlab-bio/bamdriver"
+    - name: "holt"
+      lang: "Shell"
+      role: "Containerised workbench with SSH and JupyterLab"
+      url: "https://github.com/otterlab-bio/holt"
+
+cite:
+  kicker: "Documentation"
+  title: "Read it, run it, cite it."
+  lead: "The manual is task-oriented: installation, data preparation, a first run, and the five analysis modes."
+  docsCardTitle: "Documentation"
+  docsCardBody: "Installation, FASTQ pairing rules, the CLI reference, and the migration path for legacy projects."
+  docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
+  paperCardTitle: "Preprint"
+  paperCardBody: "Zheng et al., bioRxiv 2026. DOI 10.64898/2026.10.24.761506."
+  paperCardUrl: "https://doi.org/10.64898/2026.10.24.761506"
+  dataCardTitle: "Data"
+  dataCardBody: "Versioned fixtures and provenance records on Hugging Face."
+  dataCardUrl: "https://huggingface.co/datasets/fallingstar10/otter-data"
+  walkthroughCardTitle: "Walkthrough"
+  walkthroughCardBody: "A fifteen-minute Colab that authors every scenario and resolves every phase."
+  walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough.ipynb"
+
+footer:
+  line: "OTTER is MIT licensed and written in Go and Rust."
