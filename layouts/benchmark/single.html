@@ -1,0 +1,30 @@
+{{ define "main" }}
+  {{- $lang := site.Language.Lang -}}
+  {{- $c := index hugo.Data.home $lang -}}
+  {{- if not $c }}{{ $c = index hugo.Data.home "en" }}{{ end -}}
+  <article class="ot-doc">
+    <div class="ot-wrap">
+      <h1 class="ot-h1">{{ .Title }}</h1>
+      {{ with .Description }}<p class="ot-section-lead">{{ . }}</p>{{ end }}
+      <section class="ot-section" style="padding-top:2rem">
+        <h2 class="ot-h2">{{ $c.bench.title }}</h2>
+        <p class="ot-section-lead">{{ $c.bench.lead }}</p>
+        {{ partial "ot/benchmark.html" . }}
+      </section>
+      <section class="ot-section" style="padding-bottom:3rem">
+        <h2 class="ot-h2">{{ $c.metrics.title }}</h2>
+        <p class="ot-section-lead">{{ $c.metrics.lead }}</p>
+        <div class="ot-metrics">
+          {{ range $c.metrics.items }}
+            <div class="ot-metric">
+              <span class="value">{{ .value }}</span>
+              <span class="label">{{ .label }}</span>
+              <span class="note">{{ .note }}</span>
+            </div>
+          {{ end }}
+        </div>
+        <p class="ot-footnote">{{ $c.metrics.footnote }}</p>
+      </section>
+    </div>
+  </article>
+{{ end }}

@@ -1,0 +1,183 @@
+# Per-fraction means for the Xengsort comparison, generated from
+# docs/benchmarks/xengsort-gradient-2026-11-24/results/per-fraction-mean-sd.csv in the
+# manuscript repository. Do not edit by hand: regenerate when the archive changes.
+#
+# Comparison basis follows the manuscript: OTTER is `modern`; RNA-seq uses Xengsort's
+# `xengsort_graft` output checked against STAR, RRBS uses `bismark_replay` checked
+# against Bismark. Usable recall counts only pairs with a qualifying human alignment.
+
+assay:
+  rna:
+    replicatesPerFraction: 3
+    points:
+      - fraction: "0.1%"
+        otter: 92.13
+        xengsort: 92.6
+        delta: -0.47
+        otterPpv: 93.29
+        xengsortPpv: 94.17
+      - fraction: "0.5%"
+        otter: 92.62
+        xengsort: 93.2
+        delta: -0.58
+        otterPpv: 98.6
+        xengsortPpv: 98.81
+      - fraction: "1%"
+        otter: 92.59
+        xengsort: 93.21
+        delta: -0.61
+        otterPpv: 99.3
+        xengsortPpv: 99.4
+      - fraction: "2%"
+        otter: 92.67
+        xengsort: 93.24
+        delta: -0.57
+        otterPpv: 99.65
+        xengsortPpv: 99.7
+      - fraction: "5%"
+        otter: 92.69
+        xengsort: 93.25
+        delta: -0.56
+        otterPpv: 99.86
+        xengsortPpv: 99.88
+      - fraction: "10%"
+        otter: 92.65
+        xengsort: 93.23
+        delta: -0.58
+        otterPpv: 99.94
+        xengsortPpv: 99.94
+      - fraction: "25%"
+        otter: 92.65
+        xengsort: 93.24
+        delta: -0.59
+        otterPpv: 99.98
+        xengsortPpv: 99.98
+      - fraction: "50%"
+        otter: 92.62
+        xengsort: 93.21
+        delta: -0.59
+        otterPpv: 99.99
+        xengsortPpv: 99.99
+      - fraction: "60%"
+        otter: 92.61
+        xengsort: 93.21
+        delta: -0.59
+        otterPpv: 99.99
+        xengsortPpv: 100.0
+      - fraction: "70%"
+        otter: 92.61
+        xengsort: 93.2
+        delta: -0.59
+        otterPpv: 100.0
+        xengsortPpv: 100.0
+      - fraction: "80%"
+        otter: 92.6
+        xengsort: 93.2
+        delta: -0.6
+        otterPpv: 100.0
+        xengsortPpv: 100.0
+      - fraction: "90%"
+        otter: 92.59
+        xengsort: 93.19
+        delta: -0.6
+        otterPpv: 100.0
+        xengsortPpv: 100.0
+      - fraction: "95%"
+        otter: 92.59
+        xengsort: 93.19
+        delta: -0.6
+        otterPpv: 100.0
+        xengsortPpv: 100.0
+      - fraction: "99%"
+        otter: 92.6
+        xengsort: 93.2
+        delta: -0.6
+        otterPpv: 100.0
+        xengsortPpv: 100.0
+  bs:
+    replicatesPerFraction: 3
+    points:
+      - fraction: "0.1%"
+        otter: 54.03
+        xengsort: 52.97
+        delta: 1.07
+        otterPpv: 40.82
+        xengsortPpv: 42.73
+      - fraction: "0.5%"
+        otter: 52.92
+        xengsort: 52.23
+        delta: 0.69
+        otterPpv: 77.22
+        xengsortPpv: 78.67
+      - fraction: "1%"
+        otter: 51.61
+        xengsort: 50.91
+        delta: 0.7
+        otterPpv: 86.71
+        xengsortPpv: 87.68
+      - fraction: "2%"
+        otter: 52.23
+        xengsort: 51.6
+        delta: 0.63
+        otterPpv: 93.17
+        xengsortPpv: 93.69
+      - fraction: "5%"
+        otter: 52.01
+        xengsort: 51.33
+        delta: 0.68
+        otterPpv: 97.16
+        xengsortPpv: 97.39
+      - fraction: "10%"
+        otter: 51.98
+        xengsort: 51.3
+        delta: 0.68
+        otterPpv: 98.64
+        xengsortPpv: 98.75
+      - fraction: "25%"
+        otter: 52.0
+        xengsort: 51.34
+        delta: 0.66
+        otterPpv: 99.54
+        xengsortPpv: 99.58
+      - fraction: "50%"
+        otter: 52.09
+        xengsort: 51.43
+        delta: 0.66
+        otterPpv: 99.85
+        xengsortPpv: 99.86
+      - fraction: "60%"
+        otter: 52.0
+        xengsort: 51.34
+        delta: 0.66
+        otterPpv: 99.89
+        xengsortPpv: 99.9
+      - fraction: "70%"
+        otter: 52.02
+        xengsort: 51.37
+        delta: 0.65
+        otterPpv: 99.93
+        xengsortPpv: 99.94
+      - fraction: "80%"
+        otter: 52.01
+        xengsort: 51.36
+        delta: 0.65
+        otterPpv: 99.96
+        xengsortPpv: 99.96
+      - fraction: "90%"
+        otter: 52.02
+        xengsort: 51.37
+        delta: 0.65
+        otterPpv: 99.98
+        xengsortPpv: 99.98
+      - fraction: "95%"
+        otter: 52.02
+        xengsort: 51.37
+        delta: 0.65
+        otterPpv: 99.99
+        xengsortPpv: 99.99
+      - fraction: "99%"
+        otter: 52.02
+        xengsort: 51.37
+        delta: 0.65
+        otterPpv: 100.0
+        xengsortPpv: 100.0

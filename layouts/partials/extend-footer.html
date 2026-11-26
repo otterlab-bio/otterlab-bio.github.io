@@ -24,12 +24,64 @@
       });
     });
 
-    // The header is borderless over the hero and gains a surface once scrolled.
+    // The header separates from the page once the reader scrolls.
+    var header = document.querySelector('.ot-header');
     var headerState = function () {
-      document.body.classList.toggle('ot-scrolled', window.scrollY > 24);
+      if (header) header.classList.toggle('is-scrolled', window.scrollY > 12);
     };
     headerState();
     window.addEventListener('scroll', headerState, { passive: true });
+
+    // Theme control: light, dark, or follow the system. The theme's own script
+    // reads localStorage["appearance"] on load, so writing that key keeps the
+    // two in step.
+    var themeButtons = document.querySelectorAll('[data-ot-theme]');
+    var applyTheme = function (mode) {
+      var root = document.documentElement;
+      var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var dark = mode === 'dark' || (mode === 'auto' && systemDark);
+      root.classList.toggle('dark', dark);
+      try {
+        if (mode === 'auto') localStorage.removeItem('appearance');
+        else localStorage.setItem('appearance', mode);
+      } catch (e) {}
+      themeButtons.forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-ot-theme') === mode ? 'true' : 'false');
+      });
+    };
+    var initialTheme = 'auto';
+    try {
+      var saved = localStorage.getItem('appearance');
+      if (saved === 'light' || saved === 'dark') initialTheme = saved;
+    } catch (e) {}
+    if (themeButtons.length) {
+      applyTheme(initialTheme);
+      themeButtons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          applyTheme(b.getAttribute('data-ot-theme'));
+        });
+      });
+    }
+
+    // Mobile navigation.
+    var menuBtn = document.querySelector('[data-ot-menu-toggle]');
+    var mobileNav = document.getElementById('ot-mobile-nav');
+    if (menuBtn && mobileNav) {
+      menuBtn.addEventListener('click', function () {
+        var open = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        if (open) mobileNav.setAttribute('hidden', '');
+        else mobileNav.removeAttribute('hidden');
+      });
+    }
+
+    // An explicit language switch must survive the first-visit redirect, so the
+    // choice is recorded before the navigation happens.
+    document.querySelectorAll('[data-ot-lang-switch]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        try { localStorage.setItem('otter_lang', link.getAttribute('hreflang') === 'en' ? 'en' : 'zh-cn'); } catch (e) {}
+      });
+    });
 
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.ot-reveal').forEach(function (el) {

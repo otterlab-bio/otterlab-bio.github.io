@@ -70,6 +70,7 @@ cards:
       body: "Linux release 资产为静态链接，工具链不再依赖曾让 CentOS 7 上动态构建失败的那一版 glibc。"
     - title: "本地与 Slurm 共用一份快照"
       body: "backend 与资源边界在快照解析时写入，因此同一份 run.yaml 无需修改即可驱动笔记本与集群。"
+      span: full
 
 metrics:
   title: "对照基准实现的实测结果。"
@@ -88,6 +89,10 @@ metrics:
       label: "RRBS 可用召回"
       note: "跨人类输入梯度，比 Xengsort pass@Bismark 高 0.575–1.200 个百分点。"
   footnote: "标注处均为 n = 3 配对重复。完整梯度见补充表 S11 与 S12。"
+
+bench:
+  title: "OTTER 与 Xengsort 的梯度对比。"
+  lead: "从 0.1% 到 99% 共 14 档人类输入，每档 3 个重复，按片段级统计。可用召回只计入同时通过人类比对的配对，也就是真正进入下游分析的读数。"
 
 quick:
   title: "两分钟拿到一份解析完成的 run。"

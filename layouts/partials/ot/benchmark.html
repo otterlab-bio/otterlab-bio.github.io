@@ -1,0 +1,63 @@
+{{/* Xengsort comparison. The numbers come from data/benchmark.yaml, which is
+     generated from the manuscript's benchmark archive; nothing is typed here. */}}
+{{- $lang := site.Language.Lang -}}
+{{- $isZh := eq $lang "zh-cn" -}}
+{{- $b := hugo.Data.benchmark.assay -}}
+{{- $t := dict
+  "rna" (cond $isZh "RNA-seq" "RNA-seq")
+  "bs" (cond $isZh "RRBS" "RRBS")
+  "frac" (cond $isZh "人类输入占比" "Human fraction")
+  "otter" "OTTER"
+  "xengsort" "Xengsort"
+  "delta" (cond $isZh "差值（百分点）" "Δ (pp)")
+  "otterPpv" (cond $isZh "OTTER 映射 PPV" "OTTER mapped PPV")
+  "xengsortPpv" (cond $isZh "Xengsort 映射 PPV" "Xengsort mapped PPV")
+  "n" (cond $isZh "每档 3 个重复" "3 replicates per fraction")
+-}}
+
+<div class="ot-tabs" data-ot-tabs>
+  <div class="ot-tabbar" role="tablist" aria-label="{{ cond $isZh "基准对比" "Benchmark comparison" }}">
+    <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="rna" aria-selected="true">{{ $t.rna }}</button>
+    <button class="ot-tab" role="tab" type="button" data-ot-tab="bs" aria-selected="false">{{ $t.bs }}</button>
+  </div>
+
+  {{ range $key := slice "rna" "bs" }}
+    {{- $rows := (index $b $key).points -}}
+    <div class="ot-tabpanel{{ if eq $key "rna" }} is-active{{ end }}" role="tabpanel" data-ot-panel="{{ $key }}"{{ if ne $key "rna" }} hidden{{ end }}>
+      <div class="ot-tablewrap">
+        <table class="ot-table">
+          <caption class="ot-table-caption">
+            {{ if eq $key "rna" }}
+              {{ cond $isZh "可用召回以通过 STAR 人类比对为准" "Usable recall counted only for pairs with a qualifying STAR human alignment" }}
+            {{ else }}
+              {{ cond $isZh "可用召回以通过 Bismark 人类比对为准" "Usable recall counted only for pairs with a qualifying Bismark human alignment" }}
+            {{ end }}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ $t.frac }}</th>
+              <th scope="col" class="num">{{ $t.otter }}</th>
+              <th scope="col" class="num">{{ $t.xengsort }}</th>
+              <th scope="col" class="num">{{ $t.delta }}</th>
+              <th scope="col" class="num">{{ $t.otterPpv }}</th>
+              <th scope="col" class="num">{{ $t.xengsortPpv }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ range $rows }}
+              <tr>
+                <th scope="row">{{ .fraction }}</th>
+                <td class="num">{{ printf "%.2f" .otter }}</td>
+                <td class="num">{{ printf "%.2f" .xengsort }}</td>
+                <td class="num{{ if gt .delta 0.0 }} is-pos{{ else }} is-neg{{ end }}">{{ printf "%+.2f" .delta }}</td>
+                <td class="num">{{ printf "%.2f" .otterPpv }}</td>
+                <td class="num">{{ printf "%.2f" .xengsortPpv }}</td>
+              </tr>
+            {{ end }}
+          </tbody>
+        </table>
+      </div>
+      <p class="ot-table-note">{{ $t.n }}</p>
+    </div>
+  {{ end }}
+</div>

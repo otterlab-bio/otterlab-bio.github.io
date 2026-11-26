@@ -71,6 +71,7 @@ cards:
       body: "Release assets are statically linked on Linux, so the toolchain no longer depends on the host glibc version that broke dynamic builds on CentOS 7."
     - title: "Local and Slurm share a snapshot"
       body: "Backend and resource envelopes are recorded when the snapshot is resolved, so the same run.yaml drives a laptop and a cluster without edits."
+      span: full
 
 metrics:
   title: "Measured against the reference implementations."
@@ -89,6 +90,10 @@ metrics:
       label: "Usable recall, RRBS"
       note: "Across the human-fraction gradient, 0.575–1.200 percentage points above Xengsort pass@Bismark."
   footnote: "n = 3 paired repeats where stated. Full gradients are reported in Supplementary Tables S11 and S12."
+
+bench:
+  title: "How OTTER and Xengsort compare."
+  lead: "Fourteen human fractions from 0.1% to 99%, three replicates each, read at fragment level. Usable recall counts only pairs that also pass a human alignment, which is the number that reaches downstream analysis."
 
 quick:
   title: "Two minutes to a resolved run."

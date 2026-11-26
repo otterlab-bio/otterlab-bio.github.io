@@ -1,0 +1,58 @@
+{{/* Site header, modelled on the reference layout: one flat line, brand on the
+     left, then a plain link row and two segmented controls on the right. It is
+     rendered instead of the theme's header so the page is not wrapped in a
+     floating capsule. */}}
+{{- $lang := site.Language.Lang -}}
+{{- $isZh := eq $lang "zh-cn" -}}
+{{- $t := dict
+  "docs" (cond $isZh "文档" "Docs")
+  "bench" (cond $isZh "基准" "Benchmark")
+  "code" (cond $isZh "源码" "GitHub")
+  "paper" (cond $isZh "论文" "Paper")
+  "lang" (cond $isZh "简体中文" "English")
+  "switchTo" (cond $isZh "English" "简体中文")
+  "theme" (cond $isZh "主题" "Theme")
+-}}
+{{- $other := "/" -}}
+{{- if eq $lang "en" }}{{ $other = "/zh-cn/" }}{{ end -}}
+
+<header class="ot-header">
+  <div class="ot-header-inner">
+    <a class="ot-brand" href="{{ "" | relLangURL }}">
+      <img src="{{ "img/mark.png" | relURL }}" alt="" width="32" height="32">
+      <span>OTTER</span>
+    </a>
+
+    <nav class="ot-nav" aria-label="{{ cond $isZh "主导航" "Main" }}">
+      <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
+      <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
+      <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
+      <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ $t.paper }}</a>
+    </nav>
+
+    <div class="ot-tools">
+      <a class="ot-seg ot-seg--lang" href="{{ $other }}" hreflang="{{ cond $isZh "en" "zh-CN" }}" data-ot-lang-switch>
+        {{ partial "ot/icon.html" "globe" }}
+        <span>{{ $t.lang }}</span>
+      </a>
+
+      <div class="ot-seg ot-seg--theme" role="group" aria-label="{{ $t.theme }}">
+        <button type="button" data-ot-theme="light" aria-label="{{ cond $isZh "浅色" "Light" }}" title="{{ cond $isZh "浅色" "Light" }}">{{ partial "ot/icon.html" "sun" }}</button>
+        <button type="button" data-ot-theme="dark" aria-label="{{ cond $isZh "深色" "Dark" }}" title="{{ cond $isZh "深色" "Dark" }}">{{ partial "ot/icon.html" "moon" }}</button>
+        <button type="button" data-ot-theme="auto" aria-label="{{ cond $isZh "跟随系统" "System" }}" title="{{ cond $isZh "跟随系统" "System" }}">{{ partial "ot/icon.html" "monitor" }}</button>
+      </div>
+
+      <button class="ot-menu-btn" type="button" data-ot-menu-toggle aria-expanded="false" aria-controls="ot-mobile-nav" aria-label="{{ cond $isZh "菜单" "Menu" }}">
+        {{ partial "ot/icon.html" "menu" }}
+      </button>
+    </div>
+  </div>
+
+  <nav id="ot-mobile-nav" class="ot-mobile-nav" hidden aria-label="{{ cond $isZh "主导航" "Main" }}">
+    <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
+    <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
+    <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
+    <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ $t.paper }}</a>
+    <a href="{{ $other }}" hreflang="{{ cond $isZh "en" "zh-CN" }}" data-ot-lang-switch>{{ $t.switchTo }}</a>
+  </nav>
+</header>

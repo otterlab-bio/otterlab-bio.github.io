@@ -10,6 +10,9 @@
       var stored = localStorage.getItem(key);
       if (stored === 'en' || stored === 'zh-cn') return;
       var pref = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      // Only the bare root is redirected, and only when the visitor has never
+      // made an explicit choice. Selecting a language in the header writes this
+      // key first, so the switch always sticks.
       if (/^zh\b/i.test(pref) && location.pathname === '/') {
         location.replace('/zh-cn/');
       }

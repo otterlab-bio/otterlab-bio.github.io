@@ -28,7 +28,7 @@ fingerprintAlgorithm = "sha512"
   enabled = false
 
 [header]
-  layout = "floating"
+  layout = "custom"
 
 [footer]
   showMenu = true

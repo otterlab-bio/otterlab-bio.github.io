@@ -85,65 +85,219 @@ html.dark .ot-home-shell::before {
     );
 }
 
-/* --- header brand -------------------------------------------------------- */
+/* --- header -------------------------------------------------------------- */
 
-/* The home page opens with a full-width hero, so the theme's 128px spacer that
-   reserves room for a static header is removed here and the hero padding takes
-   over the clearance instead. */
-body:has(.ot-home-shell) header > div.min-h-32 {
-  display: none;
+body:has(.ot-home-shell) header > div.min-h-32 { display: none; }
+
+/* The theme constrains every page to a centred column. On the home page the
+   header and the hero backdrop run full width, so the wrapper is released there
+   only; documentation pages keep the reading column. */
+body:has(.ot-home-shell) {
+  max-width: none;
+  padding-inline: 0;
 }
 
-header img.logo {
-  max-height: 2.5rem;
-  max-width: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  object-fit: contain;
+/* One container for the wide sections. */
+.ot-wrap {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding-inline: 1.5rem;
 }
 
-header .main-menu > :first-child {
-  align-self: center;
+@media (max-width: 620px) {
+  .ot-wrap {
+    padding-inline: 1rem;
+  }
 }
 
-/* The hero surface runs to y = 0, so the header starts borderless and only
-   gains a surface once the page is scrolled and it would otherwise sit over
-   content. */
-header > div.fixed > div.relative {
-  border-color: transparent;
-  box-shadow: none;
-  transition: border-color 0.2s var(--ot-ease), box-shadow 0.2s var(--ot-ease);
+.ot-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--ot-paper) 88%, transparent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s var(--ot-ease), background-color 0.2s var(--ot-ease);
 }
 
-header > div.fixed > div.relative > div.absolute {
-  background: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  transition: background-color 0.2s var(--ot-ease), backdrop-filter 0.2s var(--ot-ease);
+@supports (backdrop-filter: blur(1px)) {
+  .ot-header {
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    backdrop-filter: saturate(140%) blur(14px);
+  }
 }
 
-body.ot-scrolled header > div.fixed > div.relative {
-  border-color: var(--ot-line);
-  box-shadow: 0 1px 2px rgba(26, 24, 21, 0.04), 0 12px 28px -22px rgba(26, 24, 21, 0.35);
+.ot-header.is-scrolled {
+  border-bottom-color: var(--ot-line);
 }
 
-body.ot-scrolled header > div.fixed > div.relative > div.absolute {
-  background: rgba(251, 248, 243, 0.72);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  backdrop-filter: saturate(140%) blur(14px);
+.ot-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 78rem;
+  margin: 0 auto;
+  padding: 0.7rem 1.5rem;
 }
 
-html.dark body.ot-scrolled header > div.fixed > div.relative > div.absolute {
-  background: rgba(18, 21, 25, 0.72);
-}
-
-/* The wordmark has to outrank the menu links, which sit at 14px. */
-header .main-menu a.text-base {
+.ot-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-right: auto;
   font-family: var(--ot-serif);
   font-size: 1.375rem;
   font-weight: 700;
-  letter-spacing: -0.015em;
-  text-transform: none;
+  letter-spacing: -0.02em;
+  color: var(--ot-ink);
+  text-decoration: none;
+}
+
+.ot-brand img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+.ot-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ot-nav a {
+  font-size: var(--ot-fs-body);
+  font-weight: 500;
+  color: var(--ot-ink-2);
+  text-decoration: none;
+  transition: color 0.18s var(--ot-ease);
+}
+
+.ot-nav a:hover {
+  color: var(--ot-ink);
+}
+
+.ot-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ot-seg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2.25rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 9px;
+  background: var(--ot-paper-2);
+  font-size: var(--ot-fs-small);
+  font-weight: 500;
+  color: var(--ot-ink-2);
+  text-decoration: none;
+  transition: color 0.18s var(--ot-ease), background-color 0.18s var(--ot-ease);
+}
+
+.ot-seg:hover {
+  color: var(--ot-ink);
+  background: color-mix(in srgb, var(--ot-ink) 8%, var(--ot-paper-2));
+}
+
+.ot-seg svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ot-seg--theme {
+  gap: 0.15rem;
+  padding: 0.2rem;
+}
+
+.ot-seg--theme button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ot-ink-3);
+  cursor: pointer;
+  transition: color 0.18s var(--ot-ease), background-color 0.18s var(--ot-ease);
+}
+
+.ot-seg--theme button:hover {
+  color: var(--ot-ink);
+}
+
+.ot-seg--theme button[aria-pressed="true"] {
+  background: var(--ot-raised);
+  color: var(--ot-ink);
+  box-shadow: 0 1px 2px rgba(26, 24, 21, 0.08);
+}
+
+.ot-seg--theme button svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.ot-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 9px;
+  background: var(--ot-paper-2);
+  color: var(--ot-ink);
+  cursor: pointer;
+}
+
+.ot-menu-btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.ot-mobile-nav {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .ot-header-inner {
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .ot-nav,
+  .ot-seg--lang {
+    display: none;
+  }
+
+  .ot-menu-btn {
+    display: inline-flex;
+  }
+
+  .ot-mobile-nav:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.5rem 1rem 1rem;
+    border-top: 1px solid var(--ot-line);
+    background: var(--ot-paper);
+  }
+
+  .ot-mobile-nav a {
+    padding: 0.75rem 0.25rem;
+    font-size: var(--ot-fs-body);
+    font-weight: 500;
+    color: var(--ot-ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ot-line-soft);
+  }
 }
 
 /* --- hero ---------------------------------------------------------------- */
@@ -233,6 +387,17 @@ header .main-menu a.text-base {
     border-color 0.2s var(--ot-ease);
 }
 
+.ot-btn--ghost {
+  border: 1px solid var(--ot-line);
+  background: var(--ot-paper-2);
+  color: var(--ot-ink);
+}
+
+.ot-btn--ghost:hover {
+  border-color: var(--ot-accent);
+  color: var(--ot-accent);
+}
+
 .ot-btn--primary {
   background: var(--ot-accent);
   color: #fff;
@@ -249,8 +414,13 @@ html.dark .ot-btn--primary {
 
 .ot-btn:focus-visible,
 .ot-hero-link:focus-visible,
-.ot-repo:focus-visible,
-.ot-link a:focus-visible,
+.ot-card--link:focus-visible,
+.ot-card-link:focus-visible,
+.ot-nav a:focus-visible,
+.ot-brand:focus-visible,
+.ot-seg:focus-visible,
+.ot-menu-btn:focus-visible,
+.ot-seg--theme button:focus-visible,
 #the-top a:focus-visible,
 #scroll-to-top a:focus-visible,
 header a:focus-visible,
@@ -410,6 +580,17 @@ html.dark .ot-term .ok { color: #7ac295; }
   color: var(--ot-ink-2);
 }
 
+.ot-h1 {
+  margin: 2.5rem 0 0;
+  font-family: var(--ot-serif);
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ot-ink);
+  text-wrap: balance;
+}
+
 .ot-h3 {
   margin: 2.75rem 0 0;
   font-size: var(--ot-fs-body);
@@ -418,85 +599,136 @@ html.dark .ot-term .ok { color: #7ac295; }
   color: var(--ot-ink);
 }
 
-/* --- architecture layers ------------------------------------------------- */
+/* --- cards --------------------------------------------------------------- */
 
-.ot-layers {
+.ot-cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
   margin-top: 2.25rem;
-  border-top: 1px solid var(--ot-line);
 }
 
-.ot-layer {
-  padding: 1.25rem 1.5rem 1.5rem 0;
-  border-right: 1px solid var(--ot-line-soft);
+.ot-cards--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.ot-layer:last-child {
-  border-right: 0;
-  padding-right: 0;
+.ot-cards--four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.ot-layer h3 {
+@media (max-width: 1023px) {
+  .ot-cards,
+  .ot-cards--four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .ot-cards,
+  .ot-cards--two,
+  .ot-cards--four {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ot-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.4rem;
+  border-radius: 16px;
+  border: 1px solid var(--ot-line);
+  background: var(--ot-raised);
+  transition: transform 0.22s var(--ot-ease), border-color 0.22s var(--ot-ease);
+}
+
+.ot-card--link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ot-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--ot-cyan) 45%, var(--ot-line));
+}
+
+.ot-card--wide {
+  grid-column: span 2;
+}
+
+.ot-card--full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 639px) {
+  .ot-card--wide,
+  .ot-card--full {
+    grid-column: span 1;
+  }
+}
+
+.ot-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  border-radius: 11px;
+  background: var(--ot-accent-soft);
+  color: var(--ot-accent);
+}
+
+.ot-card-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.ot-card h3 {
   margin: 0 0 0.45rem;
-  font-family: var(--ot-mono);
   font-size: var(--ot-fs-body);
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.4;
   color: var(--ot-ink);
 }
 
-.ot-layer p {
+.ot-card p {
   margin: 0;
-  font-size: var(--ot-fs-body);
-  line-height: 1.65;
+  font-size: var(--ot-fs-small);
+  line-height: 1.7;
   color: var(--ot-ink-2);
+}
+
+.ot-card-lang {
+  align-self: flex-start;
+  margin-top: 0.9rem;
+  font-family: var(--ot-mono);
+  font-size: var(--ot-fs-small);
+  color: var(--ot-ink-3);
+}
+
+.ot-card-link {
+  align-self: flex-start;
+  margin-top: 0.9rem;
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  color: var(--ot-accent);
+  text-decoration: none;
+}
+
+.ot-card-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* --- operator list ------------------------------------------------------- */
 
 .ot-ops {
   margin: 0.85rem 0 0;
-  max-width: 39rem;
   font-family: var(--ot-mono);
   font-size: var(--ot-fs-small);
-  line-height: 2;
-  color: var(--ot-ink-2);
+  line-height: 1.9;
+  color: var(--ot-ink-3);
   overflow-wrap: anywhere;
-}
-
-/* --- invariants: two columns of hairline-separated rows ------------------ */
-
-.ot-invariants {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 3rem;
-  margin-top: 0.35rem;
-  border-top: 1px solid var(--ot-line);
-}
-
-.ot-invariant {
-  padding: 1.15rem 0;
-  border-bottom: 1px solid var(--ot-line-soft);
-}
-
-/* Let the final row close the block without a dangling rule. */
-.ot-invariant:last-child {
-  border-bottom: 0;
-}
-
-.ot-invariant h4 {
-  margin: 0 0 0.3rem;
-  font-size: var(--ot-fs-body);
-  font-weight: 700;
-  color: var(--ot-ink);
-}
-
-.ot-invariant p {
-  margin: 0;
-  font-size: var(--ot-fs-body);
-  line-height: 1.7;
-  color: var(--ot-ink-2);
 }
 
 /* --- metrics ------------------------------------------------------------- */
@@ -505,19 +737,16 @@ html.dark .ot-term .ok { color: #7ac295; }
    page carries exactly three body sizes in total. */
 .ot-metrics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 3rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
   margin-top: 2.25rem;
-  border-top: 1px solid var(--ot-line);
 }
 
 .ot-metric {
-  padding: 1.4rem 0 1.5rem;
-  border-bottom: 1px solid var(--ot-line-soft);
-}
-
-.ot-metric:nth-last-child(-n+2) {
-  border-bottom: 0;
+  padding: 1.35rem 1.25rem;
+  border: 1px solid var(--ot-line);
+  border-radius: 14px;
+  background: var(--ot-raised);
 }
 
 .ot-metric .value {
@@ -661,87 +890,80 @@ html.dark .ot-term .ok { color: #7ac295; }
   border-bottom: 0;
 }
 
-/* --- components ---------------------------------------------------------- */
+/* --- benchmark table ----------------------------------------------------- */
 
-.ot-repos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 3rem;
-  margin-top: 2rem;
-  border-top: 1px solid var(--ot-line);
+.ot-tablewrap {
+  margin-top: 0.5rem;
+  overflow-x: auto;
 }
 
-.ot-repo {
-  display: grid;
-  grid-template-columns: 10.5rem minmax(0, 1fr);
-  gap: 0.35rem 1rem;
-  align-items: baseline;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--ot-line-soft);
-  text-decoration: none;
+/* The benchmark panel fills the column; the tab strip stays at its own width. */
+.ot-tabpanel {
+  width: 100%;
 }
 
-.ot-repo .name {
-  font-family: var(--ot-mono);
-  font-size: var(--ot-fs-body);
-  font-weight: 600;
-  color: var(--ot-accent);
-  white-space: nowrap;
-}
-
-.ot-repo .lang {
-  font-family: var(--ot-sans);
+.ot-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
   font-size: var(--ot-fs-small);
-  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.ot-table-caption {
+  caption-side: bottom;
+  padding-top: 0.6rem;
+  font-size: var(--ot-fs-small);
+  text-align: left;
   color: var(--ot-ink-3);
 }
 
-.ot-repo .role {
-  font-size: var(--ot-fs-body);
-  line-height: 1.6;
-  color: var(--ot-ink-2);
-}
-
-.ot-repo:hover .name {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* --- documentation and citation ----------------------------------------- */
-
-.ot-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 3rem;
-  margin-top: 2rem;
-  border-top: 1px solid var(--ot-line);
-}
-
-.ot-link {
-  padding: 1.1rem 0 1.2rem;
+.ot-table th,
+.ot-table td {
+  padding: 0.5rem 0.7rem;
+  text-align: left;
   border-bottom: 1px solid var(--ot-line-soft);
 }
 
-.ot-link h3 {
-  margin: 0 0 0.3rem;
-  font-size: var(--ot-fs-body);
-  font-weight: 700;
-  color: var(--ot-ink);
-}
-
-.ot-link p {
-  margin: 0;
-  font-size: var(--ot-fs-body);
-  line-height: 1.65;
-  color: var(--ot-ink-2);
-}
-
-.ot-link a {
-  display: inline-block;
-  color: var(--ot-accent);
+.ot-table thead th {
+  font-weight: 600;
+  color: var(--ot-ink-3);
+  border-bottom-color: var(--ot-line);
   white-space: nowrap;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+}
+
+.ot-table tbody th {
+  font-family: var(--ot-mono);
+  font-weight: 500;
+  color: var(--ot-ink);
+  white-space: nowrap;
+}
+
+.ot-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ot-table .is-pos {
+  color: #2f7a4e;
+}
+
+.ot-table .is-neg {
+  color: #b4543f;
+}
+
+html.dark .ot-table .is-pos {
+  color: #7ac295;
+}
+
+html.dark .ot-table .is-neg {
+  color: #e08b78;
+}
+
+.ot-table-note {
+  margin: 0.7rem 0 0;
+  font-size: var(--ot-fs-small);
+  color: var(--ot-ink-3);
 }
 
 /* --- motion -------------------------------------------------------------- */
@@ -857,22 +1079,6 @@ footer#site-footer a:hover {
 
 /* --- responsive ---------------------------------------------------------- */
 
-@media (max-width: 1100px) {
-  .ot-layers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ot-layer:nth-child(2n) {
-    border-right: 0;
-    padding-right: 0;
-  }
-
-  .ot-layer:nth-child(-n+2) {
-    border-bottom: 1px solid var(--ot-line-soft);
-  }
-
-}
-
 @media (max-width: 900px) {
   .ot-console-body {
     grid-template-columns: 1fr;
@@ -887,56 +1093,17 @@ footer#site-footer a:hover {
     grid-template-columns: 1fr;
   }
 
-  .ot-invariants,
-  .ot-repos,
-  .ot-links {
-    grid-template-columns: 1fr;
-    column-gap: 0;
-  }
 }
 
 @media (max-width: 620px) {
-  .ot-layers,
   .ot-metrics {
-    grid-template-columns: 1fr;
-  }
-
-  .ot-layer,
-  .ot-metric {
-    border-right: 0;
-    padding-right: 0;
-  }
-
-  .ot-layer:nth-child(-n+2),
-  .ot-metric:nth-last-child(-n+2) {
-    border-bottom: 0;
-  }
-
-  .ot-layer + .ot-layer,
-  .ot-metric + .ot-metric {
-    border-top: 1px solid var(--ot-line-soft);
-  }
-
-  .ot-metric {
-    border-bottom: 1px solid var(--ot-line-soft);
-  }
-
-  .ot-metric:last-child {
-    border-bottom: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .ot-metric .value {
     white-space: normal;
   }
 
-  .ot-repo {
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
-  }
-
-  .ot-repo .name {
-    white-space: normal;
-  }
 }
 
 /* --- documentation prose ------------------------------------------------ */

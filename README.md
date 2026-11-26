@@ -59,6 +59,15 @@ running the installed skill against the deployed site. Both passes, with the mea
 before and after values for every finding, are in
 [`docs/design-review-gemini-frontend-design.md`](./docs/design-review-gemini-frontend-design.md).
 
+## Benchmark data
+
+`data/benchmark.yaml` is generated, not typed. It holds the per-fraction means from
+`docs/benchmarks/xengsort-gradient-2026-11-24/results/per-fraction-mean-sd.csv` in the
+manuscript repository, and the comparison basis matches the manuscript: OTTER is the
+`modern` method; RNA-seq uses Xengsort's `xengsort_graft` output checked against STAR,
+and RRBS uses `bismark_replay` checked against Bismark. Regenerate the file when the
+archive changes.
+
 ## Design constraints worth keeping
 
 1. **No em dashes in prose.** Use subordinate clauses, prepositional phrases, or
@@ -92,6 +101,8 @@ deploy: **Settings → Pages → Build and deployment → Source: GitHub Actions
 | Largest contentful paint | 1.4 s |
 | Cumulative layout shift | 0 |
 | Body type sizes | two (16 px, 14 px), down from nineteen |
+| Benchmark data | 14 fractions x 3 replicates per assay, generated from the manuscript archive |
+| Language switch | both directions verified, choice persists across reloads |
 | Text under 13 px above the fold | none |
 | Kicker labels, decorative pills, badges | none |
 | Section first children | `h2, h2, h2, h2, h2, h2` |
