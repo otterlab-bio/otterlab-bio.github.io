@@ -35,7 +35,7 @@ $OTTER_REFERENCE_ROOT/
 
 **关键特性**：
 - **一次写入且封存**：已发布的参考发布版本（release）会以原子方式重命名并封存为只读（`chmod 0555` / `0444`）。
-- **可加密审计**：每个文件的 SHA-256 摘要均记录在 `manifest.json` 中。
+- **密码学可审计**：每个文件的 SHA-256 摘要均记录在 `manifest.json` 中。
 - **与项目解耦**：项目仅在 `references.lock.yaml` 中记录逻辑标识与清单（manifest）摘要：
   ```yaml
   schema_version: otter.references.lock/v1

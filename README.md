@@ -27,6 +27,7 @@ static/              fonts, favicons, robots.txt
 layouts/partials/    home/custom.html, ot/*, extend-head.html, extend-footer.html
 layouts/docs-index/  the /docs/ hub: primary action, prerequisites, chapter cards
 layouts/_default/_markup/render-link.html  resolves the manual's GitHub-style links
+scripts/convert-zh-tw.py  regenerates zh-tw chapter bodies from zh-cn (+ --check)
 .github/workflows/   pages.yml
 ```
 
@@ -96,8 +97,22 @@ and then corrected by hand where the conversion is wrong for this domain (for ex
 The manual under `content/docs/manual/` is synced from `otterlab-bio/otter:docs/manual`
 and translated in full: nine chapters, each in `en`, `zh-cn`, and `zh-tw`. Translation
 keeps code blocks, inline code, URLs, and table structure byte-identical to the English
-source; `zh-tw` is converted from `zh-cn` with OpenCC and then corrected by hand. Any
-future edit to the English chapter must be mirrored in the two Chinese files.
+source.
+
+`zh-cn` is translated by hand. `zh-tw` is generated from `zh-cn` by
+`scripts/convert-zh-tw.py`, which runs OpenCC (`s2twp`) and then applies the glossary
+that keeps the manual on the same terms as `data/home/zh-tw.yaml` (`釋出` not `發佈`,
+`執行` not `運行`, `登錄檔` not `註冊表`, `運算元` not `算子`). Code spans, fenced
+blocks, and URLs are shielded before conversion, because the manual documents literal
+column aliases such as `样本编号` that must stay Simplified to keep matching the
+parser. After editing a `zh-cn` chapter, regenerate its `zh-tw` sibling and run
+
+```bash
+python3 scripts/convert-zh-tw.py --check content/docs/manual/*.zh-tw.md
+```
+
+which fails if a Simplified character survives outside code. Any future edit to the
+English chapter must be mirrored in `zh-cn` first.
 
 ## Benchmark data
 

@@ -8,28 +8,28 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-## 为什么找不到 `otter`？
+## 為什麼找不到 `otter`？
 
-检查安装目录与 `PATH`：
+檢查安裝目錄與 `PATH`：
 
 ```bash
 command -v otter
 printf '%s\n' "$PATH"
 ```
 
-从源码构建的二进制文件可能仍包含兼容期遗留的 `xdxtools` 符号。部署前请运行 `./otter --help` 确认。
+從原始碼構建的二進位制檔案可能仍包含相容期遺留的 `xdxtools` 符號。部署前請執行 `./otter --help` 確認。
 
-## 为什么安装程序返回 404？
+## 為什麼安裝程式返回 404？
 
-核对规范仓库地址，并在资产为私有时进行身份验证：
+核對規範儲存庫地址，並在資產為私有時進行身份驗證：
 
 ```text
 https://github.com/otterlab-bio/otter
 ```
 
-仅通过安装程序支持的环境变量接口传递 `GITHUB_TOKEN`、`GH_TOKEN` 或 `GITHUB_PAT`。切勿提交令牌或将其写入 URL。
+僅通過安裝程式支援的環境變數介面傳遞 `GITHUB_TOKEN`、`GH_TOKEN` 或 `GITHUB_PAT`。切勿提交令牌或將其寫入 URL。
 
-## 为什么子模块目录为空？
+## 為什麼子模組目錄為空？
 
 ```bash
 git submodule sync --recursive
@@ -37,22 +37,22 @@ git submodule update --init --recursive
 git submodule status --recursive
 ```
 
-## 可以立即用 Craftmake 替代 Snakemake 吗？
+## 可以立即用 Craftmake 替代 Snakemake 嗎？
 
-基本可以。OTTER 为每个运行（run）快照（snapshot）记录单一执行器（executor）。`craftmake` 为默认执行器，负责执行规范 v1 快照；`snakemake` 仍作为兼容执行器保留，可通过 `--executor snakemake` 指定。同一快照不能同时由两者执行。
+基本可以。OTTER 為每個執行（run）快照（snapshot）記錄單一執行器（executor）。`craftmake` 為預設執行器，負責執行規範 v1 快照；`snakemake` 仍作為相容執行器保留，可通過 `--executor snakemake` 指定。同一快照不能同時由兩者執行。
 
-## 为什么 FASTQ 配对失败？
+## 為什麼 FASTQ 配對失敗？
 
-检查以下各项：
+檢查以下各項：
 
-- R1/R2 后缀与 `--suffix1` 和 `--suffix2` 匹配。
-- 从文件名提取的样本 ID 与 pdata 中的 `sampleid` 完全一致。
-- 每个样本均包含双端配对（mate）。
-- 已移除重复的样本 ID。
+- R1/R2 字尾與 `--suffix1` 和 `--suffix2` 匹配。
+- 從檔名提取的樣本 ID 與 pdata 中的 `sampleid` 完全一致。
+- 每個樣本均包含雙端配對（mate）。
+- 已移除重複的樣本 ID。
 
-## 为什么 SLURM 作业提交失败？
+## 為什麼 SLURM 作業提交失敗？
 
-检查站点资源可用性以及所请求的资源边界（envelope）：
+檢查站點資源可用性以及所請求的資源邊界（envelope）：
 
 ```bash
 sinfo
@@ -68,13 +68,13 @@ otter run \
   --executor craftmake --phase step1 --dry-run --foreground
 ```
 
-通过空运行区分工作流/配置问题与调度器提交问题。将分区、账户/QOS、CPU、内存及检查器设置与集群策略进行比对。
+通過空執行區分工作流/配置問題與排程器提交問題。將分區、帳戶/QOS、CPU、記憶體及檢查器設定與叢集策略進行比對。
 
-资源边界已在快照中固定，因此运行时的 `--slurm-partition`、`--slurm-cores` 与 `--stepN-*` 参数会被拒绝。若资源边界有误，请修改 `project.yaml` 或站点配置文件中的 `resources:` 并**解析（resolve）一次新的运行**；切勿仅更换参数重试同一快照。
+資源邊界已在快照中固定，因此執行時的 `--slurm-partition`、`--slurm-cores` 與 `--stepN-*` 參數會被拒絕。若資源邊界有誤，請修改 `project.yaml` 或站點配置檔案中的 `resources:` 並**解析（resolve）一次新的執行**；切勿僅更換參數重試同一快照。
 
-## 为什么 `methx` 报告 HDF5 错误？
+## 為什麼 `methx` 報告 HDF5 錯誤？
 
-发布版本（release）的二进制文件已静态链接 HDF5 运行时，通常无需设置 `HDF5_DIR` 或 `LD_LIBRARY_PATH`。请先校验二进制文件：
+釋出版本（release）的二進位制檔案已靜態連結 HDF5 執行時，通常無需設定 `HDF5_DIR` 或 `LD_LIBRARY_PATH`。請先驗證二進位制檔案：
 
 ```bash
 methx --version
@@ -82,11 +82,11 @@ file "$(command -v methx)"
 ldd "$(command -v methx)" | grep -E 'hdf5|not found' || true
 ```
 
-若错误发生在源码构建过程中，请遵循 [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md) 中的原生构建说明。如需原生 Methrix 加载，请使用 `methx/scripts/export_methrix_hdf5.R` 转换自定义 HDF5 输出；切勿将自定义文件称为原生 Methrix HDF5 目录。
+若錯誤發生在原始碼構建過程中，請遵循 [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md) 中的原生構建說明。如需原生 Methrix 載入，請使用 `methx/scripts/export_methrix_hdf5.R` 轉換自訂 HDF5 輸出；切勿將自訂檔案稱為原生 Methrix HDF5 目錄。
 
-## 如何查看或恢复后台运行？
+## 如何檢視或恢復後台執行？
 
-运行始终基于快照执行，因此请指定快照而非旧版配置文件：
+執行始終基於快照執行，因此請指定快照而非舊版配置檔案：
 
 ```bash
 otter task list --all
@@ -99,7 +99,7 @@ otter run \
   --executor craftmake --phase step1 --backend local
 ```
 
-恢复操作使用快照中的运行标识。Craftmake 为每个按阶段划分的运行记录一行状态，因此请针对同一快照与阶段执行恢复：
+恢復操作使用快照中的執行標識。Craftmake 為每個按階段劃分的執行記錄一行狀態，因此請針對同一快照與階段執行恢復：
 
 ```bash
 craftmake resume \
@@ -107,10 +107,10 @@ craftmake resume \
   --run <run-id>--step1 --gate
 ```
 
-完整的控制器执行顺序与 `--gate` 参数要求请参阅[第 6 章](../subtools/)。
+完整的控制器執行順序與 `--gate` 參數要求請參閱[第 6 章](../subtools/)。
 
-## 为什么文档中仍提及 FastQC、Bismark、Methrix 或 rMATS？
+## 為什麼文件中仍提及 FastQC、Bismark、Methrix 或 rMATS？
 
-这些名称对应外部工具、数据格式、标准或科学领域，并非历史遗留的产品名称；在描述实际兼容契约时应保持原样不变。
+這些名稱對應外部工具、資料格式、標準或科學領域，並非歷史遺留的產品名稱；在描述實際相容契約時應保持原樣不變。
 
-[返回手册](README.md) · [文档中心](../README.md)
+[返回手冊](README.md) · [文件中心](../README.md)
