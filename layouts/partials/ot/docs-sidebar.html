@@ -6,7 +6,7 @@
 {{- $isTw := eq site.Language.Lang "zh-tw" -}}
 {{- $isZh := hasPrefix site.Language.Lang "zh" -}}
 {{- $hub := site.GetPage "/docs" -}}
-<aside class="ot-docnav" aria-label="{{ cond $isTw "文件目錄" (cond $isZh "文档目录" "Documentation") }}">
+<aside class="ot-docnav" aria-label="{{ cond $isTw "文檔目錄" (cond $isZh "文档目录" "Documentation") }}">
   <p class="ot-docnav-title">{{ cond $isTw "使用者手冊" (cond $isZh "用户手册" "User manual") }}</p>
   <ol class="ot-docnav-list">
     {{- with $hub }}

@@ -109,8 +109,8 @@ craftmake resume \
 
 完整的控制器執行順序與 `--gate` 參數要求請參閱[第 6 章](../subtools/)。
 
-## 為什麼文件中仍提及 FastQC、Bismark、Methrix 或 rMATS？
+## 為什麼文檔中仍提及 FastQC、Bismark、Methrix 或 rMATS？
 
 這些名稱對應外部工具、資料格式、標準或科學領域，並非歷史遺留的產品名稱；在描述實際相容契約時應保持原樣不變。
 
-[返回手冊](README.md) · [文件中心](../README.md)
+[返回手冊](README.md) · [文檔中心](../README.md)

@@ -208,10 +208,10 @@ repos:
       url: "https://github.com/otterlab-bio/holt"
 
 cite:
-  kicker: "文件"
+  kicker: "文檔"
   title: "閱讀、執行、引用。"
   lead: "手冊按任務組織：安裝、資料準備、首次執行，以及五類分析模式。"
-  docsCardTitle: "文件"
+  docsCardTitle: "文檔"
   docsCardBody: "安裝、FASTQ 配對規則、CLI 參考，以及舊專案的遷移路徑。"
   docsCardLabel: "開啟手冊"
   docsCardUrl: "docs/"

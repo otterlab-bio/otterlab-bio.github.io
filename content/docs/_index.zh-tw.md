@@ -1,5 +1,5 @@
 ---
-title: "文件"
+title: "文檔"
 description: "安裝、輸入準備、首次執行與五類分析模式，按專案搭建的順序編排。"
 weight: 1
 showDate: false

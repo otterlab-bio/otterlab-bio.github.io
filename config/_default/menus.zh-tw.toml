@@ -1,5 +1,5 @@
 [[main]]
-  name = "文件"
+  name = "文檔"
   pageRef = "/docs"
   weight = 10
 

@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Regenerate a zh-tw chapter body from its zh-cn source.
+"""Regenerate a zh-tw body from its zh-cn source, or check the result.
 
-Usage: scripts/convert-zh-tw.py <zh-cn file> <zh-tw file>
+Usage:
+    scripts/convert-zh-tw.py <zh-cn file> <zh-tw file>
+    scripts/convert-zh-tw.py --check <zh-tw file>...
 
 The zh-tw file keeps its front matter, because those titles were chosen by hand.
 
-OpenCC (s2twp) supplies the character set. Three shields run before it, because the
-manual documents literal column names and flags (`样本编号`, `--skip-envs`) and a
-conversion inside those would stop them matching the software.
+OpenCC (s2twp) supplies the character set. Three shields run before it, because
+the manual documents literal column names and flags (`样本编号`, `--skip-envs`)
+and a conversion inside those would stop them matching the software.
 
 Two dictionaries surround OpenCC. PRE rewrites phrases whose machine rendering
 would collide with another term; POST records where OpenCC's Taiwan form is not
@@ -20,9 +22,16 @@ import re
 import subprocess
 import sys
 
+# `文档` (documentation) and `文件` (file) are distinct in zh-cn, but OpenCC's
+# s2twp renders both as 文件. Documentation is shielded before conversion and
+# restored as 文檔 afterwards, so 文件 keeps meaning "file" and renders 檔案.
+DOC_TOKEN = "@@OTDOC@@"
+DOC_TERM = "文檔"
+
 # Applied to the Chinese text before OpenCC. "runner" is the CI machine; OTTER's
 # own executor is 執行器 in both languages, so the two must not merge.
 PRE = {
+    "文档": DOC_TOKEN,
     "在原生运行器上": "在原生 runner 上",
     "原生运行器": "原生 runner",
     "运行器": "runner",
@@ -79,9 +88,9 @@ class Shield:
 def apply_post(text):
     """Longest key first, and a no-op entry shields its own term.
 
-    A rule pair such as 校驗 -> 驗證 would otherwise rewrite the 校驗 inside 校驗和,
-    so that entry is registered with itself as the target and the term is swapped
-    for a token while the shorter rules run.
+    A rule pair such as 校驗 -> 驗證 would otherwise rewrite the 校驗 inside
+    校驗和, so that entry is registered with itself as the target and the term is
+    swapped for a token while the shorter rules run.
     """
     tokens = {}
     for src, dst in sorted(POST.items(), key=lambda kv: -len(kv[0])):
@@ -109,7 +118,7 @@ def convert(body):
         capture_output=True,
         check=True,
     ).stdout.decode()
-    return apply_post(shield.restore(out))
+    return apply_post(shield.restore(out)).replace(DOC_TOKEN, DOC_TERM)
 
 
 def split_front_matter(text):
