@@ -14,7 +14,7 @@ showTableOfContents: true
 
 | 命令 | 用途 | 重要边界 |
 | --- | --- | --- |
-| `otter init <project>` | 将工作流资产与模式（schema）固定到规范项目中 | 若存在规范项目或旧版项目标记则拒绝执行。 |
+| `otter init <project>` | 将工作流资产与 schema 固定到规范项目中 | 若存在规范项目或旧版项目标记则拒绝执行。 |
 | `otter create` | 配对 FASTQ、校验 pdata/参考基因组并写入项目意图 | 仅支持规范项目；PDX 需要同时提供移植物（graft）和宿主（host）参考角色。 |
 | `otter build` | 依次执行 init → create → validate → resolve | 在执行前停止；输出快照（snapshot）的绝对路径。 |
 | `otter config validate` | 校验 `v1`、`legacy` 或自动检测的配置 | 旧版校验仅用于支持迁移。 |

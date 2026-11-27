@@ -32,6 +32,11 @@ DOC_TERM = "文檔"
 # own executor is 執行器 in both languages, so the two must not merge.
 PRE = {
     "文档": DOC_TOKEN,
+    # 构建 splits two ways: a software build is 建置 in Taiwan, but constructing a
+    # matrix is 建構. Shield the construction phrases before the 構建 -> 建置 rule.
+    "甲基化矩阵构建": "甲基化矩陣建構",
+    "构建 CpG": "建構 CpG",
+    "矩阵构建": "矩陣建構",
     "在原生运行器上": "在原生 runner 上",
     "原生运行器": "原生 runner",
     "运行器": "runner",
@@ -41,7 +46,6 @@ PRE = {
 POST = {
     # terms with their own form (shielded from the shorter rules below)
     "校驗和": "校驗和",
-    "運算元": "運算元",
     # OpenCC form -> the form data/home/zh-tw.yaml already uses
     "校驗": "驗證",
     "質量": "品質",
@@ -53,9 +57,8 @@ POST = {
     "分割槽": "分區",
     "引數": "參數",
     "發佈": "釋出",
-    "建構": "構建",
     "註冊表": "登錄檔",
-    "算子": "運算元",
+    "算子": "運算子",
     "安裝器": "安裝程式",
     "賬戶": "帳戶",
     "後臺": "後台",
@@ -65,6 +68,25 @@ POST = {
     "運行環境": "執行環境",
     "運行時": "執行時",
     "運行": "執行",
+    # Taiwan technical usage: 運算元 is "operand"; an operator is 運算子.
+    "運算元": "運算子",
+    # 建置 is the Taiwan term for a build; 建構 means "to construct" and stays.
+    "構建": "建置",
+    # 二進位 is the Taiwan short form; 二進位制 is a mainland calque.
+    "二進位制": "二進位",
+    # Taiwan bioinformatics usage: genome is 基因體, transcriptome 轉錄體,
+    # sequencing 定序, and QC 品管. 質控/測序/基因組 are mainland renderings.
+    "基因組": "基因體",
+    "轉錄組": "轉錄體",
+    "測序": "定序",
+    "質控": "品管",
+    # Normalisation is 正規化 in Taiwan; 歸一化 is the mainland term.
+    "歸一化": "正規化",
+    # Configuration is 設定 in Taiwan (noun and verb alike); 配置 is a mainland
+    # rendering. 註釋 (annotation) is 註解 in Taiwan.
+    "配置檔案": "設定檔",
+    "配置": "設定",
+    "註釋": "註解",
 }
 
 SHIELD = re.compile(r"@@OT(\d+)OT@@")

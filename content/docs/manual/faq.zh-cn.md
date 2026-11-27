@@ -68,7 +68,7 @@ otter run \
   --executor craftmake --phase step1 --dry-run --foreground
 ```
 
-通过空运行区分工作流/配置问题与调度器提交问题。将分区、账户/QOS、CPU、内存及检查器设置与集群策略进行比对。
+通过试运行区分工作流/配置问题与调度器提交问题。将分区、账户/QOS、CPU、内存及作业检查程序（checker）的设置与集群策略进行比对。
 
 资源边界已在快照中固定，因此运行时的 `--slurm-partition`、`--slurm-cores` 与 `--stepN-*` 参数会被拒绝。若资源边界有误，请修改 `project.yaml` 或站点配置文件中的 `resources:` 并**解析（resolve）一次新的运行**；切勿仅更换参数重试同一快照。
 

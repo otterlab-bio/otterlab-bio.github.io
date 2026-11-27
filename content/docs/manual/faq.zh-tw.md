@@ -17,7 +17,7 @@ command -v otter
 printf '%s\n' "$PATH"
 ```
 
-從原始碼構建的二進位制檔案可能仍包含相容期遺留的 `xdxtools` 符號。部署前請執行 `./otter --help` 確認。
+從原始碼建置的二進位檔案可能仍包含相容期遺留的 `xdxtools` 符號。部署前請執行 `./otter --help` 確認。
 
 ## 為什麼安裝程式返回 404？
 
@@ -68,13 +68,13 @@ otter run \
   --executor craftmake --phase step1 --dry-run --foreground
 ```
 
-通過空執行區分工作流/配置問題與排程器提交問題。將分區、帳戶/QOS、CPU、記憶體及檢查器設定與叢集策略進行比對。
+通過試執行區分工作流/設定問題與排程器提交問題。將分區、帳戶/QOS、CPU、記憶體及作業檢查程式（checker）的設定與叢集策略進行比對。
 
-資源邊界已在快照中固定，因此執行時的 `--slurm-partition`、`--slurm-cores` 與 `--stepN-*` 參數會被拒絕。若資源邊界有誤，請修改 `project.yaml` 或站點配置檔案中的 `resources:` 並**解析（resolve）一次新的執行**；切勿僅更換參數重試同一快照。
+資源邊界已在快照中固定，因此執行時的 `--slurm-partition`、`--slurm-cores` 與 `--stepN-*` 參數會被拒絕。若資源邊界有誤，請修改 `project.yaml` 或站點設定檔中的 `resources:` 並**解析（resolve）一次新的執行**；切勿僅更換參數重試同一快照。
 
 ## 為什麼 `methx` 報告 HDF5 錯誤？
 
-釋出版本（release）的二進位制檔案已靜態連結 HDF5 執行時，通常無需設定 `HDF5_DIR` 或 `LD_LIBRARY_PATH`。請先驗證二進位制檔案：
+釋出版本（release）的二進位檔案已靜態連結 HDF5 執行時，通常無需設定 `HDF5_DIR` 或 `LD_LIBRARY_PATH`。請先驗證二進位檔案：
 
 ```bash
 methx --version
@@ -82,11 +82,11 @@ file "$(command -v methx)"
 ldd "$(command -v methx)" | grep -E 'hdf5|not found' || true
 ```
 
-若錯誤發生在原始碼構建過程中，請遵循 [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md) 中的原生構建說明。如需原生 Methrix 載入，請使用 `methx/scripts/export_methrix_hdf5.R` 轉換自訂 HDF5 輸出；切勿將自訂檔案稱為原生 Methrix HDF5 目錄。
+若錯誤發生在原始碼建置過程中，請遵循 [`methx/docs/BUILD.md`](../../methx/docs/BUILD.md) 中的原生建置說明。如需原生 Methrix 載入，請使用 `methx/scripts/export_methrix_hdf5.R` 轉換自訂 HDF5 輸出；切勿將自訂檔案稱為原生 Methrix HDF5 目錄。
 
 ## 如何檢視或恢復後台執行？
 
-執行始終基於快照執行，因此請指定快照而非舊版配置檔案：
+執行始終基於快照執行，因此請指定快照而非舊版設定檔：
 
 ```bash
 otter task list --all

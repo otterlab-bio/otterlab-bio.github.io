@@ -77,7 +77,7 @@ otter config resolve --project my_project/project.yaml \
 
 ## 试运行、恢复与后台控制
 
-每次运行均基于快照执行，因此在投入计算资源前应先验证快照：
+每次运行均基于快照执行，因此在投入计算资源前应先校验快照：
 
 ```bash
 otter run \

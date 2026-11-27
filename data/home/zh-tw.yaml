@@ -9,7 +9,7 @@ hero:
     - "PDX / CDX"
     - "RRBS / WGBS"
     - "本地與 Slurm"
-  lead: "從 FASTQ 到完整報告：極速、穩健、可重現、易擴充。OTTER 是一套面向轉錄組、PDX/CDX 與表觀遺傳資料的編譯型工作流，可從筆記型電腦擴充到 Slurm。"
+  lead: "從 FASTQ 到完整報告：極速、穩健、可重現、易擴充。OTTER 是一套面向轉錄體、PDX/CDX 與表觀遺傳資料的編譯型工作流，可從筆記型電腦擴充到 Slurm。"
   primaryCta:
     label: "安裝 OTTER"
     url: "#quickstart"
@@ -50,44 +50,44 @@ stack:
   lead: "每一層各自消除原型中的一類失效模式：求解器死鎖、鎖競爭、宿主庫漂移，以及記錄級正確性。"
   layers:
     - name: "otter"
-      role: "專案、配置、工作流與任務控制"
+      role: "專案、設定、工作流與任務控制"
     - name: "craftmake"
       role: "原生 Local 與 Slurm 執行器，單寫者狀態庫"
     - name: "enva"
-      role: "rattler 優先的執行時環境，每套工具鏈只構建一次"
+      role: "rattler 優先的執行時環境，每套工具鏈只建置一次"
     - name: "operators"
-      role: "共享 BAM 原語之上的七個編譯運算元"
+      role: "共享 BAM 原語之上的七個編譯運算子"
 
 cards:
-  kicker: "算子"
+  kicker: "運算子"
   title: "指令碼被什麼取代了。"
-  lead: "七個運算元二進位制覆蓋了全部計算步驟，另有五條執行不變數在本地與叢集上同時成立。"
+  lead: "七個運算子二進位覆蓋了全部計算步驟，另有五條執行不變數在本地與叢集上同時成立。"
   wide:
-    title: "七個編譯運算元"
-    body: "質控、宿主–移植判定、配對修復、定量、剪接編排、質控彙總與甲基化矩陣均以二進位制交付。每個運算元都在相同輸入上對照其基準實現驗證。"
+    title: "七個編譯運算子"
+    body: "品管、宿主–移植判定、配對修復、定量、剪接編排、品管彙總與甲基化矩陣均以二進位交付。每個運算子都在相同輸入上對照其基準實現驗證。"
     ops: ["fastqcx", "xenofilx", "pairbam", "seq2mat", "matsrun", "qctb", "methx"]
   items:
     - title: "單寫者，無鎖競爭"
       body: "craftmake 透過一個 SQLite 連線與回滾日誌序列化控制面寫入。在 Lustre 上，256 個重疊事務完成，零記錄丟失。"
-    - title: "參考基因組封存，不再重解析"
-      body: "每次基因組選擇寫作 id@release，經 SHA-256 清單驗證後繫結進執行快照。重跑不會靜默換用另一份索引。"
+    - title: "參考基因體封存，不再重解析"
+      body: "每次基因體選擇寫作 id@release，經 SHA-256 清單驗證後繫結進執行快照。重跑不會靜默換用另一份索引。"
     - title: "每套工具鏈只建一次環境"
       body: "enva 用 rattler 解析上游工具鏈並複用單一最小環境，避免每個步驟都重新求解依賴。"
-    - title: "Linux 上的靜態二進位制"
-      body: "Linux release 資產為靜態連結，工具鏈不再依賴曾讓 CentOS 7 上動態構建失敗的那一版 glibc。"
+    - title: "Linux 上的靜態二進位"
+      body: "Linux release 資產為靜態連結，工具鏈不再依賴曾讓 CentOS 7 上動態建置失敗的那一版 glibc。"
     - title: "本地與 Slurm 共用一份快照"
       body: "backend 與資源邊界在快照解析時寫入，因此同一份 run.yaml 無需修改即可驅動筆記本與叢集。"
       span: full
 
 metrics:
   kicker: "評測"
-  title: "每個編譯算子，對照其基準實作實測。"
+  title: "每個編譯運算子，對照其基準實作實測。"
   lead: "數字來自相同輸入、相同叢集資源配額下的配對執行，並在每張卡片上標註所屬元件。"
   items:
     - value: "2.41×"
       operator: "methx"
       label: "甲基化矩陣建構"
-      note: "全基因組 eRRBS 上，91.6 s 對比 Methrix 規範流程的 221.0 s。"
+      note: "全基因體 eRRBS 上，91.6 s 對比 Methrix 規範流程的 221.0 s。"
     - value: "65.51%"
       operator: "methx"
       label: "峰值 RSS 降幅"
@@ -109,13 +109,13 @@ modes:
   cards:
     - name: "RRBS"
       model: "PDX / CDX"
-      body: "亞硫酸氫鹽簡化代表測序：去除宿主後建構 CpG 甲基化矩陣。"
+      body: "簡化基因體亞硫酸氫鹽定序：去除宿主後建構 CpG 甲基化矩陣。"
     - name: "WGBS"
       model: "PDX / CDX"
-      body: "全基因組亞硫酸氫鹽測序：全基因組範圍的甲基化矩陣。"
+      body: "全基因體亞硫酸氫鹽定序：全基因體範圍的甲基化矩陣。"
     - name: "RNA-seq"
       model: "PDX / CDX"
-      body: "轉錄組：表現矩陣與可變剪接結果，同樣先分離宿主讀段。"
+      body: "轉錄體：表現矩陣與可變剪接結果，同樣先分離宿主讀段。"
   note: "每種模式都在同一套快照契約下執行，xenograft 場景會自動啟用宿主讀段分離。"
 
 bench:
@@ -149,9 +149,9 @@ quick:
   colabUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
   points:
     - "RRBS、WGBS、RNA-seq、BS-PDX 與 RNA-PDX 都是一等分析模式。"
-    - "二進位制原生支援 Linux 與 macOS 的 amd64 與 arm64，其中 Linux 為靜態連結。"
+    - "二進位原生支援 Linux 與 macOS 的 amd64 與 arm64，其中 Linux 為靜態連結。"
     - "一份參考釋出可達數十 GB，僅 GRCh38 STAR 索引就約 30 GB。"
-    - "離線演練驅動真實二進位制跑通 99 個階段，0 失敗。"
+    - "離線演練驅動真實二進位跑通 99 個階段，0 失敗。"
 
 repos:
   kicker: "元件"
@@ -160,7 +160,7 @@ repos:
   items:
     - name: "otter"
       lang: "Go"
-      role: "專案、配置、工作流與任務控制面"
+      role: "專案、設定、工作流與任務控制面"
       url: "https://github.com/otterlab-bio/otter"
     - name: "craftmake"
       lang: "Go"
@@ -172,7 +172,7 @@ repos:
       url: "https://github.com/otterlab-bio/enva"
     - name: "fastqcx"
       lang: "Go"
-      role: "與 FastQC 彙總口徑一致的 FASTQ 質控"
+      role: "與 FastQC 彙總口徑一致的 FASTQ 品管"
       url: "https://github.com/otterlab-bio/fastqcx"
     - name: "xenofilx"
       lang: "Go"
@@ -240,4 +240,4 @@ cite:
   walkthroughCardUrl: "https://colab.research.google.com/github/otterlab-bio/otter/blob/main/notebooks/otter-colab-walkthrough-zh.ipynb"
 
 footer:
-  line: "OTTER 以 MIT 許可釋出，用 Go 與 Rust 寫成。二進位制覆蓋 Linux 與 macOS 的 amd64 與 arm64。"
+  line: "OTTER 以 MIT 許可釋出，用 Go 與 Rust 寫成。二進位覆蓋 Linux 與 macOS 的 amd64 與 arm64。"

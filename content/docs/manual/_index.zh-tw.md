@@ -16,5 +16,5 @@ build:
 - [進階用法](advanced-usage/)
 - [元件參考](subtools/)
 - [常見問題](faq/)
-- [參考基因組遷移](reference-migration/)
+- [參考基因體遷移](reference-migration/)
 - [CLI 參考](cli-reference/)

@@ -26,6 +26,6 @@ aliases: ["/docs/manual/"]
 otter -> craftmake -> enva -> 算子 -> bamdriver
 ```
 
-`craftmake` 执行不可变的 `otter.run/v1` 快照，是 `otter build` 与 `otter config resolve` 的默认执行层。`snakemake` 仍是既有 Snakemake 工作流的兼容执行层。
+`craftmake` 执行不可变的 `otter.run/v1` 快照，是 `otter build` 与 `otter config resolve` 的默认执行器。`snakemake` 仍是既有 Snakemake 工作流的兼容执行器。
 
 以下章节在 [otterlab-bio/otter](https://github.com/otterlab-bio/otter) 的 `docs/manual/` 中编写，并在此以英文、简体中文、繁体中文三种语言同步呈现。

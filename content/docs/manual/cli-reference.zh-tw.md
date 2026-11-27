@@ -14,12 +14,12 @@ showTableOfContents: true
 
 | 命令 | 用途 | 重要邊界 |
 | --- | --- | --- |
-| `otter init <project>` | 將工作流資產與模式（schema）固定到規範專案中 | 若存在規範專案或舊版專案標記則拒絕執行。 |
-| `otter create` | 配對 FASTQ、驗證 pdata/參考基因組並寫入專案意圖 | 僅支援規範專案；PDX 需要同時提供移植物（graft）和宿主（host）參考角色。 |
+| `otter init <project>` | 將工作流資產與 schema 固定到規範專案中 | 若存在規範專案或舊版專案標記則拒絕執行。 |
+| `otter create` | 配對 FASTQ、驗證 pdata/參考基因體並寫入專案意圖 | 僅支援規範專案；PDX 需要同時提供移植物（graft）和宿主（host）參考角色。 |
 | `otter build` | 依次執行 init → create → validate → resolve | 在執行前停止；輸出快照（snapshot）的絕對路徑。 |
-| `otter config validate` | 驗證 `v1`、`legacy` 或自動檢測的配置 | 舊版驗證僅用於支援遷移。 |
+| `otter config validate` | 驗證 `v1`、`legacy` 或自動檢測的設定 | 舊版驗證僅用於支援遷移。 |
 | `otter config migrate` | 將現有舊版 `otter.yaml` 轉換為 v1 意圖 | 需要參考釋出版本標識以及規範根目錄。 |
-| `otter config resolve` | 將意圖、參考基因組、站點/後端（backend）及資源凍結到 `run.yaml` | 快照在執行（run）時不可變且具有權威性。 |
+| `otter config resolve` | 將意圖、參考基因體、站點/後端（backend）及資源凍結到 `run.yaml` | 快照在執行（run）時不可變且具有權威性。 |
 | `otter run` | 通過 Craftmake 或 Snakemake 規劃或執行一個已解析（resolve）的階段 | 拒絕原始 `project.yaml` 與舊版 `otter.yaml`。 |
 | `otter status [project]` | 彙總專案/執行狀態 | 只讀。 |
 | `otter task list/status/logs/report/stop` | 監控並控制後台 Otter 任務 | `task report` 匯出控制器/執行器（executor）證據；它不是科學性比對工具。 |
@@ -44,9 +44,9 @@ otter assets print  --project old_project
 
 `assets` 管理相容時期的 `.otter/assets.manifest.json`；規範 v1 專案使用 `project.lock.yaml` 與已解析的工作流摘要。
 
-## 參考基因組命令
+## 參考基因體命令
 
-構建並以原子方式釋出不可變登錄檔釋出版本：
+建置並以原子方式釋出不可變登錄檔釋出版本：
 
 ```bash
 otter reference build \
@@ -60,7 +60,7 @@ otter reference build \
 
 `samtools`、`bismark_genome_preparation`、`bowtie2-build` 和 `STAR` 為預設工具名稱。在釋出版本執行時中，它們由 `otter-core` 提供。
 
-將某次執行的實際參考基因組選擇提升回專案鎖定檔案：
+將某次執行的實際參考基因體選擇提升回專案鎖定檔案：
 
 ```bash
 # Preview only.

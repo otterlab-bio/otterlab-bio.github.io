@@ -34,7 +34,7 @@ my_project/
 
 ### 2. 提供參考登錄檔（reference registry）釋出版本
 
-規範專案鎖定邏輯參考 ID 與釋出版本摘要，從不將基因組檔案複製到專案中。構建一次釋出版本，或選擇一個現有釋出版本：
+規範專案鎖定邏輯參考 ID 與釋出版本摘要，從不將基因體檔案複製到專案中。建置一次釋出版本，或選擇一個現有釋出版本：
 
 ```bash
 export OTTER_REFERENCE_ROOT=/shared/otter/references
@@ -83,7 +83,7 @@ otter config resolve \
   --backend local
 ```
 
-在共享叢集上，只需記錄一次站點（site）配置，無需重複傳入參數。`otter site generate` 會探測叢集並寫入配置檔案；在 SLURM 站點上，需要提供它無法自動發現的策略欄位：
+在共享叢集上，只需記錄一次站點（site）設定，無需重複傳入參數。`otter site generate` 會探測叢集並寫入設定檔；在 SLURM 站點上，需要提供它無法自動發現的策略欄位：
 
 ```bash
 otter site generate --id production --backend slurm \
@@ -94,7 +94,7 @@ otter site validate production
 otter config resolve --project my_project/project.yaml --site production --backend slurm
 ```
 
-使用 `--site` 且未指定 `--reference-root` 時，登錄檔根目錄來自站點配置檔案。
+使用 `--site` 且未指定 `--reference-root` 時，登錄檔根目錄來自站點設定檔。
 
 解析過程會輸出快照（snapshot）路徑。快照為只讀，並綁定了場景、執行器（executor）、後端（backend）、參考、輸入、摘要和資源：
 
@@ -115,13 +115,13 @@ otter run \
   --foreground
 ```
 
-`--dry-run` 對應 `craftmake plan`：它會解析工作流目錄（workflow catalog）並報告任務圖，而不執行任何操作。去掉 `--dry-run` 即可執行；在已配置的叢集上，可將 `--backend local` 替換為 `--backend slurm`。
+`--dry-run` 對應 `craftmake plan`：它會解析工作流目錄（workflow catalog）並報告任務圖，而不執行任何操作。去掉 `--dry-run` 即可執行；在已設定的叢集上，可將 `--backend local` 替換為 `--backend slurm`。
 
 `--run-id` 是 `--config my_project/runs/<run-id>/run.yaml` 的簡寫形式。Otter 從不在執行時隱式解析 `project.yaml`；快照必須預先存在。
 
 ### 從任意目錄執行
 
-無需 `cd` 進入專案目錄。快照是執行邊界，它將每條路徑都記錄為絕對路徑：執行根目錄、work/results/logs/state 目錄、專案配置、固定的工作流資產、已解析的參考釋出版本，以及每個樣本的 FASTQ 路徑及其校驗和。執行時不會從工作目錄探測任何內容，且 `OTTER_REFERENCE_ROOT` 僅作為構建時輸入，因此執行過程不會讀取它。
+無需 `cd` 進入專案目錄。快照是執行邊界，它將每條路徑都記錄為絕對路徑：執行根目錄、work/results/logs/state 目錄、專案設定、固定的工作流資產、已解析的參考釋出版本，以及每個樣本的 FASTQ 路徑及其校驗和。執行時不會從工作目錄探測任何內容，且 `OTTER_REFERENCE_ROOT` 僅作為建置時輸入，因此執行過程不會讀取它。
 
 ```bash
 # works from anywhere: the path printed by "otter build" is absolute
@@ -172,7 +172,7 @@ otter config validate --config old_project/userspace/demo_rrbs/config/otter.yaml
 otter assets verify --project old_project --strict
 ```
 
-`otter config migrate` 將配置轉換為規範專案意圖。由於舊版配置記錄的是檔案系統路徑而非登錄檔釋出版本，因此每個參考都必須以 `id@release` 的形式命名：
+`otter config migrate` 將設定轉換為規範專案意圖。由於舊版設定記錄的是檔案系統路徑而非登錄檔釋出版本，因此每個參考都必須以 `id@release` 的形式命名：
 
 ```bash
 otter init migrated
@@ -199,7 +199,7 @@ otter run --config migrated/runs/<run-id>/run.yaml \
   --executor snakemake --dry-run --foreground
 ```
 
-實際執行該流程需要提供 Snakemake 的 `enva` 或 conda 執行時；`--dry-run` 無需該執行時即可驗證配置與工作流規劃。
+實際執行該流程需要提供 Snakemake 的 `enva` 或 conda 執行時；`--dry-run` 無需該執行時即可驗證設定與工作流規劃。
 
 ## 檢視與控制任務
 

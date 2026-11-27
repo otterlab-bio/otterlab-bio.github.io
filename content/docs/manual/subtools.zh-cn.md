@@ -48,7 +48,7 @@ fastqcx --fastq sample.fastq.gz --summary qc/sample > reports/sample.html
 
 ## `xenofilx`
 
-针对 PDX BAM 输入的移植物/宿主（graft/host）分类器，支持基于参考序列的 NM 重算与重亚硫酸盐感知评分：
+针对 PDX BAM 输入的移植物/宿主（graft/host）分类器，支持基于参考序列的 NM 重算与亚硫酸氢盐感知评分：
 
 ```bash
 xenofilx run --graft graft.bam --host host.bam --output filtered

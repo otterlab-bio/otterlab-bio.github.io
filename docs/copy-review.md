@@ -74,3 +74,47 @@
 
 同一轮还修掉了三处只在 `$isZh` 分支上的 UI 文案（`主导航`、`语言`、页脚 `数据`），
 它们此前让繁体页面混入简体字。
+
+## 术语审查：生信与计算机专用词
+
+按生信与计算机的通行译法逐词核对了两份中文，发现三类问题，均已修正。
+
+### 一、生信术语误译或大陆/台湾混用
+
+| 英文 | 改前 | 改后 | 依据 |
+| :--- | :--- | :--- | :--- |
+| bisulfite | 重亚硫酸盐（与「亚硫酸氢盐」并存） | 统一为「亚硫酸氢盐」 | 化学名 sodium bisulfite 是亚硫酸氢钠；「重亚硫酸盐」是 metabisulfite 的旧称，与 WGBS/RRBS 的 bisulfite 不是同一物质 |
+| Reduced Representation Bisulfite Sequencing | 简化代表测序 | 简化基因组亚硫酸氢盐测序 | 通行译法是「简化基因组」；同一页的 RRBS 词条原为两种写法 |
+| genome | 基因组（zh-tw） | 基因體 | 台湾标准 |
+| transcriptome | 转录组（zh-tw） | 轉錄體 | 台湾标准 |
+| sequencing | 测序（zh-tw） | 定序 | 台湾标准 |
+| QC | 质控（zh-tw） | 品管 | 台湾标准 |
+| annotation | 注释（zh-tw） | 註解 | 台湾标准 |
+| normalization | 归一化（zh-tw） | 正規化 | 台湾标准 |
+
+### 二、计算机术语错译
+
+| 英文 | 改前 | 改后 | 说明 |
+| :--- | :--- | :--- | :--- |
+| operator（系统组件） | 運算元（zh-tw） | 運算子 | 台湾把 operand 译作「運算元」，operator 是「運算子」；原译文把两者对调了 |
+| build（CI 编译） | 構建（zh-tw） | 建置 | 台湾把软件构建叫「建置」；「建構」指从零构造，用于「建構甲基化矩陣」这类语义，两者已分开 |
+| binary | 二進位制（zh-tw） | 二進位 | 台湾标准简写 |
+| configuration | 配置（zh-tw） | 設定 | 台湾把 config 与 configure 都叫「設定」 |
+| checker（SLURM 作业提交检查） | 检查器 | 作业检查程序（checker） | 原文指 SLURM 的 job submission checker，不是通用「检查器」 |
+| schema | 模式（schema） | schema | schema 不同于 mode，中文「模式」会与分析模式混淆，保留英文 |
+
+### 三、同一概念多种译法
+
+| 概念 | 改前 | 改后 |
+| :--- | :--- | :--- |
+| dry-run | 试运行 / 空运行 / 预演 | 统一为「试运行」 |
+| executor（作为层） | 执行层 | 执行器（与章节正文一致） |
+| validate / verify | 混用「校验」「验证」 | 按英文区分：validate → 校验，verify → 验证 |
+
+`--dry-run` 是 CLI 参数，其余三处是正文，混用会让读者以为是不同机制。执行器同理：`craftmake` 是 executor，不是抽象「执行层」。
+
+### 已确认无需改动的项
+
+- `快照`（snapshot）、`清单`（manifest）、`校验和`（checksum）、`契约`（contract）、`资源边界`（envelope）：均为该领域已通行的译法，简繁一致。
+- `分區`（SLURM partition）：台湾 SLURM 社区也用「分區」或直接用 partition，保留。
+- `執行緒`（thread）、`快取`（cache）、`變數`（variable）：台湾标准用法，本就正确。

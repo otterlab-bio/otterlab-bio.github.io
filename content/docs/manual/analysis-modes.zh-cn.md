@@ -22,7 +22,7 @@ showTableOfContents: true
 
 ## RRBS
 
-简化基因组重亚硫酸盐测序（Reduced Representation Bisulfite Sequencing）采用酶切感知的预处理与甲基化定量：
+简化基因组亚硫酸氢盐测序（Reduced Representation Bisulfite Sequencing）采用酶切感知的预处理与甲基化定量：
 
 ```bash
 otter create \
@@ -38,7 +38,7 @@ otter create \
 
 ## WGBS
 
-全基因组重亚硫酸盐测序（Whole-Genome Bisulfite Sequencing）共用重亚硫酸盐工作流接口，但输入规模与预期覆盖度不同：
+全基因组亚硫酸氢盐测序（Whole-Genome Bisulfite Sequencing）共用亚硫酸氢盐工作流接口，但输入规模与预期覆盖度不同：
 
 ```bash
 otter create \
