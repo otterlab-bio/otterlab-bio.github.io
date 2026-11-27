@@ -1,21 +1,16 @@
 {{/* Assay coverage. Six cards: three assays, each paired with its xenograft
-     model, so the PDX/CDX story is stated rather than implied. */}}
-{{- $isZh := hasPrefix site.Language.Lang "zh" -}}
-{{- $modes := slice
-  (dict "key" "rrbs" "name" "RRBS" "model" (cond $isZh "PDX / CDX" "PDX / CDX")
-        "body" (cond $isZh "亚硫酸氢盐简化代表测序：去除宿主后构建 CpG 甲基化矩阵。" "Reduced-representation bisulfite sequencing: host reads removed, then CpG matrices.")
-        "icon" "layers")
-  (dict "key" "wgbs" "name" "WGBS" "model" (cond $isZh "PDX / CDX" "PDX / CDX")
-        "body" (cond $isZh "全基因组亚硫酸氢盐测序：全基因组范围的甲基化矩阵。" "Whole-genome bisulfite sequencing: methylation matrices across the whole genome.")
-        "icon" "database")
-  (dict "key" "rna" "name" "RNA-seq" "model" (cond $isZh "PDX / CDX" "PDX / CDX")
-        "body" (cond $isZh "转录组：表达矩阵与可变剪接结果，同样先分离宿主读段。" "Transcriptome: expression matrices and splicing calls, after host separation.")
-        "icon" "chart")
--}}
+     model, so the PDX/CDX story is stated rather than implied.
+
+     Copy comes from data/home/<lang>.yaml under `modes`, so zh-tw reads in
+     Traditional Chinese instead of falling through to the zh-cn branch. */}}
+{{- $c := index hugo.Data.home site.Language.Lang -}}
+{{- if not $c }}{{ $c = index hugo.Data.home "en" }}{{ end -}}
+{{- $m := $c.modes -}}
+{{- $icons := dict "RRBS" "layers" "WGBS" "database" "RNA-seq" "chart" -}}
 <div class="ot-modes">
-  {{ range $m := $modes }}
+  {{ range $m.cards }}
     <article class="ot-mode">
-      <span class="ot-card-icon">{{ partial "ot/icon.html" .icon }}</span>
+      <span class="ot-card-icon">{{ partial "ot/icon.html" (index $icons .name | default "box") }}</span>
       <h3>{{ .name }}</h3>
       <p class="ot-mode-model">{{ .model }}</p>
       <p>{{ .body }}</p>
@@ -23,5 +18,5 @@
   {{ end }}
 </div>
 <p class="ot-modes-note">
-  {{ cond $isZh "每种模式都在同一套快照契约下运行，xenograft 场景会自动启用宿主读段分离。" "Every mode runs under the same snapshot contract; xenograft scenarios enable host separation automatically." }}
+  {{ $m.note }}
 </p>

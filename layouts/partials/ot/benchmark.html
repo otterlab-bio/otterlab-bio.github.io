@@ -1,28 +1,18 @@
 {{/* Xengsort comparison. Numbers come from data/benchmark.yaml, generated from the
-     manuscript's benchmark archive.
+     manuscript's benchmark archive. Column labels and the table note come from
+     data/home/<lang>.yaml under `bench.labels`, so zh-tw does not fall through to
+     the zh-cn wording.
 
      OTTER only selects pairs that also pass a human alignment, so one recall and
      one PPV column cover it. Xengsort calls graft before that check, so its raw
      and post-alignment numbers are both shown. */}}
-{{- $lang := site.Language.Lang -}}
-{{- $isTw := eq $lang "zh-tw" -}}
-{{- $isZh := hasPrefix $lang "zh" -}}
+{{- $c := index hugo.Data.home site.Language.Lang -}}
+{{- if not $c }}{{ $c = index hugo.Data.home "en" }}{{ end -}}
+{{- $t := $c.bench.labels -}}
 {{- $b := hugo.Data.benchmark.assay -}}
-{{- $t := dict
-  "frac" (cond $isTw "人類輸入佔比" (cond $isZh "人类输入占比" "Human fraction"))
-  "otter" "OTTER"
-  "xgRaw" (cond $isTw "Xengsort 原始" (cond $isZh "Xengsort 原始" "Xengsort raw"))
-  "xgUsable" (cond $isTw "Xengsort 可用" (cond $isZh "Xengsort 可用" "Xengsort usable"))
-  "delta" (cond $isTw "可用召回差值" (cond $isZh "可用召回差值" "Δ usable recall"))
-  "otterPpv" (cond $isTw "OTTER PPV" (cond $isZh "OTTER PPV" "OTTER PPV"))
-  "xgRawPpv" (cond $isTw "Xengsort 原始 PPV" (cond $isZh "Xengsort 原始 PPV" "Xengsort raw PPV"))
-  "xgUsablePpv" (cond $isTw "Xengsort 可用 PPV" (cond $isZh "Xengsort 可用 PPV" "Xengsort usable PPV"))
-  "delta" (cond $isTw "差值" (cond $isZh "差值" "Δ"))
-  "n" (cond $isTw "每檔 3 個重複；數值為百分比，差值為 OTTER 減 Xengsort 的可用召回，單位為百分點" (cond $isZh "每档 3 个重复；数值为百分比，差值为 OTTER 减 Xengsort 的可用召回，单位为百分点" "3 replicates per fraction; values are percentages, Δ is OTTER minus Xengsort usable recall in percentage points"))
--}}
 
 <div class="ot-tabs" data-ot-tabs>
-  <div class="ot-tabbar" role="tablist" aria-label="{{ cond $isZh "基準對比" "Benchmark comparison" }}">
+  <div class="ot-tabbar" role="tablist" aria-label="{{ $t.tablist }}">
     <button class="ot-tab is-active" role="tab" type="button" data-ot-tab="rna" aria-selected="true">RNA-seq</button>
     <button class="ot-tab" role="tab" type="button" data-ot-tab="bs" aria-selected="false">RRBS</button>
   </div>
@@ -34,9 +24,9 @@
         <table class="ot-table ot-table--bench">
           <thead>
             <tr>
-              <th scope="col" rowspan="2" class="frac">{{ $t.frac }}</th>
-              <th scope="colgroup" colspan="4" class="group">{{ cond $isZh "召回" "Recall" }}</th>
-              <th scope="colgroup" colspan="3" class="group">{{ cond $isZh "PPV" "PPV" }}</th>
+              <th scope="col" rowspan="2" class="frac">{{ $t.fraction }}</th>
+              <th scope="colgroup" colspan="4" class="group">{{ $t.recall }}</th>
+              <th scope="colgroup" colspan="3" class="group">{{ $t.ppv }}</th>
             </tr>
             <tr>
               <th scope="col" class="num">{{ $t.otter }}</th>
@@ -64,7 +54,7 @@
           </tbody>
         </table>
       </div>
-      <p class="ot-table-note">{{ $t.n }}</p>
+      <p class="ot-table-note">{{ $c.bench.note }}</p>
     </div>
   {{ end }}
 </div>
