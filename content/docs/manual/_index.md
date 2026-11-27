@@ -4,6 +4,9 @@ weight: 1
 showDate: false
 showAuthor: false
 showTableOfContents: false
+build:
+  render: never
+  list: local
 ---
 
 # Otter user manual

@@ -19,11 +19,14 @@ npx skills add google-gemini/demolab --skill gemini-frontend-design
 ```text
 config/_default/     hugo.toml, params.toml, languages.*, menus.*
 content/             _index.md (hero front matter), docs/ pages
-data/home/           en.yaml, zh-cn.yaml — every string on the homepage
+data/home/           en.yaml, zh-cn.yaml, zh-tw.yaml — every string on the homepage
+data/docs/manual.yaml chapter map for the /docs/ hub (tracks, badges, blurbs)
 assets/css/          schemes/otter.css (palette), custom.css (layout)
 assets/img/          logo.svg, mark.png
 static/              fonts, favicons, robots.txt
 layouts/partials/    home/custom.html, ot/*, extend-head.html, extend-footer.html
+layouts/docs-index/  the /docs/ hub: primary action, prerequisites, chapter cards
+layouts/_default/_markup/render-link.html  resolves the manual's GitHub-style links
 .github/workflows/   pages.yml
 ```
 
@@ -31,6 +34,29 @@ Copy is never in the templates. To change a headline, an evaluation number, or a
 component description, edit `data/home/en.yaml` and `data/home/zh-cn.yaml`; both
 files share the same keys, and the Chinese file must not introduce a fact that
 the English file does not state.
+
+## Documentation structure
+
+`/docs/` is the hub. It is an orientation page, not a copy of chapter 1: a single
+primary action into Installation, the prerequisite list, the execution model, then
+a card for each manual chapter grouped into three tracks (get running, configure and
+operate, look up and recover). The chapter map, the track labels, the `01`..`09`
+badges, and the one-line purposes live in `data/docs/manual.yaml` in all three
+languages, because `content/docs/manual/` is synced verbatim from
+`otterlab-bio/otter:docs/manual` and cannot carry site-only front matter.
+
+`/docs/manual/` no longer renders a page of its own. Its section index sets
+`build.render: never` so the chapters keep their URLs, and `/docs/` declares
+`/docs/manual/` as an alias, so the old address redirects to the hub instead of
+competing with it for search results. The hub carries no sticky sidebar, because the
+card grid already lists all nine chapters; chapter pages keep the sidebar and the
+prev/next pager, which now opens with an Overview link and closes the last chapter
+with a link back to the hub.
+
+The chapters link to each other with GitHub-style relative paths (`README.md`,
+`03-quickstart.md`, `../subtools/`, `../../holt`). `layouts/_default/_markup/render-link.html`
+resolves those to site pages, and sends paths that leave the docs section to the
+software repository on GitHub, so the synced sources stay untouched.
 
 ## Local build
 

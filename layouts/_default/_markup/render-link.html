@@ -1,0 +1,56 @@
+{{/* Link renderer.
+
+     The manual chapters are synced verbatim from otterlab-bio/otter:docs/manual, so
+     their links are written for GitHub: `README.md`, `03-quickstart.md`,
+     `../subtools/`, `../../holt`. Only the first two resolve on the published site,
+     and even those only when the file name matches the Hugo page name. This hook
+     keeps the synced sources untouched and resolves every target here instead:
+
+     - `*.md` chapter links map to the Hugo page of the same slug, with the upstream
+       `01-` prefix dropped when present.
+     - Directory targets resolve as section pages.
+     - Paths that leave the docs section (a sibling repository such as `holt` or
+       `methx`) become GitHub links in the software repository, which is the only
+       place those files exist.
+     - Anchors, absolute URLs, and mail links pass through unchanged. */}}
+{{- $dest := .Destination -}}
+{{- $text := .Text -}}
+{{- $title := .Title -}}
+{{- $href := $dest -}}
+
+{{- if or (hasPrefix $dest "#") (hasPrefix $dest "http://") (hasPrefix $dest "https://") (hasPrefix $dest "mailto:") -}}
+  {{- /* pass through */ -}}
+{{- else if hasPrefix $dest "../../" -}}
+  {{- $rest := strings.TrimPrefix "../../" $dest -}}
+  {{- $base := "https://github.com/otterlab-bio/otter" -}}
+  {{- if in $rest "." -}}
+    {{- $href = printf "%s/blob/main/%s" $base $rest -}}
+  {{- else -}}
+    {{- $href = printf "%s/tree/main/%s" $base $rest -}}
+  {{- end -}}
+{{- else -}}
+  {{- $path := $dest -}}
+  {{- $suffix := "" -}}
+  {{- with (index (findRE "#.*$" $dest) 0) -}}
+    {{- $suffix = . -}}
+    {{- $path = strings.TrimSuffix . $dest -}}
+  {{- end -}}
+  {{- $slug := $path -}}
+  {{- with (findRE `^\d\d-` $slug) -}}{{- $slug = strings.TrimPrefix (index . 0) $slug -}}{{- end -}}
+  {{- $slug = strings.TrimSuffix ".md" $slug -}}
+  {{- $slug = strings.TrimSuffix "/" $slug -}}
+  {{- $slug = strings.TrimPrefix "./" $slug -}}
+  {{- /* Sibling links are written as `../subtools/` because GitHub resolves them
+         from the chapter directory. Drop the leading traversal markers: every
+         chapter sits in the same section, so the remaining segment is the slug. */ -}}
+  {{- $slug = strings.TrimPrefix "../" $slug -}}
+  {{- if eq $slug "README" -}}
+    {{- $href = printf "%s%s" ("docs/" | relLangURL) $suffix -}}
+  {{- else -}}
+    {{- with site.GetPage (printf "/docs/manual/%s" $slug) -}}
+      {{- $href = printf "%s%s" .RelPermalink $suffix -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<a href="{{ $href }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>

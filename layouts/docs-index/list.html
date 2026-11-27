@@ -1,20 +1,80 @@
-{{/* Documentation landing page.
+{{/* Documentation hub at /docs/.
 
-     Left column: the quick-start material. Right column: the manual's table of
-     contents, sticky while the page scrolls. The theme's list template would print
-     "There are no articles to list here yet", so this section renders its own. */}}
+     This page is an orientation page, not a copy of chapter 1. It carries a single
+     primary action (the first chapter), the prerequisite text, and a card for every
+     manual chapter, grouped into reading tracks. The chapter map, the track labels,
+     the badges, and the one-line purposes come from data/docs/manual.yaml, because
+     content/docs/manual/ is synced from the upstream software repository and must
+     not carry site-only front matter.
+
+     The sticky chapter sidebar is deliberately absent here: the card grid already
+     lists every chapter, and rendering both would duplicate the same nine links.
+     Chapter pages keep the sidebar. */}}
 {{ define "main" }}
-  <article class="ot-doc">
+  {{- $lang := site.Language.Lang -}}
+  {{- $map := hugo.Data.docs.manual -}}
+  {{- $manual := site.GetPage "/docs/manual" -}}
+
+  {{/* Localised lookup with an English fallback, so a partially translated data
+       file still renders instead of printing nothing. */}}
+  {{- $str := "en" -}}
+  {{- if $map.cta -}}{{- end -}}
+
+  <article class="ot-doc ot-doc--hub">
     <div class="ot-wrap">
-      <div class="ot-doc-grid">
-        <div class="ot-doc-main">
-          <h1 class="ot-h1">{{ .Title }}</h1>
-          {{ with .Description }}<p class="ot-section-lead">{{ . }}</p>{{ end }}
-          <div class="ot-doc-body prose prose-lg max-w-none dark:prose-invert">
-            {{ .Content }}
-          </div>
+      <div class="ot-doc-main ot-doc-main--wide">
+        <h1 class="ot-h1">{{ .Title }}</h1>
+        {{ with .Description }}<p class="ot-section-lead">{{ . }}</p>{{ end }}
+
+        {{ with $manual }}
+          {{ $firstSlug := "" }}
+          {{ with $map.tracks }}{{ $firstSlug = index (index . 0).chapters 0 }}{{ end }}
+          {{ with ($manual.GetPage $firstSlug) }}
+            <p class="ot-doc-cta">
+              <a class="ot-btn ot-btn--primary" href="{{ .RelPermalink }}">
+                {{ $label := .Title }}
+                {{ with $map.cta }}{{ $label = index . $lang | default (index . "en") }}{{ end }}
+                {{ $label }}
+                {{ partial "ot/icon.html" "arrow-right" }}
+              </a>
+            </p>
+          {{ end }}
+        {{ end }}
+
+        <div class="ot-doc-body prose prose-lg max-w-none dark:prose-invert">
+          {{ .Content }}
         </div>
-        {{ partial "ot/docs-sidebar.html" . }}
+
+        {{ with $manual }}
+
+          <div class="ot-doc-tracks">
+            {{ range $map.tracks }}
+              <section class="ot-doc-track">
+                <h2 class="ot-doc-track-title">{{ index .labels $lang | default (index .labels "en") }}</h2>
+                <div class="ot-doc-cards">
+                  {{ range .chapters }}
+                    {{ $slug := . }}
+                    {{ $meta := index $map.chapters $slug }}
+                    {{ with ($manual.GetPage $slug) }}
+                      <a class="ot-card ot-card--link ot-doc-card" href="{{ .RelPermalink }}">
+                        <span class="ot-doc-card-meta">
+                          {{ with $meta.number }}<span class="ot-doc-card-num">{{ . }}</span>{{ end }}
+                          {{ if and $meta $meta.start }}
+                            <span class="ot-doc-card-badge">{{ index $map.startHere $lang | default (index $map.startHere "en") }}</span>
+                          {{ end }}
+                        </span>
+                        {{ $cardTitle := .Title | replaceRE `^\d+\.\s+` "" }}
+                        {{ with $meta.label }}{{ $cardTitle = index . $lang | default (index . "en") }}{{ end }}
+                        <h3>{{ $cardTitle }}</h3>
+                        {{ with $meta.description }}<p>{{ index . $lang | default (index . "en") }}</p>{{ end }}
+                      </a>
+                    {{ end }}
+                  {{ end }}
+                </div>
+              </section>
+            {{ end }}
+          </div>
+        {{ end }}
       </div>
     </div>
   </article>

@@ -221,7 +221,11 @@
           <span class="ot-card-icon">{{ partial "ot/icon.html" "terminal" }}</span>
           <h3>{{ $c.cite.docsCardTitle }}</h3>
           <p>{{ $c.cite.docsCardBody }}</p>
-          <a class="ot-card-link" href="{{ $c.cite.docsCardUrl }}" rel="noopener">{{ $c.cite.docsCardLabel }}</a>
+          {{/* The docs card stays on-site so the reader keeps the current locale and
+               theme; only genuinely external targets get rel="noopener". */}}
+          {{ $docsUrl := $c.cite.docsCardUrl }}
+          {{ if not (hasPrefix $docsUrl "http") }}{{ $docsUrl = $docsUrl | relLangURL }}{{ end }}
+          <a class="ot-card-link" href="{{ $docsUrl }}"{{ if hasPrefix $docsUrl "http" }} rel="noopener"{{ end }}>{{ $c.cite.docsCardLabel }}</a>
         </div>
         <div class="ot-card">
           <span class="ot-card-icon">{{ partial "ot/icon.html" "shield" }}</span>

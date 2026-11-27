@@ -1587,6 +1587,18 @@ html.dark .ot-foot-brand img {
   color: var(--ot-ink);
 }
 
+/* The hub link sits above the numbered chapters; a rule under it separates the
+   overview from the reading sequence without adding another heading. */
+.ot-docnav-list .ot-docnav-overview {
+  font-weight: 600;
+}
+
+.ot-docnav-list li:first-child {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ot-line);
+}
+
 .ot-docnav-list a.is-current {
   margin-left: -0.9rem;
   padding-left: 0.9rem;
@@ -1646,26 +1658,96 @@ html.dark .ot-foot-brand img {
   border-top: 1px solid var(--ot-line);
 }
 
+/* --- documentation hub --------------------------------------------------- */
+
+/* The hub is a single reading column: the card grid below already lists every
+   chapter, so the sticky sidebar that chapter pages carry is not rendered here
+   and the column can use the full measure. */
+.ot-doc-main--wide {
+  max-width: 60rem;
+}
+
+.ot-doc-cta {
+  margin: 2rem 0 0;
+}
+
+.ot-doc-cta .ot-btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ot-doc-tracks {
+  margin-top: 3rem;
+}
+
+.ot-doc-track + .ot-doc-track {
+  margin-top: 2.5rem;
+}
+
+.ot-doc-track-title {
+  margin: 0;
+  font-family: var(--ot-sans);
+  font-size: var(--ot-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ot-accent-2);
+}
+
 .ot-doc-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .ot-doc-cards .ot-card {
-  padding: 1rem 1.15rem;
+  padding: 1.1rem 1.2rem;
 }
 
 .ot-doc-cards .ot-card h3 {
-  margin: 0;
+  margin: 0.55rem 0 0;
   font-size: var(--ot-fs-body);
 }
 
-@media (max-width: 860px) {
+.ot-doc-cards .ot-card p {
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 1023px) {
+  .ot-doc-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
   .ot-doc-cards {
     grid-template-columns: 1fr;
   }
+}
+
+/* Chapter badge and the "start here" pill share one row above the title. */
+.ot-doc-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ot-doc-card-num {
+  font-family: var(--ot-mono);
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  color: var(--ot-ink-3);
+}
+
+.ot-doc-card-badge {
+  padding: 0.12rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--ot-cyan) 45%, var(--ot-line));
+  border-radius: 999px;
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--ot-accent);
 }
 
 .prose pre {
