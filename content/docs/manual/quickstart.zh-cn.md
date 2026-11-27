@@ -161,7 +161,7 @@ otter build \
 
 若目标目录已包含 `project.yaml`，命令会拒绝执行而非覆盖。编写意图不会原地重写，因为那样会静默使基于它解析的所有现有快照失效；请使用 `otter config resolve` 基于现有项目冻结新的运行。
 
-## 将旧版项目迁移到 v1
+## 将旧版项目迁移到 v1 {#migrating-a-legacy-project-to-v1}
 
 Otter 不再编写旧版项目，但早期发布版本创建的项目仍会在 `userspace/<jobid>/` 下保留 `config/otter.yaml`。该文件**不被任何执行器接受**：运行它必须先将其转换为规范项目。
 

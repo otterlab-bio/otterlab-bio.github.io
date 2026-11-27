@@ -34,7 +34,7 @@ tracks:
     labels:
       en: "Configure and operate"
       zh-cn: "配置与运行"
-      zh-tw: "配置與運行"
+      zh-tw: "配置與執行"
     chapters: [analysis-modes, advanced-usage, subtools]
   - key: reference
     labels:
@@ -50,7 +50,7 @@ chapters:
     description:
       en: "Install release binaries, build from source, run the container image, and create the enva environments."
       zh-cn: "安装发布版二进制、从源码编译、运行容器镜像，并创建 enva 运行环境。"
-      zh-tw: "安裝發佈版二進位、從原始碼編譯、執行容器映像，並建立 enva 執行環境。"
+      zh-tw: "安裝釋出版二進位、從原始碼編譯、執行容器映像，並建立 enva 執行環境。"
   data-preparation:
     number: "02"
     description:
@@ -74,13 +74,13 @@ chapters:
     description:
       en: "Publish custom references, tune SLURM site profiles, and recover interrupted runs."
       zh-cn: "发布自定义参考基因组、调整 SLURM 站点配置，并恢复中断的运行。"
-      zh-tw: "發佈自訂參考基因組、調整 SLURM 站點設定，並恢復中斷的執行。"
+      zh-tw: "釋出自訂參考基因組、調整 SLURM 站點設定，並恢復中斷的執行。"
   subtools:
     number: "06"
     description:
       en: "Understand craftmake, enva, bamdriver, and the seven native domain operators."
       zh-cn: "了解 craftmake、enva、bamdriver 与七个原生领域算子。"
-      zh-tw: "了解 craftmake、enva、bamdriver 與七個原生領域算子。"
+      zh-tw: "了解 craftmake、enva、bamdriver 與七個原生領域運算元。"
   faq:
     number: "07"
     description:
@@ -98,7 +98,7 @@ chapters:
     description:
       en: "Move a legacy reference tree into the immutable registry with verifiable digests."
       zh-cn: "把旧参考基因组目录迁移到带可校验摘要的不可变注册表。"
-      zh-tw: "將舊參考基因組目錄遷移到帶可校驗摘要的不可變註冊表。"
+      zh-tw: "將舊參考基因組目錄遷移到帶可校驗摘要的不可變登錄檔。"
   cli-reference:
     number: "09"
     description:

@@ -79,7 +79,7 @@ docker build --build-arg OTTER_VERSION=v1.3.0 -t holt-run ./holt/holt-run
 
 `OTTER_VERSION` 默认为 `latest`。构建过程会在安装前根据该发布版本的 `checksums.txt` 校验每个工具，并从同一发布版本获取环境 YAML 文件，从而保证二进制文件与运行时定义始终一致。
 
-该镜像针对 **`linux/amd64` 和 `linux/arm64`** 发布。两者均基于同一多架构基础镜像（`menci/archlinuxarm`，将 amd64 映射为常规 Arch Linux，将 arm64 映射为 Arch Linux ARM）在原生运行器上构建，随后合并为单一清单（manifest）。发布前，每种架构都会使用完整工具链及已创建的 `otter-core` 进行冒烟测试。
+该镜像针对 **`linux/amd64` 和 `linux/arm64`** 发布。两者均基于同一多架构基础镜像（`menci/archlinuxarm`，将 amd64 映射为常规 Arch Linux，将 arm64 映射为 Arch Linux ARM）在原生 runner 上构建，随后合并为单一清单（manifest）。发布前，每种架构都会使用完整工具链及已创建的 `otter-core` 进行冒烟测试。
 
 镜像内还包含 SSH、配备 Posit Ark 内核的 JupyterLab，以及由 `enva` 预先初始化的 `otter-core` 环境；端口与用户管理请参阅 [holt](https://github.com/otterlab-bio/holt)。
 
@@ -129,7 +129,7 @@ enva run otter-core -- bismark_genome_preparation --help
 
 ## 构建与发布检查
 
-**Build Toolchain Platforms** GitHub 工作流会在原生运行器上为全部四个平台构建 `otter`、`otter-install`、`craftmake`、`matsrun`、`pairbam`、`seq2mat`、`xenofilx`、`enva`、`fastqcx`、`methx` 和 `qctb`。`bamdriver` 作为 Go 库进行构建，因此没有可下载的 `bamdriver` 二进制文件。各组件仓库也配有各自的原生构建工作流。顶层发布工作流仅在全部四个作业通过后，才会发布汇总后的资产、校验和与清单。检查范围涵盖二进制格式、架构、CLI 启动、Linux 静态链接以及安装程序的离线计划；这些检查不运行完整的科学工作流，也不验证每个操作系统上第三方软件包的可用性。
+**Build Toolchain Platforms** GitHub 工作流会在原生 runner 上为全部四个平台构建 `otter`、`otter-install`、`craftmake`、`matsrun`、`pairbam`、`seq2mat`、`xenofilx`、`enva`、`fastqcx`、`methx` 和 `qctb`。`bamdriver` 作为 Go 库进行构建，因此没有可下载的 `bamdriver` 二进制文件。各组件仓库也配有各自的原生构建工作流。顶层发布工作流仅在全部四个作业通过后，才会发布汇总后的资产、校验和与清单。检查范围涵盖二进制格式、架构、CLI 启动、Linux 静态链接以及安装程序的离线计划；这些检查不运行完整的科学工作流，也不验证每个操作系统上第三方软件包的可用性。
 
 
 ## 兼容性说明
