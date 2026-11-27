@@ -102,7 +102,9 @@ source.
 `zh-cn` is translated by hand. `zh-tw` is generated from `zh-cn` by
 `scripts/convert-zh-tw.py`, which runs OpenCC (`s2twp`) and then applies the glossary
 that keeps the manual on the same terms as `data/home/zh-tw.yaml` (`釋出` not `發佈`,
-`執行` not `運行`, `登錄檔` not `註冊表`, `運算元` not `算子`). Code spans, fenced
+`執行` not `運行`, `登錄檔` not `註冊表`, `運算元` not `算子`). Documentation is
+`文檔` and a file is `檔案`: OpenCC renders both `文档` and `文件` as `文件`, so
+`文档` is shielded before conversion, which keeps the two words apart. Code spans, fenced
 blocks, and URLs are shielded before conversion, because the manual documents literal
 column aliases such as `样本编号` that must stay Simplified to keep matching the
 parser. After editing a `zh-cn` chapter, regenerate its `zh-tw` sibling and run

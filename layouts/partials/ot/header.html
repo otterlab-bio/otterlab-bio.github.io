@@ -5,11 +5,11 @@
 {{- $isZh := hasPrefix $lang "zh" -}}
 {{- $isTw := eq $lang "zh-tw" -}}
 {{- $t := dict
-  "docs" (cond $isTw "文件" (cond $isZh "文档" "Docs"))
+  "docs" (cond $isTw "文檔" (cond $isZh "文档" "Docs"))
   "bench" (cond $isTw "基準" (cond $isZh "基准" "Benchmark"))
   "code" (cond $isTw "原始碼" (cond $isZh "源码" "GitHub"))
   "paper" (cond $isTw "論文" (cond $isZh "论文" "Paper"))
-  "main" (cond $isZh "主导航" "Main")
+  "main" (cond $isTw "主導覽" (cond $isZh "主导航" "Main"))
   "theme" (cond $isTw "主題" (cond $isZh "主题" "Theme"))
   "light" (cond $isTw "淺色" (cond $isZh "浅色" "Light"))
   "dark" (cond $isTw "深色" (cond $isZh "深色" "Dark"))

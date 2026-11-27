@@ -136,4 +136,4 @@ enva run otter-core -- bismark_genome_preparation --help
 
 部分原始碼級符號、生成的狀態路徑或早期釋出版本資產仍可能使用 `xdxtools`。`xdxtools` 為早期相容名稱。輸出檔案可能以 OTTER 命名，而部分內部符號和執行時路徑仍沿用 `xdxtools`。
 
-[返回手冊目錄](README.md) · [文件中心](../README.md)
+[返回手冊目錄](README.md) · [文檔中心](../README.md)
