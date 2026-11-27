@@ -28,7 +28,7 @@
       <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
       <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
       <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
-      <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ $t.paper }}</a>
+      <a href="{{ "paper/" | relLangURL }}">{{ $t.paper }}</a>
     </nav>
 
     <div class="ot-tools">
@@ -50,7 +50,7 @@
     <a href="{{ "docs/" | relLangURL }}">{{ $t.docs }}</a>
     <a href="{{ "benchmark/" | relLangURL }}">{{ $t.bench }}</a>
     <a href="https://github.com/otterlab-bio/otter" rel="noopener">{{ $t.code }}</a>
-    <a href="https://doi.org/10.64898/2026.10.24.761506" rel="noopener">{{ $t.paper }}</a>
+    <a href="{{ "paper/" | relLangURL }}">{{ $t.paper }}</a>
     {{- range .AllTranslations }}
       {{- if ne .Language.Lang $.Site.Language.Lang }}
         <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale | default .Language.Lang }}" lang="{{ .Language.Locale | default .Language.Lang }}" data-ot-lang-switch>{{ .Language.Params.displayName }}</a>

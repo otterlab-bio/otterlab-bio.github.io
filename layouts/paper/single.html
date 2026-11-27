@@ -1,0 +1,53 @@
+{{/* Paper page: the preprint's metadata, two PDF downloads, the abstract block, and
+     the full text of the manuscript. The body Markdown is the same for all three
+     locales because the manuscript is English only; only the front-matter labels
+     are translated, and they come from the page's own `paper_i18n` map. */}}
+{{ define "main" }}
+  {{- $p := .Params -}}
+  {{- $i := $p.paper_i18n -}}
+  {{- $doi := $p.paper_doi -}}
+  <article class="ot-paper">
+    <div class="ot-wrap">
+      <header class="ot-paper-head">
+        <p class="ot-kicker">{{ $i.abstract }}</p>
+        <h1 class="ot-h1">{{ .Title }}</h1>
+        <p class="ot-paper-title">{{ $p.citation_title | default .Title }}</p>
+        <p class="ot-paper-meta">
+          <span>{{ $p.paper_date }}</span>
+          <span class="ot-foot-sep" aria-hidden="true">·</span>
+          <a href="https://doi.org/{{ $doi }}" rel="noopener">{{ $i.doi }} {{ $doi }}</a>
+        </p>
+      </header>
+
+      {{/* Two downloads, side by side on wide screens. */}}
+      <div class="ot-paper-downloads">
+        <a class="ot-paper-dl" href="{{ $p.paper_pdf | relURL }}" download>
+          <span class="ot-paper-dl-label">{{ $i.download }}</span>
+          <span class="ot-paper-dl-file">{{ $i.main }}</span>
+        </a>
+        <a class="ot-paper-dl" href="{{ $p.paper_supp | relURL }}" download>
+          <span class="ot-paper-dl-label">{{ $i.download }}</span>
+          <span class="ot-paper-dl-file">{{ $i.supp }}</span>
+        </a>
+      </div>
+
+      <p class="ot-paper-note">{{ $i.note }}</p>
+
+      <section class="ot-paper-abstract">
+        <h2 class="ot-h2">{{ $i.abstract }}</h2>
+        <p class="ot-paper-summary">{{ $p.paper_summary }}</p>
+        <dl class="ot-paper-facts">
+          <dt>{{ $i.availability }}</dt>
+          <dd>{{ $p.paper_availability }}</dd>
+          <dt>{{ $i.keywords }}</dt>
+          <dd>{{ $p.paper_keywords }}</dd>
+        </dl>
+      </section>
+
+      <section class="ot-paper-body ot-doc-body prose prose-lg max-w-none dark:prose-invert">
+        <h2 class="ot-h2">{{ $i.fulltext }}</h2>
+        {{ .Content }}
+      </section>
+    </div>
+  </article>
+{{ end }}
