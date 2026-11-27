@@ -4,9 +4,10 @@ weight: 1
 showDate: false
 showAuthor: false
 showTableOfContents: false
+build:
+  render: never
+  list: local
 ---
-
-> 手册由上游 `otterlab-bio/otter` 仓库同步。各章正文目前为英文原文，标题已译。
 
 - [安装](installation/)
 - [数据准备](data-preparation/)

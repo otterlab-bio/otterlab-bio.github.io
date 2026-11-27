@@ -1,0 +1,107 @@
+# Chapter map for the documentation hub at /docs/.
+#
+# The manual chapters themselves live in content/docs/manual/ and are synced from
+# otterlab-bio/otter:docs/manual, so their front matter must not carry site-only
+# metadata. Everything the hub needs beyond the page title is declared here:
+# the reading order, the row grouping, the chapter badges, and the one-line
+# purpose of each chapter in all three locales.
+#
+# `slug` must match the file name in content/docs/manual/ without the language
+# suffix. `number` matches the numbering used by the chapters themselves and by
+# cross-references in the manual ("See chapter 6"), so it is never renumbered
+# here. A chapter missing from every track is not rendered on the hub.
+
+# Label of the single primary button on the hub. It always points at the first
+# chapter of the first track, which is Installation.
+cta:
+  en: "Start with installation"
+  zh-cn: "从安装开始"
+  zh-tw: "從安裝開始"
+
+startHere:
+  en: "Start here"
+  zh-cn: "从这里开始"
+  zh-tw: "從這裡開始"
+
+tracks:
+  - key: run
+    labels:
+      en: "Get running"
+      zh-cn: "快速上手"
+      zh-tw: "快速上手"
+    chapters: [installation, data-preparation, quickstart]
+  - key: configure
+    labels:
+      en: "Configure and operate"
+      zh-cn: "配置与运行"
+      zh-tw: "配置與運行"
+    chapters: [analysis-modes, advanced-usage, subtools]
+  - key: reference
+    labels:
+      en: "Look up and recover"
+      zh-cn: "查阅与排障"
+      zh-tw: "查閱與排障"
+    chapters: [faq, reference-migration, cli-reference]
+
+chapters:
+  installation:
+    number: "01"
+    start: true
+    description:
+      en: "Install release binaries, build from source, run the container image, and create the enva environments."
+      zh-cn: "安装发布版二进制、从源码编译、运行容器镜像，并创建 enva 运行环境。"
+      zh-tw: "安裝發佈版二進位、從原始碼編譯、執行容器映像，並建立 enva 執行環境。"
+  data-preparation:
+    number: "02"
+    description:
+      en: "Name FASTQ pairs, format the sample table, and check the inputs before authoring a project."
+      zh-cn: "命名 FASTQ 文件对、整理样本表，并在创建项目前核对输入。"
+      zh-tw: "命名 FASTQ 檔案對、整理樣本表，並在建立專案前核對輸入。"
+  quickstart:
+    number: "03"
+    description:
+      en: "Author a canonical v1 project, resolve an immutable snapshot, and run the first phase."
+      zh-cn: "创建规范 v1 项目、解析不可变快照，并运行第一个阶段。"
+      zh-tw: "建立規範 v1 專案、解析不可變快照，並執行第一個階段。"
+  analysis-modes:
+    number: "04"
+    description:
+      en: "Select RRBS, WGBS, or RNA-seq behavior and the graft and host reference roles."
+      zh-cn: "选择 RRBS、WGBS 或 RNA-seq 行为，以及移植物与宿主的参考基因组角色。"
+      zh-tw: "選擇 RRBS、WGBS 或 RNA-seq 行為，以及移植物與宿主的參考基因組角色。"
+  advanced-usage:
+    number: "05"
+    description:
+      en: "Publish custom references, tune SLURM site profiles, and recover interrupted runs."
+      zh-cn: "发布自定义参考基因组、调整 SLURM 站点配置，并恢复中断的运行。"
+      zh-tw: "發佈自訂參考基因組、調整 SLURM 站點設定，並恢復中斷的執行。"
+  subtools:
+    number: "06"
+    description:
+      en: "Understand craftmake, enva, bamdriver, and the seven native domain operators."
+      zh-cn: "了解 craftmake、enva、bamdriver 与七个原生领域算子。"
+      zh-tw: "了解 craftmake、enva、bamdriver 與七個原生領域算子。"
+  faq:
+    number: "07"
+    description:
+      en: "Diagnose PATH, installer, environment, reference resolution, and executor failures."
+      zh-cn: "排查 PATH、安装器、运行环境、参考基因组解析与执行层的常见故障。"
+      zh-tw: "排查 PATH、安裝器、執行環境、參考基因組解析與執行層的常見故障。"
+  reference-migration:
+    number: "08"
+    # The chapter title upstream is "8. Reference Genome Migration Guide"; the card
+    # uses the shorter noun phrase the other eight chapters follow.
+    label:
+      en: "Reference migration"
+      zh-cn: "参考基因组迁移"
+      zh-tw: "參考基因組遷移"
+    description:
+      en: "Move a legacy reference tree into the immutable registry with verifiable digests."
+      zh-cn: "把旧参考基因组目录迁移到带可校验摘要的不可变注册表。"
+      zh-tw: "將舊參考基因組目錄遷移到帶可校驗摘要的不可變註冊表。"
+  cli-reference:
+    number: "09"
+    description:
+      en: "Look up every public command family and the contract each one enforces."
+      zh-cn: "查阅全部公开命令族，以及每个命令所约束的契约边界。"
+      zh-tw: "查閱全部公開命令族，以及每個命令所約束的契約邊界。"

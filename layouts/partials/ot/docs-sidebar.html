@@ -5,9 +5,18 @@
 {{- $manual := site.GetPage "/docs/manual" -}}
 {{- $isTw := eq site.Language.Lang "zh-tw" -}}
 {{- $isZh := hasPrefix site.Language.Lang "zh" -}}
+{{- $hub := site.GetPage "/docs" -}}
 <aside class="ot-docnav" aria-label="{{ cond $isTw "文件目錄" (cond $isZh "文档目录" "Documentation") }}">
   <p class="ot-docnav-title">{{ cond $isTw "使用者手冊" (cond $isZh "用户手册" "User manual") }}</p>
   <ol class="ot-docnav-list">
+    {{- with $hub }}
+      <li>
+        <a href="{{ .RelPermalink }}" class="ot-docnav-overview{{ if eq .RelPermalink $current.RelPermalink }} is-current{{ end }}"
+           {{ if eq .RelPermalink $current.RelPermalink }}aria-current="page"{{ end }}>
+          {{ cond $isTw "總覽" (cond $isZh "总览" "Overview") }}
+        </a>
+      </li>
+    {{- end }}
     {{- with $manual -}}
       {{- range .Pages.ByWeight -}}
         {{- if ne .Weight 1 -}}

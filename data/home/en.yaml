@@ -191,7 +191,7 @@ cite:
   docsCardTitle: "Documentation"
   docsCardBody: "Installation, FASTQ pairing rules, the CLI reference, and the migration path for legacy projects."
   docsCardLabel: "Open the manual"
-  docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
+  docsCardUrl: "docs/"
   paperCardTitle: "Preprint"
   paperCardBody: "Zheng et al., bioRxiv 2026. DOI 10.64898/2026.10.24.761506."
   paperCardCopiedLabel: "Copied"

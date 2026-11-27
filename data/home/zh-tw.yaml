@@ -190,7 +190,7 @@ cite:
   docsCardTitle: "文件"
   docsCardBody: "安裝、FASTQ 配對規則、CLI 參考，以及舊專案的遷移路徑。"
   docsCardLabel: "開啟手冊"
-  docsCardUrl: "https://github.com/otterlab-bio/otter/tree/main/docs"
+  docsCardUrl: "docs/"
   paperCardTitle: "預印本"
   paperCardBody: "Zheng 等，bioRxiv 2026。DOI 10.64898/2026.10.24.761506。"
   paperCardCopiedLabel: "已複製"
