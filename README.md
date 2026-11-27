@@ -21,11 +21,14 @@ config/_default/     hugo.toml, params.toml, languages.*, menus.*
 content/             _index.md (hero front matter), docs/ pages
 data/home/           en.yaml, zh-cn.yaml, zh-tw.yaml — every string on the homepage
 data/docs/manual.yaml chapter map for the /docs/ hub (tracks, badges, blurbs)
+content/paper/       the /paper/ page: preprint metadata, full text, PDF downloads
 assets/css/          schemes/otter.css (palette), custom.css (layout)
 assets/img/          logo.svg, mark.png
 static/              fonts, favicons, robots.txt
 layouts/partials/    home/custom.html, ot/*, extend-head.html, extend-footer.html
 layouts/docs-index/  the /docs/ hub: primary action, prerequisites, chapter cards
+layouts/paper/       the /paper/ page template
+static/paper/        the preprint PDFs and the figure used on /paper/
 layouts/_default/_markup/render-link.html  resolves the manual's GitHub-style links
 scripts/convert-zh-tw.py  regenerates zh-tw chapter bodies from zh-cn (+ --check)
 .github/workflows/   pages.yml
@@ -35,6 +38,31 @@ Copy is never in the templates. To change a headline, an evaluation number, or a
 component description, edit `data/home/en.yaml` and `data/home/zh-cn.yaml`; both
 files share the same keys, and the Chinese file must not introduce a fact that
 the English file does not state.
+
+## The paper page
+
+`/paper/` publishes the preprint: the title, the DOI, the abstract, and the full
+text of the manuscript, with download buttons for the manuscript PDF and the
+supplementary PDF.
+
+The two PDFs under `static/paper/` are publication copies of the preprint build,
+not archives. The archived originals stay in `previews/` under the manuscript
+repository's naming contract; the site needs its own copy because GitHub Pages
+can only serve files that live in this repository. Together they are about 11 MB,
+which is why they carry the stage in the filename: a new stage adds a new pair
+rather than silently overwriting the published one.
+
+To publish a new stage, build the preprint in the manuscript repository, copy
+both files here under the new stage name, then update `paper_pdf`,
+`paper_supp`, `paper_pdf_pages`, and `paper_supp_pages` in the three
+`content/paper/_index*.md` files:
+`paper_pdf_pages` and `paper_supp_pages` feed the labels next to each download. The full text in those files comes from
+`manuscript.Rmd`: run it through `pandoc --citeproc --bibliography=reference0912.bib`
+with `-t gfm` so the tables stay pipe tables, strip the reference list, and
+demote each heading one level because the page supplies its own `h1`.
+
+Only the labels are translated. The body is the English manuscript in all three
+locales, and the page says so in its note.
 
 ## Documentation structure
 

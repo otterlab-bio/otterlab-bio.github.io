@@ -10,5 +10,5 @@
 
 [[main]]
   name = "Paper"
-  url = "https://doi.org/10.64898/2026.10.24.761506"
+  pageRef = "/paper"
   weight = 30

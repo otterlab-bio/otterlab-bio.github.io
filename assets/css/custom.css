@@ -1771,3 +1771,149 @@ html.dark .ot-foot-brand img {
 .prose table td {
   padding: 0.55rem 0.7rem;
 }
+
+/* --- paper page ---------------------------------------------------------- */
+
+/* The preprint landing page: metadata, two downloads, abstract, then the full
+   text in the same reading measure the manual uses. */
+.ot-paper {
+  padding-bottom: 3rem;
+}
+
+.ot-paper-head {
+  padding-top: 2.5rem;
+}
+
+.ot-paper-title {
+  margin: 0.35rem 0 0;
+  max-width: 46rem;
+  font-size: var(--ot-fs-body);
+  line-height: 1.6;
+  color: var(--ot-ink-2);
+}
+
+.ot-paper-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  font-size: var(--ot-fs-small);
+  color: var(--ot-ink-3);
+}
+
+.ot-paper-meta a {
+  color: var(--ot-accent);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.ot-paper-meta a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ot-paper-downloads {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+  max-width: 46rem;
+}
+
+@media (max-width: 639px) {
+  .ot-paper-downloads {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ot-paper-dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ot-line);
+  border-radius: 12px;
+  background: var(--ot-raised);
+  text-decoration: none;
+  transition: transform 0.2s var(--ot-ease), border-color 0.2s var(--ot-ease);
+}
+
+.ot-paper-dl:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--ot-cyan) 45%, var(--ot-line));
+}
+
+.ot-paper-dl-label {
+  font-size: var(--ot-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ot-accent-2);
+}
+
+.ot-paper-dl-file {
+  font-size: var(--ot-fs-body);
+  font-weight: 600;
+  color: var(--ot-ink);
+}
+
+.ot-paper-note {
+  margin: 1rem 0 0;
+  max-width: 46rem;
+  font-size: var(--ot-fs-small);
+  line-height: 1.7;
+  color: var(--ot-ink-3);
+}
+
+.ot-paper-abstract {
+  max-width: 46rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ot-line);
+}
+
+.ot-paper-summary {
+  margin: 1rem 0 0;
+  font-size: var(--ot-fs-body);
+  line-height: 1.8;
+  color: var(--ot-ink);
+}
+
+.ot-paper-facts {
+  margin: 1.5rem 0 0;
+  font-size: var(--ot-fs-small);
+  line-height: 1.7;
+}
+
+.ot-paper-facts dt {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--ot-accent-2);
+}
+
+.ot-paper-facts dd {
+  margin: 0.25rem 0 0;
+  color: var(--ot-ink-2);
+}
+
+.ot-paper-body {
+  max-width: 46rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ot-line);
+}
+
+/* The body Markdown starts at h2; keep the first heading from doubling the rule. */
+.ot-paper-body > .ot-h2 {
+  margin-top: 0;
+}
+
+/* Lead-in above the manuscript body. Kept as a paragraph, not a heading, so it
+   does not compete with the manuscript's own section heads in the outline. */
+.ot-paper-fulltext-lead {
+  margin: 1.25rem 0 0;
+  font-size: var(--ot-fs-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ot-accent-2);
+}
