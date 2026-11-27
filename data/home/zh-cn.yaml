@@ -106,11 +106,35 @@ modes:
   kicker: "分析类型"
   title: "RRBS、WGBS、RNA-seq，以及对应的异种移植模型。"
   lead: "三类组学都是一等模式。异种移植变体在同一工作流上启用宿主读段分离，PDX 或 CDX 文库无需手写步骤顺序。"
+  cards:
+    - name: "RRBS"
+      model: "PDX / CDX"
+      body: "亚硫酸氢盐简化代表测序：去除宿主后构建 CpG 甲基化矩阵。"
+    - name: "WGBS"
+      model: "PDX / CDX"
+      body: "全基因组亚硫酸氢盐测序：全基因组范围的甲基化矩阵。"
+    - name: "RNA-seq"
+      model: "PDX / CDX"
+      body: "转录组：表达矩阵与可变剪接结果，同样先分离宿主读段。"
+  note: "每种模式都在同一套快照契约下运行，xenograft 场景会自动启用宿主读段分离。"
 
 bench:
   kicker: "基准"
   title: "OTTER 与 Xengsort 的梯度对比。"
   lead: "从 0.1% 到 99% 共 14 档人类输入，每档 3 个重复，按片段级统计。可用召回只计入同时通过人类比对的配对，也就是真正进入下游分析的读数。"
+  labels:
+    fraction: "人类输入占比"
+    recall: "召回"
+    ppv: "PPV"
+    otter: "OTTER"
+    xgRaw: "Xengsort 原始"
+    xgUsable: "Xengsort 可用"
+    delta: "Δ 可用召回"
+    otterPpv: "OTTER PPV"
+    xgRawPpv: "Xengsort 原始 PPV"
+    xgUsablePpv: "Xengsort 可用 PPV"
+    tablist: "基准对比"
+  note: "每档 3 个重复；数值为百分比，差值为 OTTER 减 Xengsort 的可用召回，单位为百分点"
 
 quick:
   kicker: "快速开始"

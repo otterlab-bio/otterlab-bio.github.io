@@ -107,11 +107,35 @@ modes:
   kicker: "Assays"
   title: "RRBS, WGBS, and RNA-seq, with their xenograft models."
   lead: "Each assay ships as a first-class mode. The xenograft variants run the same workflow with host-read separation switched on, so a PDX or CDX library needs no hand-written step order."
+  cards:
+    - name: "RRBS"
+      model: "PDX / CDX"
+      body: "Reduced-representation bisulfite sequencing: host reads removed, then CpG matrices."
+    - name: "WGBS"
+      model: "PDX / CDX"
+      body: "Whole-genome bisulfite sequencing: methylation matrices across the whole genome."
+    - name: "RNA-seq"
+      model: "PDX / CDX"
+      body: "Transcriptome: expression matrices and splicing calls, after host separation."
+  note: "Every mode runs under the same snapshot contract; xenograft scenarios enable host separation automatically."
 
 bench:
   kicker: "Benchmark"
   title: "How OTTER and Xengsort compare."
   lead: "Fourteen human fractions from 0.1% to 99%, three replicates each, read at fragment level. Usable recall counts only pairs that also pass a human alignment, which is the number that reaches downstream analysis."
+  labels:
+    fraction: "Human fraction"
+    recall: "Recall"
+    ppv: "PPV"
+    otter: "OTTER"
+    xgRaw: "Xengsort raw"
+    xgUsable: "Xengsort usable"
+    delta: "Δ usable recall"
+    otterPpv: "OTTER PPV"
+    xgRawPpv: "Xengsort raw PPV"
+    xgUsablePpv: "Xengsort usable PPV"
+    tablist: "Benchmark comparison"
+  note: "3 replicates per fraction; values are percentages, Δ is OTTER minus Xengsort usable recall in percentage points"
 
 quick:
   kicker: "Quick start"
