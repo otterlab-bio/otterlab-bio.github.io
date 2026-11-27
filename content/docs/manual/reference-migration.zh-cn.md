@@ -81,7 +81,7 @@ enva run otter-core -- bismark --version
 enva run otter-core -- bowtie2 --version
 ```
 
-### 步骤 2：运行预演（Dry-Run）
+### 步骤 2：试运行预览（Dry-Run）
 
 ```bash
 export LEGACY_INST=/path/to/legacy/inst

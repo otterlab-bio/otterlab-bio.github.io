@@ -36,7 +36,7 @@ enva validate --all
 
 Bismark 3.1.0 與 Bowtie2 2.5.5 由 `otter-core` 環境提供；安裝程式會在建立環境後驗證固定版本。維護中的甲基化規則通過 `enva run otter-core -- ...` 呼叫它們，而非使用使用者全域安裝版本。
 
-`enva` 不會自動接管外部 conda、mamba 或 micromamba 環境。需將該環境配置為相容狀態，或將其依賴遷移至 `enva` 環境中。
+`enva` 不會自動接管外部 conda、mamba 或 micromamba 環境。需將該環境設定為相容狀態，或將其依賴遷移至 `enva` 環境中。
 
 ## `fastqcx`
 
@@ -48,7 +48,7 @@ fastqcx --fastq sample.fastq.gz --summary qc/sample > reports/sample.html
 
 ## `xenofilx`
 
-針對 PDX BAM 輸入的移植物/宿主（graft/host）分類器，支援基於參考序列的 NM 重算與重亞硫酸鹽感知評分：
+針對 PDX BAM 輸入的移植物/宿主（graft/host）分類器，支援基於參考序列的 NM 重算與亞硫酸氫鹽感知評分：
 
 ```bash
 xenofilx run --graft graft.bam --host host.bam --output filtered
@@ -64,7 +64,7 @@ pairbam --coord-sort input_R1.bam input_R2.bam filtered
 
 ## `seq2mat`
 
-將 HTSeq 計數檔案轉換為 TSV 計數/歸一化矩陣及帶版本資訊的清單（manifest）：
+將 HTSeq 計數檔案轉換為 TSV 計數/正規化矩陣及帶版本資訊的清單（manifest）：
 
 ```bash
 seq2mat --htseq_dir ./htseq --output_dir ./matrix
@@ -72,7 +72,7 @@ seq2mat --htseq_dir ./htseq --output_dir ./matrix
 
 ## `matsrun`
 
-根據分組 BAM 檔案、pdata、SeqKit 統計資訊與 GTF 註釋生成並執行所有成對 rMATS 對比：
+根據分組 BAM 檔案、pdata、SeqKit 統計資訊與 GTF 註解生成並執行所有成對 rMATS 對比：
 
 ```bash
 matsrun run --root ./bam --pdata samples.xlsx \
@@ -81,7 +81,7 @@ matsrun run --root ./bam --pdata samples.xlsx \
 
 ## `qctb`
 
-從舊版配置或不可變執行快照中彙總工作流 QC 至 Excel 或 TSV：
+從舊版設定或不可變執行快照中彙總工作流 QC 至 Excel 或 TSV：
 
 ```bash
 qctb --config-dir runs/<run-id> --output qc_summary.xlsx
@@ -89,7 +89,7 @@ qctb --config-dir runs/<run-id> --output qc_summary.xlsx
 
 ## `methx`
 
-將 Bismark 覆蓋度檔案轉換為自訂 HDF5 及 QC/註釋輸出。如需原生 `methrix::load_HDF5_methrix()` 載入，請使用獨立 R 匯出指令碼：
+將 Bismark 覆蓋度檔案轉換為自訂 HDF5 及 QC/註解輸出。如需原生 `methrix::load_HDF5_methrix()` 載入，請使用獨立 R 匯出指令碼：
 
 ```r
 source("methx/scripts/export_methrix_hdf5.R")

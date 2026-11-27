@@ -10,7 +10,7 @@ showTableOfContents: true
 
 ## 自訂參考序列
 
-在規範路徑（canonical track）中，參考不是檔案系統路徑，而是通過 `<id>@<release>` 定址的**登錄檔釋出版本（registry release）**。要使用自訂基因組，只需將其釋出到參考登錄檔（reference registry）一次，之後即可按名稱選擇：
+在規範路徑（canonical track）中，參考不是檔案系統路徑，而是通過 `<id>@<release>` 定址的**登錄檔釋出版本（registry release）**。要使用自訂基因體，只需將其釋出到參考登錄檔（reference registry）一次，之後即可按名稱選擇：
 
 ```bash
 otter reference build \
@@ -25,7 +25,7 @@ otter create \
   --reference-primary myspecies@ASM123-ensembl-110
 ```
 
-`create` 會根據參考登錄檔驗證該釋出版本並鎖定其清單（manifest）摘要，從而避免專案儲存可能因檔案移動而失效的檔案系統路徑。對於 PDX，請使用 `--reference-graft` 和 `--reference-host` 分別指定角色。不存在接受字面基因組路徑的參數：參考始終以鎖定的登錄檔釋出版本形式進入專案。
+`create` 會根據參考登錄檔驗證該釋出版本並鎖定其清單（manifest）摘要，從而避免專案儲存可能因檔案移動而失效的檔案系統路徑。對於 PDX，請使用 `--reference-graft` 和 `--reference-host` 分別指定角色。不存在接受字面基因體路徑的參數：參考始終以鎖定的登錄檔釋出版本形式進入專案。
 
 ## FASTQ 字尾
 
@@ -58,7 +58,7 @@ resources:
       partition: fat
 ```
 
-`memory` 接受 `MiB` 或 `GiB`；`time` 接受 `HH:MM:SS`。`phases` 用於覆蓋指定階段的 `defaults` 配置。
+`memory` 接受 `MiB` 或 `GiB`；`time` 接受 `HH:MM:SS`。`phases` 用於覆蓋指定階段的 `defaults` 設定。
 
 執行 `otter config resolve` 時需選擇後端（backend）與站點，以便快照儲存對應的資源邊界：
 

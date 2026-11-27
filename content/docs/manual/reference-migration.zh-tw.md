@@ -1,5 +1,5 @@
 ---
-title: "參考基因組遷移"
+title: "參考基因體遷移"
 weight: 17
 showDate: false
 showAuthor: false
@@ -14,7 +14,7 @@ showTableOfContents: true
 
 ## 1. 參考登錄檔契約
 
-在 Otter 中，所有參考基因組均在專案空間之外的不可變登錄檔中集中管理：
+在 Otter 中，所有參考基因體均在專案空間之外的不可變登錄檔中集中管理：
 
 ```text
 $OTTER_REFERENCE_ROOT/
@@ -61,8 +61,8 @@ $OTTER_REFERENCE_ROOT/
 | `--legacy-inst PATH` | 設定 `$beaverhome` 時為 `$beaverhome/inst`；否則為必填 | 舊版 `inst/` 目錄路徑 |
 | `--species NAME` | `all` | 要遷移的物種：`hg19`、`mm10` 或 `all` |
 | `--registry-root PATH` | `$OTTER_REFERENCE_ROOT` 或 `~/.otter/references` | 目標參考登錄檔根目錄 |
-| `--mode MODE` | `rebuild` | 遷移模式：`ingest`（快速，對現有索引建立硬連結）或 `rebuild`（從源資料重新構建） |
-| `--threads NUM` | `4` | `rebuild` 模式下構建索引使用的 CPU 執行緒數 |
+| `--mode MODE` | `rebuild` | 遷移模式：`ingest`（快速，對現有索引建立硬連結）或 `rebuild`（從源資料重新建置） |
+| `--threads NUM` | `4` | `rebuild` 模式下建置索引使用的 CPU 執行緒數 |
 | `--otter-core-bin PATH` | 自動檢測 | `otter-core` 環境的 `bin/` 路徑 |
 | `--otter-bin PATH` | 自動檢測 | `otter` 執行檔路徑 |
 | `--dry-run` | `false` | 預覽已發現的路徑與計劃執行的命令 |
@@ -81,7 +81,7 @@ enva run otter-core -- bismark --version
 enva run otter-core -- bowtie2 --version
 ```
 
-### 步驟 2：執行預演（Dry-Run）
+### 步驟 2：試執行預覽（Dry-Run）
 
 ```bash
 export LEGACY_INST=/path/to/legacy/inst
@@ -107,7 +107,7 @@ bash scripts/migrate_legacy_reference.sh \
 ### 步驟 3：執行遷移
 
 **選項 A：匯入現有索引（推薦）**：
-當舊版目錄中已包含預構建的 Bismark 或 STAR 索引時，`--mode ingest` 會通過硬連結複用這些索引（在同一檔案系統上不佔用額外磁碟空間），並生成符合規範的 `reference.yaml`、`manifest.json` 和 `checksums.sha256`：
+當舊版目錄中已包含預建置的 Bismark 或 STAR 索引時，`--mode ingest` 會通過硬連結複用這些索引（在同一檔案系統上不佔用額外磁碟空間），並生成符合規範的 `reference.yaml`、`manifest.json` 和 `checksums.sha256`：
 
 ```bash
 bash scripts/migrate_legacy_reference.sh \

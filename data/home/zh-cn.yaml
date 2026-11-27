@@ -109,7 +109,7 @@ modes:
   cards:
     - name: "RRBS"
       model: "PDX / CDX"
-      body: "亚硫酸氢盐简化代表测序：去除宿主后构建 CpG 甲基化矩阵。"
+      body: "简化基因组亚硫酸氢盐测序：去除宿主后构建 CpG 甲基化矩阵。"
     - name: "WGBS"
       model: "PDX / CDX"
       body: "全基因组亚硫酸氢盐测序：全基因组范围的甲基化矩阵。"

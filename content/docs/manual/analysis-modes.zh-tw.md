@@ -8,7 +8,7 @@ showReadingTime: false
 showTableOfContents: true
 ---
 
-`otter create --mode` 用於選擇場景。在規範路徑（canonical track）中，**參考攜帶物種資訊**：釋出版本（release）自身記錄了生物體與基因組組裝資訊，因此只需指定釋出版本，無需指定物種。
+`otter create --mode` 用於選擇場景。在規範路徑（canonical track）中，**參考攜帶物種資訊**：釋出版本（release）自身記錄了生物體與基因體組裝資訊，因此只需指定釋出版本，無需指定物種。
 
 | `--mode` | 場景 | 參考角色 |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ showTableOfContents: true
 
 ## RRBS
 
-簡化基因組重亞硫酸鹽測序（Reduced Representation Bisulfite Sequencing）採用酶切感知的預處理與甲基化定量：
+簡化基因體亞硫酸氫鹽定序（Reduced Representation Bisulfite Sequencing）採用酶切感知的預處理與甲基化定量：
 
 ```bash
 otter create \
@@ -38,7 +38,7 @@ otter create \
 
 ## WGBS
 
-全基因組重亞硫酸鹽測序（Whole-Genome Bisulfite Sequencing）共用重亞硫酸鹽工作流介面，但輸入規模與預期覆蓋度不同：
+全基因體亞硫酸氫鹽定序（Whole-Genome Bisulfite Sequencing）共用亞硫酸氫鹽工作流介面，但輸入規模與預期覆蓋度不同：
 
 ```bash
 otter create \
@@ -56,7 +56,7 @@ WGBS 沒有 PDX 場景，因此傳入 `--reference-graft`/`--reference-host` 會
 
 ## RNA-seq
 
-RNA-seq 採用相容 STAR 的比對、相容 HTSeq 的計數、`seq2mat` 矩陣轉換，以及可選的 `matsrun`/rMATS 剪接分析。它需要註釋檔案，該檔案包含在釋出版本中：
+RNA-seq 採用相容 STAR 的比對、相容 HTSeq 的計數、`seq2mat` 矩陣轉換，以及可選的 `matsrun`/rMATS 剪接分析。它需要註解檔案，該檔案包含在釋出版本中：
 
 ```bash
 otter create \
